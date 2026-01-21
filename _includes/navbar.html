@@ -1,0 +1,31 @@
+<div class="top-dashboard">
+    <div class="td-row-2">
+        <div class="forex-group">
+            <span id="forex-date" style="font-size:0.7rem; color:#888; text-transform:uppercase;"></span>
+            <div class="forex-item" id="fx-usd">USD/INR <span>..</span></div>
+            <div class="forex-item" id="fx-eur">EUR/INR <span>..</span></div>
+            <div class="forex-item desktop-only" id="fx-gbp">GBP/INR <span>..</span></div>
+        </div>
+        <a href="index.html#contact" class="visit-plan"><i class="fa-solid fa-plane-departure"></i> MEET US AT GULFOOD DUBAI</a>
+    </div>
+</div>
+
+<div id="google_translate_element"></div>
+<script type="text/javascript"> function googleTranslateElementInit() { new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'en,hi,zh-CN,es,ar', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element'); } </script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<nav class="jft-navbar" id="navbar">
+    <div class="jft-wide-container nav-flex">
+        <a href="index.html" class="nav-logo-link"><img src="https://jftagro.com/wp-content/uploads/2023/01/jft-final-02-scaled.png" alt="JFT Agro Overseas" class="nav-logo-img"></a>
+        <div class="nav-menu" id="navMenu">
+            <a href="index.html" class="nav-link {% if page.url == '/' or page.url == '/index.html' %}active{% endif %}" onclick="toggleMenu()">Home</a>
+            <a href="about.html" class="nav-link {% if page.url == '/about.html' %}active{% endif %}" onclick="toggleMenu()">About</a>
+            <a href="products.html" class="nav-link {% if page.url == '/products.html' %}active{% endif %}" onclick="toggleMenu()">Products</a>
+            <a href="infrastructure.html" class="nav-link {% if page.url == '/infrastructure.html' %}active{% endif %}" onclick="toggleMenu()">Infra</a>
+            <a href="index.html#global-reach" class="nav-link" onclick="toggleMenu()">Network</a>
+            <a href="contact.html" class="nav-link {% if page.url == '/contact.html' %}active{% endif %}" onclick="toggleMenu()">Contact</a>
+            <a href="contact.html" class="nav-btn-action desktop-only" onclick="toggleMenu()">Get Quote</a>
+        </div>
+        <div class="mobile-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
+    </div>
+</nav>

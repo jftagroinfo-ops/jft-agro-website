@@ -1,0 +1,50 @@
+<footer class="footer-section">
+    <div class="jft-wide-container">
+        <div class="footer-grid">
+            <div class="f-col">
+                <img src="https://jftagro.com/wp-content/uploads/2023/01/jft-final-02-scaled.png" alt="JFT Agro" style="width: 180px; filter: brightness(0) invert(1); margin-bottom: 25px;">
+                <p style="color: rgba(255,255,255,0.7); font-size: 0.95rem; margin-bottom: 25px; line-height: 1.6;">Government Recognized <strong>Star Export House</strong>. Bridging the gap between fertile Indian farms and global markets with integrity, quality, and trust.</p>
+                </div>
+            </div>
+        <div class="footer-bottom">
+            <span>&copy; <script>document.write(new Date().getFullYear())</script> JFT Agro Overseas LLP. All Rights Reserved. | <a href="#" style="color: var(--jft-gold);">Privacy Policy</a> | <a href="#" style="color: var(--jft-gold);">Terms of Trade</a></span>
+        </div>
+    </div>
+</footer>
+
+<script>
+    function toggleMenu() { const menu = document.getElementById('navMenu'); const icon = document.querySelector('.mobile-toggle i'); menu.classList.toggle('active'); if(menu.classList.contains('active')) { icon.classList.remove('fa-bars'); icon.classList.add('fa-xmark'); } else { icon.classList.remove('fa-xmark'); icon.classList.add('fa-bars'); } }
+    function toggleLang() { document.getElementById('langMenu').classList.toggle('show'); }
+    function changeLanguage(langCode) { var selectField = document.querySelector(".goog-te-combo"); if(selectField) { selectField.value = langCode; selectField.dispatchEvent(new Event("change")); } document.getElementById('langMenu').classList.remove('show'); }
+    window.onclick = function(e) { if (!e.target.closest('.lang-btn')) document.getElementById('langMenu').classList.remove('show'); }
+
+    async function fetchLiveForex() {
+        try {
+            const response = await fetch('https://api.frankfurter.app/latest?from=USD&to=INR,EUR,GBP'); const data = await response.json();
+            if(data && data.rates) {
+                const usdInr = data.rates.INR; const resEur = await fetch('https://api.frankfurter.app/latest?from=EUR&to=INR'); const dataEur = await resEur.json(); const eurInr = dataEur.rates.INR; 
+                // Check if element exists before updating to prevent errors on pages without ticker
+                if(document.getElementById('fx-usd')) document.getElementById('fx-usd').innerHTML = `USD/INR <span class="forex-up">${usdInr.toFixed(2)} ▲</span>`; 
+                if(document.getElementById('fx-eur')) document.getElementById('fx-eur').innerHTML = `EUR/INR <span class="forex-up">${eurInr.toFixed(2)} ▲</span>`;
+            }
+        } catch (e) { if(document.getElementById('fx-usd')) document.getElementById('fx-usd').innerHTML = 'USD/INR <span class="forex-up">83.50 ▲</span>'; }
+    }
+
+    window.addEventListener('load', () => {
+        fetchLiveForex();
+        const dateSpan = document.getElementById('forex-date'); if(dateSpan) dateSpan.innerText = "RATES AS OF " + new Date().toLocaleDateString('en-GB');
+        const tickerContainer = document.getElementById('dynamic-ticker');
+        if(tickerContainer) {
+            const fullNews = [ `<div class="t-item"><i class="fa-solid fa-ship"></i><span>UPDATE:</span> Exports to West Africa Operating Normally</div>`, `<div class="t-item"><i class="fa-solid fa-leaf"></i><span>SPICES:</span> New Turmeric Harvest Arriving</div>`, `<div class="t-item"><i class="fa-solid fa-wheat"></i><span>GRAINS:</span> Wheat Export Quota Open</div>` ];
+            tickerContainer.innerHTML = fullNews.join('') + fullNews.join('');
+        }
+        setTimeout(() => { const pl = document.getElementById('preloader'); if(pl) pl.style.display = 'none'; }, 1000);
+        
+        const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); }); });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    });
+    window.addEventListener('scroll', () => { 
+        const nav = document.getElementById('navbar');
+        if(nav) nav.classList.toggle('scrolled', window.scrollY > 50); 
+    });
+</script>
