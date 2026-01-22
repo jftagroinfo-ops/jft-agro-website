@@ -7,19 +7,43 @@ async function loadSharedComponents() {
     try {
         // Load Header
         const headerReq = await fetch('header.html');
+        if (!headerReq.ok) throw new Error("Header not found");
         const headerHtml = await headerReq.text();
         document.body.insertAdjacentHTML('afterbegin', headerHtml);
 
         // Load Footer
         const footerReq = await fetch('footer.html');
+        if (!footerReq.ok) throw new Error("Footer not found");
         const footerHtml = await footerReq.text();
         document.body.insertAdjacentHTML('beforeend', footerHtml);
 
-        // Initialize Global Scripts after content is loaded
+        // Initialize Global Functions only after Header/Footer exist
         initGlobalFunctions();
         highlightActiveLink();
+
     } catch (error) {
-        console.error("Error loading shared components:", error);
+        console.error("Error loading shared components (If using local file://, use Live Server):", error);
+        // Fallback: Still run global functions so the site works without header/footer
+        initGlobalFunctions(); 
+    } finally {
+        // FORCE REMOVE PRELOADER: This runs whether fetch succeeds or fails
+        hidePreloader();
+    }
+}
+
+// Separate function to hide preloader safely
+function hidePreloader() {
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        // Small buffer to ensure styles are loaded
+        setTimeout(() => {
+            preloader.style.opacity = '0';
+            setTimeout(() => { 
+                preloader.style.display = 'none'; 
+                // Enable scrolling again just in case
+                document.body.style.overflow = 'auto';
+            }, 1000);
+        }, 500);
     }
 }
 
@@ -27,7 +51,8 @@ async function loadSharedComponents() {
 document.addEventListener("DOMContentLoaded", () => {
     loadSharedComponents();
     
-    // Page Specific Initializations (Safe Checks included)
+    // Page Specific Initializations
+    // We add short delays to ensure DOM elements from includes might be ready if needed
     if (document.querySelector('.jft-hero-banner')) initHomePage();
     if (document.querySelector('.cat-scroll-view')) initProductsPage();
     if (document.querySelector('.process-wrapper')) initInfraPage();
@@ -42,25 +67,15 @@ function highlightActiveLink() {
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     const links = document.querySelectorAll('.nav-link, .f-links a');
     links.forEach(link => {
-        if (link.getAttribute('href') === currentPath) {
+        // Handle anchor links vs page links
+        const href = link.getAttribute('href');
+        if (href === currentPath || (href === 'index.html' && currentPath === '')) {
             link.classList.add('active');
         }
     });
 }
 
 function initGlobalFunctions() {
-    // --- Preloader ---
-    const preloader = document.getElementById('preloader');
-    if (preloader) {
-        setTimeout(() => {
-            preloader.style.opacity = '0';
-            setTimeout(() => { preloader.style.display = 'none'; }, 1000);
-        }, 1000);
-    }
-
-    // --- Forex Ticker ---
-    fetchLiveForex();
-    
     // --- News Ticker ---
     const tickerContainer = document.getElementById('dynamic-ticker');
     if (tickerContainer) {
@@ -102,6 +117,9 @@ function initGlobalFunctions() {
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    
+    // --- Forex Ticker (Delayed start) ---
+    setTimeout(fetchLiveForex, 1000);
 }
 
 // --- Menu Toggles ---
@@ -117,8 +135,10 @@ function toggleLang() {
 
 function changeLanguage(lang) {
     // Simulated Google Translate Trigger
-    alert("Translation feature would trigger for code: " + lang);
-    toggleLang();
+    // In production, this hooks into Google Translate API
+    console.log("Language switched to: " + lang);
+    const langMenu = document.getElementById('langMenu');
+    if(langMenu) langMenu.classList.remove('show');
 }
 
 function fetchLiveForex() {
@@ -152,7 +172,8 @@ function initHomePage() {
     ];
 
     const sliderContainer = document.querySelector('.jft-hero-banner');
-    if (sliderContainer) {
+    // Only run if the slider container doesn't already have slides (to prevent duplication)
+    if (sliderContainer && sliderContainer.querySelectorAll('.hero-slide').length === 0) {
         // Create Slides
         slides.forEach((s, i) => {
             const slideDiv = document.createElement('div');
@@ -172,16 +193,23 @@ function initHomePage() {
             
             // Text Animation
             const content = document.querySelector('.hero-content');
-            content.style.opacity = '0';
-            content.style.transform = 'translate(-50%, -45%)';
-            
-            setTimeout(() => {
-                document.getElementById('h-tag').innerText = slides[index].tag;
-                document.getElementById('h-title').innerHTML = slides[index].title;
-                document.getElementById('h-desc').innerText = slides[index].desc;
-                content.style.opacity = '1';
-                content.style.transform = 'translate(-50%, -50%)';
-            }, 500);
+            if(content) {
+                content.style.opacity = '0';
+                content.style.transform = 'translate(-50%, -45%)';
+                
+                setTimeout(() => {
+                    const tagEl = document.getElementById('h-tag');
+                    const titleEl = document.getElementById('h-title');
+                    const descEl = document.getElementById('h-desc');
+                    
+                    if(tagEl) tagEl.innerText = slides[index].tag;
+                    if(titleEl) titleEl.innerHTML = slides[index].title;
+                    if(descEl) descEl.innerText = slides[index].desc;
+                    
+                    content.style.opacity = '1';
+                    content.style.transform = 'translate(-50%, -50%)';
+                }, 500);
+            }
         };
 
         // Controls
@@ -199,7 +227,7 @@ function initHomePage() {
 
     // --- Network Map Generation ---
     const mapContainer = document.querySelector('.network-visual');
-    if (mapContainer && window.innerWidth > 1024) {
+    if (mapContainer && window.innerWidth > 1024 && mapContainer.querySelectorAll('.export-node').length === 0) {
         const networkNodes = [
             { id: 0, region: "North America", desc: "USA, Canada", icon: "fa-earth-americas", countries: [{name:"USA", type:"Rice"}, {name:"Canada", type:"Spices"}] },
             { id: 1, region: "Europe", desc: "UK, Germany, France", icon: "fa-earth-europe", countries: [{name:"UK", type:"Rice"}, {name:"Germany", type:"Grains"}] },
@@ -209,8 +237,6 @@ function initHomePage() {
             { id: 5, region: "Australia", desc: "Sydney, Melbourne", icon: "fa-earth-oceania", countries: [{name:"Sydney", type:"Spices"}, {name:"Perth", type:"Lentils"}] }
         ];
 
-        const nodeCoords = [{x:100,y:50}, {x:900,y:50}, {x:50,y:310}, {x:950,y:310}, {x:100,y:580}, {x:900,y:580}];
-        
         networkNodes.forEach((node, index) => {
             const div = document.createElement('div');
             div.className = `export-node node-${index} reveal`;
@@ -292,7 +318,7 @@ function initProductsPage() {
     window.filterProducts = (category, btn) => {
         // Active Button
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+        if(btn) btn.classList.add('active');
         
         // Show/Hide Rice Sub-filters
         const riceSubs = document.getElementById('rice-sub-filters');
@@ -305,7 +331,6 @@ function initProductsPage() {
         items.forEach(item => {
             if(category === 'all' || item.getAttribute('data-category') === category) {
                 item.style.display = 'flex';
-                // Reset animation
                 item.style.opacity = '0';
                 item.style.transform = 'translateY(20px)';
                 setTimeout(() => {
@@ -363,7 +388,8 @@ function initProductsPage() {
         if(modal) {
             modal.style.display = 'flex';
             setTimeout(() => modal.classList.add('open'), 10);
-            document.getElementById('m-title').innerText = title;
+            const titleEl = document.getElementById('m-title');
+            if(titleEl) titleEl.innerText = title;
             document.body.style.overflow = 'hidden';
             
             // Re-render chart (if Chart.js is present)
@@ -394,29 +420,29 @@ function initProductsPage() {
 function renderPriceChart() {
     const ctx = document.getElementById('priceChart');
     if(ctx) {
-        // Destroy existing chart if any (simple check)
-        // Note: For a robust implementation, store chart instance globally and destroy.
-        // Here we just create a new one for demo purposes.
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Export Price (USD/MT)',
-                    data: [950, 980, 960, 1050, 1100, 1080],
-                    borderColor: '#4e8c3e',
-                    backgroundColor: 'rgba(78, 140, 62, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: false } }
-            }
-        });
+        // We use a try-catch because Chart.js might destroy instances differently depending on version
+        try {
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Export Price (USD/MT)',
+                        data: [950, 980, 960, 1050, 1100, 1080],
+                        borderColor: '#4e8c3e',
+                        backgroundColor: 'rgba(78, 140, 62, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: false } }
+                }
+            });
+        } catch(e) { console.log("Chart render error", e); }
     }
 }
 
@@ -429,7 +455,8 @@ function initInfraPage() {
     if(processWrapper) {
         const observer = new IntersectionObserver((entries) => {
             if(entries[0].isIntersecting) {
-                document.getElementById('process-progress').style.width = '100%';
+                const prog = document.getElementById('process-progress');
+                if(prog) prog.style.width = '100%';
             }
         });
         observer.observe(processWrapper);
@@ -448,8 +475,8 @@ function initContactPage() {
         if(mapFrame) {
             mapFrame.style.opacity = '0';
             setTimeout(() => {
-                if(loc === 'head') mapFrame.src = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.7925705608685!2d72.9976366759064!3d19.072851952077976!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c135da43190f%3A0xd6894c25d7426e2e!2sCommodity%20Exchange!5e0!3m2!1sen!2sin!4v1709228888888!5m2!1sen!2sin";
-                if(loc === 'branch') mapFrame.src = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.664426563604!2d77.0664!3d28.6139!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjjCsDM2JzUwLjAiTiA3N8KwMDMnNTkuMCJF!5e0!3m2!1sen!2sin!4v1652525625625";
+                if(loc === 'head') mapFrame.src = "https://www.google.com/maps/embed?pb=..."; // Placeholder
+                if(loc === 'branch') mapFrame.src = "https://www.google.com/maps/embed?pb=..."; // Placeholder
                 mapFrame.style.opacity = '1';
             }, 300);
         }
@@ -458,9 +485,5 @@ function initContactPage() {
     // FAQ Accordion
     window.toggleFaq = (el) => {
         el.parentElement.classList.toggle('active');
-        const icon = el.querySelector('.faq-icon i');
-        if(el.parentElement.classList.contains('active')) {
-            icon.className = 'fa-solid fa-plus'; // Actually CSS rotates it, but purely for semantics
-        }
     };
 }
