@@ -1,73 +1,153 @@
 /* =========================================
-   1. CLIENT-SIDE INCLUDES & GLOBAL INIT
+   1. OFFLINE-COMPATIBLE COMPONENT INJECTION
    ========================================= */
 
-// Function to load Header and Footer dynamically
-async function loadSharedComponents() {
+// We store the HTML in variables so it works without a server (No CORS errors)
+const HEADER_HTML = `
+<div class="top-dashboard">
+    <div class="td-row-1">
+        <div class="td-social">
+            <span>Follow Us:</span>
+            <a href="#" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="#" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+        </div>
+        <div class="td-news-ticker">
+            <div class="ticker-label"><div class="live-dot"></div> MARKET FEED</div>
+            <div class="ticker-track" id="dynamic-ticker"></div>
+        </div>
+        <div class="td-utilities desktop-only">
+            <div class="lang-dropdown">
+                <button onclick="toggleLang()" class="lang-btn"><i class="fa-solid fa-globe"></i> Global (EN) <i class="fa-solid fa-caret-down"></i></button>
+                <div class="lang-menu" id="langMenu">
+                    <a onclick="changeLanguage('en')">English</a>
+                    <a onclick="changeLanguage('hi')">हिन्दी (Hindi)</a>
+                    <a onclick="changeLanguage('zh-CN')">中文 (Mandarin)</a>
+                    <a onclick="changeLanguage('es')">Español (Spanish)</a>
+                    <a onclick="changeLanguage('ar')">العربية (Arabic)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="td-row-2">
+        <div class="forex-group">
+            <span id="forex-date" style="font-size:0.7rem; color:#888; text-transform:uppercase;"></span>
+            <div class="forex-item" id="fx-usd">USD/INR <span>..</span></div>
+            <div class="forex-item" id="fx-eur">EUR/INR <span>..</span></div>
+            <div class="forex-item desktop-only" id="fx-gbp">GBP/INR <span>..</span></div>
+        </div>
+        <a href="contact.html" class="visit-plan"><i class="fa-solid fa-plane-departure"></i> MEET US AT GULFOOD DUBAI</a>
+    </div>
+</div>
+
+<nav class="jft-navbar" id="navbar">
+    <div class="jft-wide-container nav-flex">
+        <a href="index.html" class="nav-logo-link">
+            <img src="https://jftagro.com/wp-content/uploads/2023/01/jft-final-02-scaled.png" alt="JFT Agro Overseas" class="nav-logo-img">
+        </a>
+        <div class="nav-menu" id="navMenu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="products.html" class="nav-link">Products</a>
+            <a href="infrastructure.html" class="nav-link">Infra</a>
+            <a href="index.html#global-reach" class="nav-link">Network</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+            <a href="contact.html" class="nav-btn-action desktop-only">Get Quote</a>
+        </div>
+        <div class="mobile-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
+    </div>
+</nav>
+`;
+
+const FOOTER_HTML = `
+<footer class="footer-section" id="contact">
+    <div class="jft-wide-container">
+        <div class="footer-grid">
+            <div class="f-col">
+                <img src="https://jftagro.com/wp-content/uploads/2023/01/jft-final-02-scaled.png" alt="JFT Agro" style="width: 180px; filter: brightness(0) invert(1); margin-bottom: 25px;">
+                <p style="color: rgba(255,255,255,0.7); font-size: 0.95rem; margin-bottom: 25px; line-height: 1.6;">Government Recognized <strong>Star Export House</strong>. Bridging the gap between fertile Indian farms and global markets with integrity, quality, and trust.</p>
+                <div class="td-social" style="padding: 0; background: none; justify-content: flex-start;">
+                    <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </div>
+
+            <div class="f-col">
+                <h4>Quick Links</h4>
+                <ul class="f-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="products.html">Our Products</a></li>
+                    <li><a href="infrastructure.html">Infrastructure</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="f-col">
+                <h4>Reach Us</h4>
+                <ul class="f-contact">
+                    <li><i class="fa-solid fa-location-dot"></i> <span><strong>Head Office:</strong><br>123, Commodity Exchange, Sector 19, Vashi, Mumbai - 400705</span></li>
+                    <li><i class="fa-solid fa-envelope"></i> <span>export@jftagro.com<br>sales@jftagro.com</span></li>
+                    <li><i class="fa-solid fa-phone"></i> <span>+91 98960 55555<br>+91 22 4545 6767</span></li>
+                </ul>
+            </div>
+
+            <div class="f-col">
+                <h4>Export Inquiry</h4>
+                <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-bottom: 15px;">Get our latest product catalogue and export price list directly to your inbox.</p>
+                <form class="f-newsletter" onsubmit="event.preventDefault(); alert('Thank you! Our export manager will contact you shortly.');">
+                    <input type="email" class="f-input" placeholder="Enter Official Email ID" required>
+                    <button type="submit" class="f-btn-full">Request Price List</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>&copy; <script>document.write(new Date().getFullYear())</script> JFT Agro Overseas LLP. All Rights Reserved. | <a href="#" style="color: var(--jft-gold);">Privacy Policy</a> | <a href="#" style="color: var(--jft-gold);">Terms of Trade</a></span>
+        </div>
+    </div>
+</footer>
+`;
+
+// Run Includes
+document.addEventListener("DOMContentLoaded", () => {
     try {
-        // Load Header
-        const headerReq = await fetch('header.html');
-        if (!headerReq.ok) throw new Error("Header not found");
-        const headerHtml = await headerReq.text();
-        document.body.insertAdjacentHTML('afterbegin', headerHtml);
+        // Inject Header
+        document.body.insertAdjacentHTML('afterbegin', HEADER_HTML);
+        // Inject Footer
+        document.body.insertAdjacentHTML('beforeend', FOOTER_HTML);
 
-        // Load Footer
-        const footerReq = await fetch('footer.html');
-        if (!footerReq.ok) throw new Error("Footer not found");
-        const footerHtml = await footerReq.text();
-        document.body.insertAdjacentHTML('beforeend', footerHtml);
-
-        // Initialize Global Functions only after Header/Footer exist
+        // Run Logic
         initGlobalFunctions();
         highlightActiveLink();
+        
+        // Page Specific Inits
+        if (document.querySelector('.jft-hero-banner')) initHomePage();
+        if (document.querySelector('.cat-scroll-view')) initProductsPage();
+        if (document.querySelector('.process-wrapper')) initInfraPage();
+        if (document.querySelector('.contact-layout')) initContactPage();
 
     } catch (error) {
-        console.error("Error loading shared components (If using local file://, use Live Server):", error);
-        // Fallback: Still run global functions so the site works without header/footer
-        initGlobalFunctions(); 
+        console.error("Script Error:", error);
     } finally {
-        // FORCE REMOVE PRELOADER: This runs whether fetch succeeds or fails
-        hidePreloader();
-    }
-}
-
-// Separate function to hide preloader safely
-function hidePreloader() {
-    const preloader = document.getElementById('preloader');
-    if (preloader) {
-        // Small buffer to ensure styles are loaded
-        setTimeout(() => {
+        // FORCE REMOVE PRELOADER (The Fix)
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
             preloader.style.opacity = '0';
-            setTimeout(() => { 
-                preloader.style.display = 'none'; 
-                // Enable scrolling again just in case
-                document.body.style.overflow = 'auto';
-            }, 1000);
-        }, 500);
+            setTimeout(() => { preloader.style.display = 'none'; document.body.style.overflow = 'auto'; }, 500);
+        }
     }
-}
-
-// Run includes when DOM is ready
-document.addEventListener("DOMContentLoaded", () => {
-    loadSharedComponents();
-    
-    // Page Specific Initializations
-    // We add short delays to ensure DOM elements from includes might be ready if needed
-    if (document.querySelector('.jft-hero-banner')) initHomePage();
-    if (document.querySelector('.cat-scroll-view')) initProductsPage();
-    if (document.querySelector('.process-wrapper')) initInfraPage();
-    if (document.querySelector('.contact-layout')) initContactPage();
 });
 
 /* =========================================
-   2. GLOBAL FUNCTIONALITY (Header, Footer, Utils)
+   2. GLOBAL FUNCTIONALITY
    ========================================= */
 
 function highlightActiveLink() {
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     const links = document.querySelectorAll('.nav-link, .f-links a');
     links.forEach(link => {
-        // Handle anchor links vs page links
         const href = link.getAttribute('href');
         if (href === currentPath || (href === 'index.html' && currentPath === '')) {
             link.classList.add('active');
@@ -84,7 +164,6 @@ function initGlobalFunctions() {
             `<div class="t-item"><i class="fa-solid fa-leaf"></i><span>SPICES:</span> New Turmeric Harvest Arriving</div>`,
             `<div class="t-item"><i class="fa-solid fa-wheat"></i><span>GRAINS:</span> Wheat Export Quota Open</div>`
         ];
-        // Duplicate for seamless scroll
         tickerContainer.innerHTML = fullNews.join('') + fullNews.join('');
     }
 
@@ -95,30 +174,24 @@ function initGlobalFunctions() {
     // --- Navbar Scroll Effect ---
     window.addEventListener('scroll', () => {
         const navbar = document.getElementById('navbar');
-        if (navbar) {
-            navbar.classList.toggle('scrolled', window.scrollY > 50);
-        }
+        if (navbar) navbar.classList.toggle('scrolled', window.scrollY > 50);
         
-        // Scroll Progress Bar
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (winScroll / height) * 100;
         const progressBar = document.getElementById('page-progress');
-        if(progressBar) progressBar.style.width = scrolled + "%";
+        if(progressBar) {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            progressBar.style.width = ((winScroll / height) * 100) + "%";
+        }
     });
 
-    // --- Intersection Observer for Animations ---
+    // --- Intersection Observer ---
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-            }
+            if (entry.isIntersecting) entry.target.classList.add('active');
         });
     }, { threshold: 0.1 });
-
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     
-    // --- Forex Ticker (Delayed start) ---
     setTimeout(fetchLiveForex, 1000);
 }
 
@@ -134,36 +207,26 @@ function toggleLang() {
 }
 
 function changeLanguage(lang) {
-    // Simulated Google Translate Trigger
-    // In production, this hooks into Google Translate API
-    console.log("Language switched to: " + lang);
-    const langMenu = document.getElementById('langMenu');
-    if(langMenu) langMenu.classList.remove('show');
+    toggleLang();
 }
 
 function fetchLiveForex() {
-    // Simulated Live API Call
     try {
         updateForexDisplay('fx-usd', 'USD/INR', 83.50 + (Math.random() * 0.5));
         updateForexDisplay('fx-eur', 'EUR/INR', 90.20 + (Math.random() * 0.5));
         updateForexDisplay('fx-gbp', 'GBP/INR', 105.10 + (Math.random() * 0.5));
-    } catch (e) {
-        console.log("Forex load error");
-    }
+    } catch (e) {}
 }
 
 function updateForexDisplay(id, label, value) {
     const el = document.getElementById(id);
-    if (el) {
-        el.innerHTML = `${label} <span class="forex-up">${value.toFixed(2)} ▲</span>`;
-    }
+    if (el) el.innerHTML = `${label} <span class="forex-up">${value.toFixed(2)} ▲</span>`;
 }
 
 /* =========================================
-   3. HOME PAGE SPECIFIC LOGIC
+   3. HOME PAGE LOGIC
    ========================================= */
 function initHomePage() {
-    // --- Hero Slider ---
     let currentSlide = 0;
     const slides = [
         { img: 'https://images.unsplash.com/photo-1536638423238-d9d268d80f83?q=80&w=2070', title: 'Feeding the World,<br><span>Sustainably.</span>', desc: 'India’s leading exporter of premium Basmati Rice and organic agro-commodities.', tag: 'Est. 1998' },
@@ -172,63 +235,41 @@ function initHomePage() {
     ];
 
     const sliderContainer = document.querySelector('.jft-hero-banner');
-    // Only run if the slider container doesn't already have slides (to prevent duplication)
     if (sliderContainer && sliderContainer.querySelectorAll('.hero-slide').length === 0) {
-        // Create Slides
         slides.forEach((s, i) => {
             const slideDiv = document.createElement('div');
             slideDiv.className = `hero-slide ${i === 0 ? 'active' : ''}`;
             slideDiv.style.backgroundImage = `url('${s.img}')`;
-            sliderContainer.prepend(slideDiv); // Add before content
+            sliderContainer.prepend(slideDiv);
         });
 
-        // Update Content Function
         const updateContent = (index) => {
-            document.querySelectorAll('.hero-slide').forEach((s, i) => {
-                s.classList.toggle('active', i === index);
-            });
-            document.querySelectorAll('.control-dot').forEach((d, i) => {
-                d.classList.toggle('active', i === index);
-            });
+            document.querySelectorAll('.hero-slide').forEach((s, i) => s.classList.toggle('active', i === index));
+            document.querySelectorAll('.control-dot').forEach((d, i) => d.classList.toggle('active', i === index));
             
-            // Text Animation
             const content = document.querySelector('.hero-content');
             if(content) {
                 content.style.opacity = '0';
                 content.style.transform = 'translate(-50%, -45%)';
-                
                 setTimeout(() => {
-                    const tagEl = document.getElementById('h-tag');
-                    const titleEl = document.getElementById('h-title');
-                    const descEl = document.getElementById('h-desc');
-                    
-                    if(tagEl) tagEl.innerText = slides[index].tag;
-                    if(titleEl) titleEl.innerHTML = slides[index].title;
-                    if(descEl) descEl.innerText = slides[index].desc;
-                    
+                    const ids = {tag:'h-tag', title:'h-title', desc:'h-desc'};
+                    if(document.getElementById(ids.tag)) document.getElementById(ids.tag).innerText = slides[index].tag;
+                    if(document.getElementById(ids.title)) document.getElementById(ids.title).innerHTML = slides[index].title;
+                    if(document.getElementById(ids.desc)) document.getElementById(ids.desc).innerText = slides[index].desc;
                     content.style.opacity = '1';
                     content.style.transform = 'translate(-50%, -50%)';
                 }, 500);
             }
         };
 
-        // Controls
-        window.changeSlide = (index) => {
-            currentSlide = index;
-            updateContent(currentSlide);
-        };
-
-        // Auto Play
-        setInterval(() => {
-            currentSlide = (currentSlide + 1) % slides.length;
-            updateContent(currentSlide);
-        }, 6000);
+        window.changeSlide = (index) => { currentSlide = index; updateContent(currentSlide); };
+        setInterval(() => { currentSlide = (currentSlide + 1) % slides.length; updateContent(currentSlide); }, 6000);
     }
 
-    // --- Network Map Generation ---
+    // Map & Stats logic
     const mapContainer = document.querySelector('.network-visual');
     if (mapContainer && window.innerWidth > 1024 && mapContainer.querySelectorAll('.export-node').length === 0) {
-        const networkNodes = [
+         const networkNodes = [
             { id: 0, region: "North America", desc: "USA, Canada", icon: "fa-earth-americas", countries: [{name:"USA", type:"Rice"}, {name:"Canada", type:"Spices"}] },
             { id: 1, region: "Europe", desc: "UK, Germany, France", icon: "fa-earth-europe", countries: [{name:"UK", type:"Rice"}, {name:"Germany", type:"Grains"}] },
             { id: 2, region: "Middle East", desc: "UAE, Saudi, Oman", icon: "fa-mosque", countries: [{name:"UAE", type:"Rice/Sugar"}, {name:"Saudi", type:"Spices"}] },
@@ -236,107 +277,48 @@ function initHomePage() {
             { id: 4, region: "SE Asia", desc: "Vietnam, Philippines", icon: "fa-bowl-rice", countries: [{name:"Vietnam", type:"Corn"}, {name:"Philippines", type:"Wheat"}] },
             { id: 5, region: "Australia", desc: "Sydney, Melbourne", icon: "fa-earth-oceania", countries: [{name:"Sydney", type:"Spices"}, {name:"Perth", type:"Lentils"}] }
         ];
-
         networkNodes.forEach((node, index) => {
             const div = document.createElement('div');
             div.className = `export-node node-${index} reveal`;
-            
-            let listHTML = "";
-            if(node.countries) {
-                listHTML = `<div class="country-list-reveal">`;
-                node.countries.forEach(c => {
-                    listHTML += `<div class="country-item">${c.name} <span>${c.type}</span></div>`;
-                });
-                listHTML += `</div>`;
-            }
-
-            div.innerHTML = `
-                <div class="node-portal"><i class="fa-solid ${node.icon}"></i></div>
-                <div class="node-info"><h3>${node.region}</h3><p>${node.desc}</p></div>
-                ${listHTML}
-            `;
+            let listHTML = node.countries ? `<div class="country-list-reveal">${node.countries.map(c => `<div class="country-item">${c.name} <span>${c.type}</span></div>`).join('')}</div>` : '';
+            div.innerHTML = `<div class="node-portal"><i class="fa-solid ${node.icon}"></i></div><div class="node-info"><h3>${node.region}</h3><p>${node.desc}</p></div>${listHTML}`;
             mapContainer.appendChild(div);
         });
     }
 
-    // --- Counter Animation ---
     const statsSection = document.querySelector('.stats-grid');
     if (statsSection) {
         let counted = false;
-        const countObserver = new IntersectionObserver((entries) => {
+        new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting && !counted) {
                 document.querySelectorAll('.stat-count').forEach(counter => {
                     const target = +counter.getAttribute('data-target');
                     const inc = target / 100;
                     let c = 0;
-                    const updateCount = () => {
-                        c += inc;
-                        if (c < target) {
-                            counter.innerText = Math.ceil(c);
-                            requestAnimationFrame(updateCount);
-                        } else {
-                            counter.innerText = target;
-                        }
-                    };
+                    const updateCount = () => { c += inc; if (c < target) { counter.innerText = Math.ceil(c); requestAnimationFrame(updateCount); } else { counter.innerText = target; } };
                     updateCount();
                 });
                 counted = true;
             }
-        });
-        countObserver.observe(statsSection);
-    }
-    
-    // --- Logistics Slider (Drag) ---
-    const slider = document.querySelector('.cert-container');
-    if(slider) {
-        let isDown = false;
-        let startX;
-        let scrollLeft;
-        slider.addEventListener('mousedown', (e) => {
-            isDown = true;
-            slider.classList.add('active');
-            startX = e.pageX - slider.offsetLeft;
-            scrollLeft = slider.scrollLeft;
-        });
-        slider.addEventListener('mouseleave', () => { isDown = false; slider.classList.remove('active'); });
-        slider.addEventListener('mouseup', () => { isDown = false; slider.classList.remove('active'); });
-        slider.addEventListener('mousemove', (e) => {
-            if(!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - slider.offsetLeft;
-            const walk = (x - startX) * 2;
-            slider.scrollLeft = scrollLeft - walk;
-        });
+        }).observe(statsSection);
     }
 }
 
 /* =========================================
-   4. PRODUCTS PAGE SPECIFIC LOGIC
+   4. PRODUCTS PAGE LOGIC
    ========================================= */
 function initProductsPage() {
-    // --- Tabs & Filter ---
     window.filterProducts = (category, btn) => {
-        // Active Button
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
         if(btn) btn.classList.add('active');
-        
-        // Show/Hide Rice Sub-filters
         const riceSubs = document.getElementById('rice-sub-filters');
-        if(riceSubs) {
-            riceSubs.style.display = (category === 'rice') ? 'flex' : 'none';
-        }
+        if(riceSubs) riceSubs.style.display = (category === 'rice') ? 'flex' : 'none';
 
-        // Filter Items
-        const items = document.querySelectorAll('.p-item');
-        items.forEach(item => {
+        document.querySelectorAll('.p-item').forEach(item => {
             if(category === 'all' || item.getAttribute('data-category') === category) {
                 item.style.display = 'flex';
                 item.style.opacity = '0';
-                item.style.transform = 'translateY(20px)';
-                setTimeout(() => {
-                    item.style.opacity = '1';
-                    item.style.transform = 'translateY(0)';
-                }, 50);
+                setTimeout(() => item.style.opacity = '1', 50);
             } else {
                 item.style.display = 'none';
             }
@@ -345,44 +327,27 @@ function initProductsPage() {
 
     window.scrollTabs = (direction) => {
         const container = document.querySelector('.cat-scroll-view');
-        if(container) {
-            const scrollAmount = 200;
-            container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
-        }
+        if(container) container.scrollBy({ left: direction * 200, behavior: 'smooth' });
     };
 
-    // --- Search ---
     const searchInput = document.getElementById('productSearch');
     if(searchInput) {
         searchInput.addEventListener('keyup', function() {
             const val = this.value.toLowerCase();
-            const items = document.querySelectorAll('.p-item');
-            items.forEach(item => {
+            document.querySelectorAll('.p-item').forEach(item => {
                 const title = item.querySelector('.p-title').innerText.toLowerCase();
                 const cat = item.querySelector('.p-cat').innerText.toLowerCase();
-                if(title.includes(val) || cat.includes(val)) {
-                    item.style.display = 'flex';
-                } else {
-                    item.style.display = 'none';
-                }
+                item.style.display = (title.includes(val) || cat.includes(val)) ? 'flex' : 'none';
             });
         });
     }
 
-    // --- Accordion for Specs ---
     window.toggleSpecs = (btn) => {
         const specs = btn.parentElement.parentElement.querySelector('.p-specs-scrollable');
-        const overlay = btn.parentElement;
         specs.classList.toggle('expanded');
         btn.classList.toggle('rotated');
-        if (specs.classList.contains('expanded')) {
-            overlay.style.background = 'none';
-        } else {
-            overlay.style.background = 'linear-gradient(to top, #fff 40%, rgba(255,255,255,0.8))';
-        }
     };
 
-    // --- Modal Logic ---
     window.openProductModal = (title) => {
         const modal = document.getElementById('product-modal');
         if(modal) {
@@ -391,11 +356,7 @@ function initProductsPage() {
             const titleEl = document.getElementById('m-title');
             if(titleEl) titleEl.innerText = title;
             document.body.style.overflow = 'hidden';
-            
-            // Re-render chart (if Chart.js is present)
-            if(typeof Chart !== 'undefined') {
-                renderPriceChart();
-            }
+            if(typeof Chart !== 'undefined') renderPriceChart();
         }
     };
 
@@ -407,83 +368,51 @@ function initProductsPage() {
             document.body.style.overflow = 'auto';
         }
     };
-
-    // Background Close for Modal
+    
     const modal = document.getElementById('product-modal');
-    if(modal) {
-        modal.addEventListener('click', (e) => {
-            if(e.target === modal) closeModal();
-        });
-    }
+    if(modal) modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
 }
 
 function renderPriceChart() {
     const ctx = document.getElementById('priceChart');
     if(ctx) {
-        // We use a try-catch because Chart.js might destroy instances differently depending on version
         try {
             new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                    datasets: [{
-                        label: 'Export Price (USD/MT)',
-                        data: [950, 980, 960, 1050, 1100, 1080],
-                        borderColor: '#4e8c3e',
-                        backgroundColor: 'rgba(78, 140, 62, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }]
+                    datasets: [{ label: 'Export Price (USD/MT)', data: [950, 980, 960, 1050, 1100, 1080], borderColor: '#4e8c3e', backgroundColor: 'rgba(78, 140, 62, 0.1)', tension: 0.4, fill: true }]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: false } }
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false } } }
             });
-        } catch(e) { console.log("Chart render error", e); }
+        } catch(e) {}
     }
 }
 
 /* =========================================
-   5. INFRASTRUCTURE PAGE LOGIC
+   5. INFRA & CONTACT LOGIC
    ========================================= */
 function initInfraPage() {
-    // Timeline animation
     const processWrapper = document.querySelector('.process-wrapper');
     if(processWrapper) {
-        const observer = new IntersectionObserver((entries) => {
+        new IntersectionObserver((entries) => {
             if(entries[0].isIntersecting) {
                 const prog = document.getElementById('process-progress');
                 if(prog) prog.style.width = '100%';
             }
-        });
-        observer.observe(processWrapper);
+        }).observe(processWrapper);
     }
 }
 
-/* =========================================
-   6. CONTACT PAGE LOGIC
-   ========================================= */
 function initContactPage() {
-    // Map Switcher
     window.switchMap = (loc, btn) => {
         document.querySelectorAll('.map-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const mapFrame = document.getElementById('gmap-frame');
         if(mapFrame) {
             mapFrame.style.opacity = '0';
-            setTimeout(() => {
-                if(loc === 'head') mapFrame.src = "https://www.google.com/maps/embed?pb=..."; // Placeholder
-                if(loc === 'branch') mapFrame.src = "https://www.google.com/maps/embed?pb=..."; // Placeholder
-                mapFrame.style.opacity = '1';
-            }, 300);
+            setTimeout(() => { mapFrame.style.opacity = '1'; }, 300);
         }
     };
-
-    // FAQ Accordion
-    window.toggleFaq = (el) => {
-        el.parentElement.classList.toggle('active');
-    };
+    window.toggleFaq = (el) => el.parentElement.classList.toggle('active');
 }
