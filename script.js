@@ -57,11 +57,13 @@ function updateTickerDOM(id, label, value) {
 
 // --- Main Init Function (Runs after Header/Footer Load) ---
 function initSite() {
-    // Scroll Progress Bar
+    // Scroll Event Listener
     window.onscroll = function() {
         let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
         let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         let scrolled = (winScroll / height) * 100;
+        
+        // Progress Bar
         const prog = document.getElementById("page-progress");
         if(prog) prog.style.width = scrolled + "%";
         
@@ -70,6 +72,13 @@ function initSite() {
         if(nav) {
             if (window.scrollY > 50) nav.classList.add('scrolled'); 
             else nav.classList.remove('scrolled');
+        }
+
+        // Back to Top Button Visibility
+        const bttBtn = document.getElementById('back-to-top');
+        if(bttBtn) {
+            if (window.scrollY > 300) bttBtn.classList.add('show');
+            else bttBtn.classList.remove('show');
         }
     };
 
