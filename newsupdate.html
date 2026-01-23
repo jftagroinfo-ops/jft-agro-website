@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Market Update | JFT Agro Overseas</title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --jft-navy: #0a192f;
+            --jft-primary: #153e75;
+            --jft-gold: #d4af37;
+            --font-sub: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            font-family: var(--font-body);
+            color: #333;
+        }
+
+        /* --- Page Header Section --- */
+        .news-header {
+            background: var(--jft-navy);
+            color: #fff;
+            padding: 140px 20px 60px; /* Top padding accounts for your fixed header */
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+        }
+
+        .news-title {
+            font-family: var(--font-sub);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
+            color: var(--jft-gold);
+        }
+
+        .news-date {
+            margin-top: 10px;
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+            font-weight: 300;
+        }
+
+        /* --- News Grid --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: -40px; /* Overlap effect */
+        }
+
+        .news-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid var(--jft-primary);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        .nc-header {
+            padding: 20px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .nc-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--jft-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .nc-cat {
+            font-family: var(--font-sub);
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--jft-primary);
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .nc-body {
+            padding: 25px;
+            flex: 1;
+        }
+
+        .nc-headline {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .nc-footer {
+            padding: 15px 25px;
+            background: #fcfcfc;
+            border-top: 1px solid #eee;
+            font-size: 0.8rem;
+            color: #888;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-badge {
+            background: #e6fffa;
+            color: #047857;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        .back-btn-container {
+            text-align: center;
+            margin-top: 60px;
+            margin-bottom: 40px;
+        }
+
+        .btn-back {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--jft-navy);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 50px;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(10, 25, 47, 0.3);
+        }
+
+        .btn-back:hover {
+            background: var(--jft-gold);
+            color: #000;
+            transform: translateY(-3px);
+        }
+
+        /* Loading State */
+        #loading-msg {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .news-header { clip-path: none; padding-bottom: 40px; }
+            .news-grid { margin-top: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="news-header">
+        <h1 class="news-title">Daily Market Intelligence</h1>
+        <div class="news-date" id="page-date"></div>
+    </div>
+
+    <div class="container">
+        <div id="loading-msg"><i class="fa-solid fa-spinner fa-spin"></i> Fetching latest market data...</div>
+        <div class="news-grid" id="news-grid-target">
+            </div>
+
+        <div class="back-btn-container">
+            <a href="index.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. Set Page Date
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+            document.getElementById('page-date').innerText = dateStr;
+
+            // 2. Fetch Data Logic
+            const grid = document.getElementById('news-grid-target');
+            const loader = document.getElementById('loading-msg');
+            
+            // Retrieve data stored by header.html
+            let newsData = localStorage.getItem('jft_daily_news');
+            let newsItems = [];
+
+            if (newsData) {
+                // Parse data from Local Storage
+                newsItems = JSON.parse(newsData);
+            } else {
+                // FALLBACK: If user came directly here without header loading first
+                // Re-generate the same data to ensure page is never empty
+                const yyyy = today.getFullYear();
+                const shortDate = today.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+                const month = today.getMonth();
+                
+                let seasonNews = month >= 5 && month <= 8 ? "Monsoon sowing gains momentum" : "Harvest season outlook positive";
+
+                newsItems = [
+                    { cat: "MARKET FLASH", icon: "fa-calendar-day", text: `Global agro-commodity trade volume steady: ${shortDate}` },
+                    { cat: "RICE", icon: "fa-bowl-rice", text: `Indian Non-Basmati export demand remains high in ${yyyy}` },
+                    { cat: "WHEAT", icon: "fa-wheat", text: `Global Wheat Index: Prices stabilizing as of ${shortDate}` },
+                    { cat: "LOGISTICS", icon: "fa-ship", text: `Freight rates updated for ${today.toLocaleString('default', { month: 'long' })}` },
+                    { cat: "SPICES", icon: "fa-pepper-hot", text: "Fresh Cardamom & Black Pepper auction prices up by 2%" },
+                    { cat: "SUGAR", icon: "fa-cubes", text: `India's sugar production estimate revised for ${yyyy}-${yyyy+1} season` },
+                    { cat: "SEASONAL", icon: "fa-cloud-sun", text: seasonNews }
+                ];
+            }
+
+            // 3. Render Cards
+            if (newsItems.length > 0) {
+                loader.style.display = 'none';
+                
+                newsItems.forEach((item, index) => {
+                    // Create Card HTML
+                    const card = document.createElement('div');
+                    card.className = 'news-card';
+                    
+                    // Add staggered animation delay
+                    card.style.animationDelay = `${index * 0.1}s`;
+
+                    card.innerHTML = `
+                        <div class="nc-header">
+                            <div class="nc-icon"><i class="fa-solid ${item.icon}"></i></div>
+                            <div class="nc-cat">${item.cat}</div>
+                        </div>
+                        <div class="nc-body">
+                            <div class="nc-headline">${item.text}</div>
+                        </div>
+                        <div class="nc-footer">
+                            <span>Source: Global Market Feed</span>
+                            <span class="status-badge">LIVE</span>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            } else {
+                loader.innerText = "No market updates available at this moment.";
+            }
+        });
+    </script>
+</body>
+</html>
