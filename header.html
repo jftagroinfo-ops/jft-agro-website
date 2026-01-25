@@ -1,7 +1,7 @@
 <style>
     /* --- Audit Correction: Global Mobile Variables --- */
     :root {
-        --total-mobile-offset: 150px; 
+        --total-mobile-offset: 150px; /* Adjusted to sit flush with header */
     }
 
     /* --- Scroll Progress Bar --- */
@@ -35,75 +35,47 @@
     @media (max-width: 1024px) {
         body { padding-top: 150px !important; }
 
+        /* Elevation for sticky header */
         .top-dashboard, .jft-navbar { box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
 
+        /* Line 1: Visit Dubai */
         .td-row-2 { order: 1; height: 40px; background: var(--jft-gold); padding: 0; border: none; }
         .visit-plan { width: 100%; justify-content: center; font-size: 0.65rem; padding: 0; }
 
+        /* Line 2: Market Feed */
         .td-row-1 { order: 2; height: 35px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 
+        /* Line 3: Currency & Social */
         .mobile-utility-bar { order: 3; display: flex; height: 35px; background: #ffffff; border-bottom: 1px solid #e0e0e0; align-items: center; justify-content: space-between; padding: 0 20px; }
         .m-currency { display: flex; gap: 12px; font-size: 0.65rem; font-weight: 800; color: var(--jft-navy); }
         .m-social { display: flex; gap: 15px; font-size: 1rem; }
         .m-social a { color: var(--jft-navy); }
 
-        /* Line 4: Navbar */
+        /* Line 4: Navbar - FIXED POSITION NO GAP */
         .jft-navbar { top: 110px; height: 65px; position: fixed; background: #fff; z-index: 2200; border-bottom: 1px solid #eee; }
         .nav-logo-img { height: 48px; } 
         .mobile-toggle { display: block; font-size: 1.5rem; color: var(--jft-navy); cursor: pointer; }
 
-        /* MENU TAB - SOLID NAVY BACKGROUND */
+        /* MENU TAB - LOCKED TO NAVBAR BOTTOM (NO GAP) */
         .nav-menu { 
             display: none; 
             position: fixed; 
-            top: 175px; 
-            left: 0; 
-            width: 100%; 
-            height: calc(100vh - 175px); 
-            background: #001632; 
-            flex-direction: column; 
-            justify-content: flex-start; 
-            align-items: center;
-            z-index: 2050; 
-            padding: 0; 
+            top: 175px; /* Matches Line 1(40) + Line 2(35) + Line 3(35) + Line 4(65) = 175px total */
+            left: 0; width: 100%; 
+            height: calc(100vh - 175px); background: var(--jft-navy); 
+            flex-direction: column; justify-content: flex-start; align-items: center;
+            z-index: 2050; padding: 0; 
             overflow-y: auto; 
-            margin: 0;
-            -webkit-overflow-scrolling: touch;
+            margin: 0; /* Ensures no added space below menu bar */
         }
         .nav-menu.active { display: flex; }
 
-        .menu-social-header { width: 100%; display: flex; justify-content: center; gap: 25px; padding: 25px 0; background: rgba(0,0,0,0.2); border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .menu-social-header a { color: var(--jft-gold); font-size: 1.5rem; }
+        /* Social Icons in Menu */
+        .menu-social-header { width: 100%; display: flex; justify-content: center; gap: 25px; padding: 20px 0; background: rgba(0,0,0,0.15); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .menu-social-header a { color: var(--jft-gold); font-size: 1.4rem; }
 
         .nav-link { font-size: 1.1rem; color: #fff !important; width: 100%; text-align: center; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .nav-btn-action { margin: 25px 0 60px; width: 80%; text-align: center; background: var(--jft-gold); color: var(--jft-navy); border-radius: 5px; padding: 14px; font-weight: 800; }
-
-        /* Mobile-Only Back to Top Button */
-        #backToTop {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 45px;
-            height: 45px;
-            background: var(--jft-primary);
-            color: #fff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            z-index: 99;
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            border: none;
-            cursor: pointer;
-        }
-        #backToTop.show {
-            opacity: 1;
-            visibility: visible;
-        }
+        .nav-btn-action { margin: 25px 0 50px; width: 80%; text-align: center; background: var(--jft-gold); color: var(--jft-navy); border-radius: 5px; padding: 14px; }
     }
 </style>
 
@@ -113,7 +85,7 @@
     <div class="td-row-2">
         <a href="#contact" class="visit-plan">
             <i class="fa-solid fa-plane-departure"></i> GULFOOD DUBAI: STAND S1-A32 
-            <span id="dubai-countdown" style="margin-left: 10px; font-family: monospace; background: rgba(0,0,0,0.1); padding: 2px 5px; border-radius: 3px;">..</span>
+            <span class="countdown-timer" id="dubai-countdown" style="margin-left: 10px;">..</span>
         </a>
     </div>
     <div class="td-row-1">
@@ -157,8 +129,6 @@
     </div>
 </nav>
 
-<button id="backToTop" class="mobile-only" onclick="scrollToTop()"><i class="fa-solid fa-arrow-up"></i></button>
-
 <script>
     function toggleMenu() { 
         const menu = document.getElementById('navMenu'); 
@@ -173,23 +143,10 @@
         }
     }
 
-    function scrollToTop() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    window.addEventListener('scroll', function() {
-        const btt = document.getElementById('backToTop');
-        if (window.scrollY > 300) {
-            btt.classList.add('show');
-        } else {
-            btt.classList.remove('show');
-        }
-    });
-
     (function init() {
         const ticker = document.getElementById('dynamic-ticker');
         if(ticker) {
-            const feed = `<div class="t-item"><span>RICE:</span> Fresh crop arrivals</div><div class="t-item"><span>SHIPMENT:</span> New container loading for Dubai</div>`;
+            const feed = `<div class="t-item"><span>RICE:</span> Export demand surge</div><div class="t-item"><span>GLOBAL:</span> New logistics routes open</div>`;
             ticker.innerHTML = feed + feed + feed;
         }
     })();
