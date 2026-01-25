@@ -59,98 +59,111 @@
     .nav-btn-action:hover { background: var(--jft-dark); border-color: var(--jft-dark); transform: translateY(-2px); }
     .mobile-toggle { display: none; font-size: 1.8rem; color: var(--jft-navy); cursor: pointer; transition: color 0.3s; }
 
-    /* --- Mobile Specific Styling (Below Desktop) --- */
+    /* --- MOBILE RESTRUCTURE (BELOW DESKTOP) --- */
     @media (max-width: 1024px) {
-        .top-dashboard { position: fixed; height: auto; }
+        .top-dashboard { position: fixed; height: auto; box-shadow: none; }
         
-        /* Line 1: Gulfood Dubai */
-        .td-row-1 { display: block; height: auto; border: none; }
-        .td-social, .td-utilities { display: none; }
+        /* Line 1: Follow Us & Gulfood (Socials + Visit Plan) */
+        .td-row-1 { display: flex; height: 40px; border: none; background: var(--jft-navy); }
+        .td-social { 
+            display: flex; flex: 1; padding: 0 15px; background: transparent; 
+            border-right: 1px solid rgba(255,255,255,0.1); gap: 12px;
+        }
+        .td-social span { font-size: 0.65rem; }
         .visit-plan { 
-            display: flex; width: 100%; clip-path: none; justify-content: center; 
-            padding: 10px 0; height: 40px; font-size: 0.7rem; 
+            flex: 2; padding: 0 15px; clip-path: none; justify-content: center; 
+            font-size: 0.6rem; height: 40px; background: var(--jft-gold);
         }
 
         /* Line 2: Market Feed */
-        .td-news-ticker { display: flex; height: 35px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .ticker-label { font-size: 0.6rem; padding: 0 15px; clip-path: none; }
+        .td-news-ticker { display: flex; height: 35px; background: var(--jft-navy); border-top: 1px solid rgba(255,255,255,0.05); }
+        .ticker-label { font-size: 0.6rem; padding: 0 10px; clip-path: none; }
+        .t-item { margin-right: 30px; font-size: 0.75rem; }
 
-        /* Line 3: Currency Rates (Stacked) */
-        .td-row-2 { height: 35px; padding: 0; justify-content: center; border-bottom: none; }
-        .forex-group { gap: 10px; width: 100%; justify-content: space-around; padding: 0 10px; }
-        .forex-item { font-size: 0.65rem; }
-        .desktop-only { display: flex !important; } /* Force GBP to show on mobile as per "all 3 currency" request */
-        #forex-date { display: none; }
-
-        /* Line 4: Menu Section (Navbar) */
-        .jft-navbar { 
-            position: relative; top: 110px; /* Aligns exactly under the 3 stacked rows */
-            height: 60px; margin-bottom: 0; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        /* Line 3: All 3 Currency Rates (No Gap) */
+        .td-row-2 { 
+            height: 35px; padding: 0; background: #fff; 
+            display: flex; justify-content: space-evenly; border: none; 
         }
-        .jft-navbar.scrolled { top: 0; position: fixed; } /* Sticky when scrolling */
+        .forex-group { width: 100%; gap: 0; justify-content: space-around; padding: 0 5px; }
+        .forex-item { font-size: 0.65rem; }
+        .desktop-only { display: flex !important; } /* Force GBP visible on mobile */
+        #forex-date, .td-utilities { display: none !important; }
+
+        /* Line 4: Menu Section (Navbar) - Zero gap with currency row */
+        .jft-navbar { 
+            position: fixed; top: 110px; height: 65px; background: rgba(255,255,255,1);
+            border-bottom: 2px solid var(--jft-primary); 
+        }
+        .jft-navbar.scrolled { top: 0; }
         
         .nav-logo-img { height: 45px; }
-        .mobile-toggle { display: block; }
+        .mobile-toggle { display: block; padding-right: 15px; }
 
-        /* Mobile Menu Content Improvements */
+        /* Eye-Catching Mobile Menu */
         .nav-menu { 
             position: fixed; top: 0; right: -100%; width: 85%; height: 100vh; 
-            background: var(--jft-navy); padding: 80px 30px; gap: 15px;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            background: linear-gradient(180deg, var(--jft-navy) 0%, #0a1525 100%); 
+            padding: 90px 30px 40px; gap: 5px; box-shadow: -10px 0 40px rgba(0,0,0,0.8);
+            display: flex; flex-direction: column; overflow-y: auto;
         }
+        .nav-menu.active { right: 0; }
         .nav-link { 
-            color: #fff !important; font-size: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.1);
-            width: 100%; padding: 15px 0;
+            color: #fff !important; font-size: 1.1rem; border-bottom: 1px solid rgba(255,255,255,0.05);
+            width: 100%; padding: 18px 0; font-weight: 600; text-align: left;
         }
         
-        /* Menu Eye Catching Additions */
-        .mobile-menu-footer {
-            margin-top: auto; padding-top: 30px; display: flex; flex-direction: column; gap: 20px;
+        /* Additional Eye-Catching Elements in Menu */
+        .mobile-menu-extra {
+            margin-top: 30px; display: flex; flex-direction: column; gap: 20px;
         }
-        .nav-btn-action.mobile-visible {
-            display: block !important; text-align: center; background: var(--jft-gold); color: var(--jft-navy);
+        .nav-btn-action.mobile-ver {
+            display: flex !important; width: 100%; justify-content: center; align-items: center;
+            background: var(--jft-gold); color: var(--jft-navy); font-size: 1rem; padding: 15px;
+            border-radius: 8px; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
-        .mobile-social-wrap {
-            display: flex; gap: 25px; justify-content: center; font-size: 1.5rem; color: var(--jft-gold);
+        .mobile-socials {
+            display: flex; gap: 30px; justify-content: center; margin-top: 20px;
         }
+        .mobile-socials a { color: var(--jft-gold); font-size: 1.5rem; }
     }
 
     /* --- Floating Elements --- */
     .sticky-quote { position: fixed; right: 0; top: 50%; transform: translateY(-50%) rotate(-90deg) translateX(50%); transform-origin: right center; z-index: 99; }
     .sticky-btn { background: var(--jft-primary); color: #fff; padding: 12px 30px; font-family: var(--font-sub); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; border-radius: 10px 10px 0 0; box-shadow: -4px 0 10px rgba(0,0,0,0.2); transition: 0.3s; display: block; font-size: 13px; } 
-    .sticky-btn:hover { background: var(--jft-gold); color: #000; padding-bottom: 20px; }
-    .whatsapp-float { position: fixed; bottom: 30px; left: 30px; width: 60px; height: 60px; background-color: #25d366; color: #FFF; border-radius: 50%; text-align: center; font-size: 30px; box-shadow: 2px 2px 3px #999; z-index: 100; display: flex; align-items: center; justify-content: center; transition: 0.3s; } 
-    .whatsapp-float:hover { transform: scale(1.1); background-color: #128C7E; }
+    .whatsapp-float { position: fixed; bottom: 30px; left: 30px; width: 60px; height: 60px; background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center; font-size: 30px; box-shadow: 2px 2px 3px #999; z-index: 100; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
 </style>
 
 <div id="page-progress"></div>
 
 <div class="top-dashboard">
     <div class="td-row-1">
-        <a href="#contact" class="visit-plan"><i class="fa-solid fa-plane-departure"></i> MEET US AT GULFOOD DUBAI</a>
+        <div class="td-social">
+            <span>Follow:</span>
+            <a href="#" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="#" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+        </div>
+        <a href="#contact" class="visit-plan"><i class="fa-solid fa-plane-departure"></i> GULFOOD DUBAI</a>
     </div>
     
     <div class="td-news-ticker">
-        <div class="ticker-label"><div class="live-dot"></div> MARKET FEED</div>
+        <div class="ticker-label"><div class="live-dot"></div> FEED</div>
         <div class="ticker-track" id="dynamic-ticker"></div>
     </div>
 
     <div class="td-row-2">
         <div class="forex-group">
-            <span id="forex-date" style="font-size:0.7rem; color:#888; text-transform:uppercase;"></span>
-            <div class="forex-item" id="fx-usd">USD/INR <span>..</span></div>
-            <div class="forex-item" id="fx-eur">EUR/INR <span>..</span></div>
-            <div class="forex-item" id="fx-gbp">GBP/INR <span>..</span></div>
+            <div class="forex-item" id="fx-usd">USD/INR ..</div>
+            <div class="forex-item" id="fx-eur">EUR/INR ..</div>
+            <div class="forex-item" id="fx-gbp">GBP/INR ..</div>
         </div>
     </div>
 </div>
 
-<div id="google_translate_element"></div>
-
 <nav class="jft-navbar" id="navbar">
     <div class="jft-wide-container nav-flex">
-        <a href="index.html" class="nav-logo-link"><img src="images/jft logo.png" alt="JFT Agro Overseas" class="nav-logo-img"></a>
+        <a href="index.html" class="nav-logo-link"><img src="images/jft logo.png" alt="JFT Agro" class="nav-logo-img"></a>
         <div class="nav-menu" id="navMenu">
             <a href="index.html" class="nav-link" onclick="toggleMenu()">Home</a>
             <a href="about.html" class="nav-link" onclick="toggleMenu()">About</a>
@@ -159,9 +172,9 @@
             <a href="https://jftagro.com/index.html#global-reach" class="nav-link" onclick="toggleMenu()">Network</a>
             <a href="contact.html" class="nav-link" onclick="toggleMenu()">Contact</a>
             
-            <div class="mobile-menu-footer">
-                <a href="contact.html" class="nav-btn-action mobile-visible">Get Quote</a>
-                <div class="mobile-social-wrap">
+            <div class="mobile-menu-extra">
+                <a href="contact.html" class="nav-btn-action mobile-ver">GET EXPORT QUOTE</a>
+                <div class="mobile-socials">
                     <a href="#"><i class="fa-brands fa-linkedin"></i></a>
                     <a href="#"><i class="fa-brands fa-instagram"></i></a>
                     <a href="#"><i class="fa-brands fa-facebook"></i></a>
@@ -172,50 +185,36 @@
     </div>
 </nav>
 
-<a href="https://wa.me/918425057274" class="whatsapp-float" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-<div class="sticky-quote"><a href="#contact" class="sticky-btn">Request Export Quote</a></div>
-
 <script>
     function toggleMenu() { 
         const menu = document.getElementById('navMenu'); 
         const icon = document.querySelector('.mobile-toggle i'); 
         menu.classList.toggle('active'); 
-        if(menu.classList.contains('active')) { 
-            icon.classList.remove('fa-bars'); 
-            icon.classList.add('fa-xmark'); 
-        } else { 
-            icon.classList.remove('fa-xmark'); 
-            icon.classList.add('fa-bars'); 
-        } 
+        icon.classList.toggle('fa-bars'); 
+        icon.classList.toggle('fa-xmark'); 
     }
 
     window.addEventListener('scroll', function() {
         const nav = document.getElementById('navbar'); 
-        if(nav) {
+        if(nav && window.innerWidth > 1024) {
             if (window.scrollY > 50) nav.classList.add('scrolled'); 
             else nav.classList.remove('scrolled');
         }
     });
 
-    // ... (rest of your existing forex and ticker scripts remain identical)
     async function fetchLiveForex() {
         try {
             const response = await fetch('https://api.frankfurter.app/latest?from=USD&to=INR,EUR,GBP'); 
             const data = await response.json();
             if(data && data.rates) {
-                updateTickerDOM('fx-usd', 'USD/INR', data.rates.INR); 
-                updateTickerDOM('fx-eur', 'EUR/INR', (data.rates.INR / data.rates.EUR)); 
-                updateTickerDOM('fx-gbp', 'GBP/INR', (data.rates.INR / data.rates.GBP));
+                const inr = data.rates.INR;
+                document.getElementById('fx-usd').innerHTML = `USD <span class="forex-up">${inr.toFixed(2)}</span>`;
+                document.getElementById('fx-eur').innerHTML = `EUR <span class="forex-up">${(inr/data.rates.EUR).toFixed(2)}</span>`;
+                document.getElementById('fx-gbp').innerHTML = `GBP <span class="forex-up">${(inr/data.rates.GBP).toFixed(2)}</span>`;
             }
         } catch (e) { 
-            document.getElementById('fx-usd').innerHTML = 'USD/INR <span class="forex-up">84.10 ▲</span>'; 
-            document.getElementById('fx-eur').innerHTML = 'EUR/INR <span class="forex-up">90.50 ▲</span>';
-            document.getElementById('fx-gbp').innerHTML = 'GBP/INR <span class="forex-up">106.20 ▲</span>';
+            document.querySelectorAll('.forex-item').forEach(el => el.innerHTML += ' <span class="forex-up">84.10</span>');
         }
-    }
-    function updateTickerDOM(id, label, value) { 
-        const el = document.getElementById(id);
-        if(el) el.innerHTML = `${label} <span class="forex-up">${value.toFixed(2)} ▲</span>`; 
     }
     fetchLiveForex();
 </script>
