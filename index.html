@@ -94,20 +94,20 @@
             .jft-hero-banner { padding-top: 130px; }
         }
         
-        /* Mobile Spacing & Dash Fixes */
+        /* Mobile Spacing */
         @media (max-width: 1024px) {
             .jft-hero-banner { 
                 padding-top: 160px !important; 
                 align-items: flex-start; 
             }
             
-            /* Tablet/Laptop Hero Dash */
+            /* Tablet/Laptop Hero Dash Adjustment */
             .hero-title-modern span::after { 
                 bottom: 4px; 
                 height: 8px; 
             }
 
-            /* Manufacturing Highlight Dash - Tablet */
+            /* Manufacturing Highlight Dash Adjustment for Smaller Screens */
             .manu-highlight::after {
                 height: 6px !important;
                 bottom: 2px !important;
@@ -287,6 +287,7 @@
         .step-node:hover .step-marker { border-color: var(--jft-primary); background: var(--jft-primary); color: #fff; transform: scale(1.1); }
         .step-marker::after { content: attr(data-num); position: absolute; top: 0; right: 0; width: 26px; height: 26px; background: var(--jft-gold); color: #000; font-size: 12px; font-weight: 700; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; }
         
+        /* --- POINT 1: NETWORK SECTION FIXES --- */
         .jft-network-section { position: relative; padding: 110px 0; overflow: visible; width: 100%; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; width: 100vw; }
         
         .network-header { text-align: center; margin-bottom: 60px; position: relative; z-index: 10; padding: 0 20px; }
@@ -304,6 +305,7 @@
         
         .export-node { position: absolute; display: flex; align-items: center; gap: 20px; width: 320px; transition: 0.4s ease-in-out; cursor: pointer; z-index: 20; }
         
+        /* POINT 1: High Z-Index on Hover */
         .export-node:hover { z-index: 100; }
 
         .node-portal { width: 80px; height: 80px; background: #fff; border-radius: 0 40px 0 40px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-subtle); border: 1px solid var(--jft-border); transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); } 
@@ -313,11 +315,12 @@
         .node-info h3 { margin: 0; font-family: var(--font-head); font-size: 1.2rem; color: var(--jft-navy); font-weight: 700; letter-spacing: -0.5px; } 
         .node-info p { margin: 5px 0 0 0; font-family: var(--font-body); font-size: 0.9rem; color: #666; line-height: 1.4; }
         
+        /* --- UPDATED: Limit visible items to approx 4 (185px) --- */
         .country-list-reveal { 
             position: absolute; 
             width: 220px; 
-            max-height: 185px; 
-            overflow-y: auto; 
+            max-height: 185px; /* Restricts height to approx 4 items */
+            overflow-y: auto; /* Enables scrolling */
             display: flex; 
             flex-direction: column; 
             gap: 6px; 
@@ -341,6 +344,7 @@
         .node-0 .country-list-reveal, .node-2 .country-list-reveal, .node-4 .country-list-reveal { left: 90px; top: 100%; } 
         .node-1 .country-list-reveal, .node-3 .country-list-reveal, .node-5 .country-list-reveal { right: 90px; top: 100%; }
         
+        /* --- CERTIFICATION SLIDER --- */
         .cert-container { width: 100%; overflow: hidden; position: relative; padding: 50px 0; border-bottom: 1px solid var(--jft-border); cursor: grab; } 
         .cert-container:active { cursor: grabbing; } 
         .cert-track { display: flex; align-items: center; width: max-content; will-change: transform; } 
@@ -647,6 +651,21 @@
                     <div class="feature-card"><i class="fa-solid fa-ship feat-icon"></i><div class="feat-title">Priority Shipping</div><p class="feat-text">Dedicated slots with Maersk & MSC for guaranteed transit times.</p></div>
                     <div class="feature-card"><i class="fa-solid fa-flask feat-icon"></i><div class="feat-title">SGS/Bureau Veritas</div><p class="feat-text">Every container inspected by third-party surveyors before sealing.</p></div>
                     <div class="feature-card"><i class="fa-solid fa-scale-balanced feat-icon"></i><div class="feat-title">Bulk Capabilities</div><p class="feat-text">Infrastructure to handle orders from 20ft containers to break-bulk.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" style="padding-top: 0; padding-bottom: 60px;">
+        <div class="jft-wide-container">
+            <div class="cert-container" id="certSlider">
+                <div class="cert-track" id="certTrack">
+                    <div class="cert-slide"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/FSSAI_logo.svg/2560px-FSSAI_logo.svg.png" class="cert-logo" alt="FSSAI" loading="lazy"></div>
+                    <div class="cert-slide"><img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" class="cert-logo" alt="1 Star Export House" loading="lazy"></div>
+                    <div class="cert-slide"><img src="https://apeda.gov.in/apedawebsite/images/logo.png" class="cert-logo" alt="APEDA" loading="lazy"></div>
+                    <div class="cert-slide"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/82/Spices_Board_India_logo.svg/1200px-Spices_Board_India_logo.svg.png" class="cert-logo" alt="Spices Board" loading="lazy"></div>
+                    <div class="cert-slide"><img src="https://upload.wikimedia.org/wikipedia/en/5/5b/Coconut_Development_Board_logo.svg" class="cert-logo" alt="Coconut Board" loading="lazy"></div>
+                    <div class="cert-slide"><img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Authorized_Economic_Operator_logo.svg" class="cert-logo" alt="AEO" loading="lazy"></div>
                 </div>
             </div>
         </div>
@@ -968,19 +987,9 @@
         </div>
     </section>
 
-    <section class="section-padding">
+    <section class="section-padding" style="margin-bottom: 60px;">
         <div class="jft-wide-container">
-            <div class="cert-container" id="certSlider">
-                <div class="cert-track" id="certTrack">
-                    <div class="cert-slide"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/FSSAI_logo.svg/2560px-FSSAI_logo.svg.png" class="cert-logo" alt="FSSAI" loading="lazy"></div>
-                    <div class="cert-slide"><img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" class="cert-logo" alt="1 Star Export House" loading="lazy"></div>
-                    <div class="cert-slide"><img src="https://apeda.gov.in/apedawebsite/images/logo.png" class="cert-logo" alt="APEDA" loading="lazy"></div>
-                    <div class="cert-slide"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/82/Spices_Board_India_logo.svg/1200px-Spices_Board_India_logo.svg.png" class="cert-logo" alt="Spices Board" loading="lazy"></div>
-                    <div class="cert-slide"><img src="https://upload.wikimedia.org/wikipedia/en/5/5b/Coconut_Development_Board_logo.svg" class="cert-logo" alt="Coconut Board" loading="lazy"></div>
-                    <div class="cert-slide"><img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Authorized_Economic_Operator_logo.svg" class="cert-logo" alt="AEO" loading="lazy"></div>
-                </div>
-            </div>
-            <div class="testi-grid reveal" style="margin-top: 80px;">
+            <div class="testi-grid reveal" style="margin-top: 20px;">
                 <div class="testi-card"><div class="testi-header"><span class="flag-icon">🇧🇯</span><div class="testi-auth"><h4>Abdoulaye Diallo</h4><span>Importer, Benin</span></div></div><p class="testi-text">"JFT's IR-64 parboiled rice consistency is the best we have received from India. 50 containers delivered without a single quality claim."</p></div>
                 <div class="testi-card"><div class="testi-header"><span class="flag-icon">🇦🇪</span><div class="testi-auth"><h4>Al-Futtaim Trading</h4><span>Distributor, Dubai</span></div></div><p class="testi-text">"Professional documentation and logistics. They understand the urgency of the Middle East market during Ramadan."</p></div>
                 <div class="testi-card"><div class="testi-header"><span class="flag-icon">🇬🇧</span><div class="testi-auth"><h4>Sarah Jenkins</h4><span>Procurement, UK</span></div></div><p class="testi-text">"We rely on JFT for organic certified spices. Their lab reports match our European stringent standards perfectly."</p></div>
@@ -1199,9 +1208,7 @@
         const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); if (entry.target.classList.contains('timeline-wrapper')) { document.getElementById('progressLine').style.width = '100%'; } } }); }, { threshold: 0.15 }); 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         
-        // --- NETWORK MAP: Show All Logic (Mobile) + Auto Close ---
         document.addEventListener("DOMContentLoaded", () => {
-            const networkSection = document.querySelector('#global-reach');
             const networkNodes = [ { region: "African Continent", icon: "fa-ship", desc: "Bulk rice supplier to 15+ African nations.", countries: [{name:"Benin",type:"Parboiled"},{name:"Togo",type:"Rice"},{name:"Senegal",type:"Broken Rice"},{name:"Ivory Coast",type:"Rice"},{name:"Djibouti",type:"Grains"},{name:"Somalia",type:"Sugar"},{name:"Madagascar",type:"Rice"},{name:"Nigeria",type:"Rice"},{name:"Ghana",type:"Rice"},{name:"South Africa",type:"Rice"},{name:"Kenya",type:"Rice"},{name:"Tanzania",type:"Rice"}] }, { region: "Europe (EU)", icon: "fa-euro-sign", desc: "Certified Organic Spices & Grains.", countries: [{name:"UK",type:"Basmati"},{name:"Germany",type:"Spices"},{name:"Netherlands",type:"Spices"},{name:"France",type:"Rice"},{name:"Italy",type:"Rice"},{name:"Spain",type:"Rice"},{name:"Poland",type:"Rice"},{name:"Belgium",type:"Rice"},{name:"Sweden",type:"Rice"}] }, { region: "Middle East", icon: "fa-mosque", desc: "Premier exporter of Basmati and Spices.", countries: [{name:"UAE",type:"1121 Rice"},{name:"Saudi",type:"Basmati"},{name:"Qatar",type:"Rice"},{name:"Oman",type:"Rice"},{name:"Kuwait",type:"Rice"},{name:"Bahrain",type:"Rice"},{name:"Iraq",type:"Rice"},{name:"Jordan",type:"Rice"},{name:"Israel",type:"Rice"},{name:"Iran",type:"Rice"}] }, { region: "Russia & CIS", icon: "fa-snowflake", desc: "Supply partner for Northern markets.", countries: [{name:"Moscow",type:"Rice"},{name:"St. Petersburg",type:"Spices"},{name:"Ukraine",type:"Rice"},{name:"Uzbekistan",type:"Rice"},{name:"Kazakhstan",type:"Rice"},{name:"Azerbaijan",type:"Rice"},{name:"Georgia",type:"Rice"}] }, { region: "Sri Lanka", icon: "fa-anchor", desc: "Direct supply route to Colombo Hub.", countries: [{name:"Colombo",type:"Rice"},{name:"Kandy",type:"Rice"},{name:"Galle",type:"Rice"},{name:"Maldives",type:"Rice"},{name:"Seychelles",type:"Rice"}] }, { region: "SE Asia", icon: "fa-map-location-dot", desc: "Expanding footprint in Asian markets.", countries: [{name:"Vietnam",type:"Grains"},{name:"Thailand",type:"Rice"},{name:"Malaysia",type:"Rice"},{name:"Indonesia",type:"Rice"},{name:"Singapore",type:"Rice"},{name:"Philippines",type:"Rice"}] } ];
             const container = document.getElementById('jft_nodes_container'); const svgLayer = document.getElementById('jft_svg_lines'); const hubX = 500; const hubY = 325; const nodeCoords = [{x:100,y:50}, {x:900,y:50}, {x:50,y:310}, {x:950,y:310}, {x:100,y:580}, {x:900,y:580}];
             
