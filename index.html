@@ -86,9 +86,48 @@
         .hero-content { position: relative; width: 100%; max-width: 1400px; padding: 100px 40px 60px 40px; margin: 0 auto; z-index: 10; color: #fff; display: flex; align-items: center; justify-content: space-between; gap: 40px; box-sizing: border-box; flex-wrap: wrap; }
         .hero-text-box { flex: 1; min-width: 300px; max-width: 750px; }
         .hero-tag-modern { font-family: 'Montserrat', sans-serif; color: #1a3c34; background: #eebf45; font-weight: 700; letter-spacing: 2px; font-size: 13px; text-transform: uppercase; padding: 6px 14px; border-radius: 4px; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 25px; box-shadow: 0 0 20px rgba(238, 191, 69, 0.4); }
-        .hero-title-modern { font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.1; font-weight: 800; margin: 0 0 25px 0; color: #fff; letter-spacing: -1px; text-transform: uppercase; }
-        .hero-title-modern span { color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.8); display: block; font-weight: 900; }
-        .hero-title-modern strong { color: #eebf45; font-family: 'Merriweather', serif; font-weight: 400; font-style: italic; text-transform: none; display: block; font-size: 0.8em; margin-top: 5px; }
+        
+        /* UPDATED HERO TITLE CSS */
+        .hero-title-modern { 
+            font-size: clamp(2rem, 4vw, 3.5rem); /* REDUCED SIZE FOR BALANCE */
+            line-height: 1.3; 
+            font-weight: 800; 
+            margin: 0 0 25px 0; 
+            color: #fff; 
+            letter-spacing: -1px; 
+            text-transform: uppercase; 
+            font-family: var(--font-head); 
+        }
+        .hero-title-modern span { 
+            color: var(--jft-primary); /* GREEN COLOR */
+            display: inline-block; 
+            font-weight: 900; 
+            position: relative;
+            z-index: 1;
+        }
+        /* Gold Highlight Underline */
+        .hero-title-modern span::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 15px; 
+            background: var(--jft-gold);
+            opacity: 0.4;
+            z-index: -1;
+        }
+        .hero-title-modern strong { 
+            color: #eebf45; 
+            font-family: 'Merriweather', serif; 
+            font-weight: 400; 
+            font-style: italic; 
+            text-transform: none; 
+            display: block; 
+            font-size: 0.8em; 
+            margin-top: 10px; 
+        }
+        
         .hero-desc-modern { font-size: clamp(1rem, 1.5vw, 1.25rem); max-width: 600px; color: #dbece5; margin-bottom: 45px; font-weight: 300; line-height: 1.7; font-family: 'Lato', sans-serif; }
         .hero-actions { display: flex; gap: 20px; flex-wrap: wrap; }
         
