@@ -67,7 +67,7 @@
         .center-header { margin-left: auto; margin-right: auto; text-align: center; }
         .brand-tag { display: inline-block; font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; color: var(--jft-primary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; background: rgba(78, 140, 62, 0.1); padding: 8px 16px; border-radius: 50px; border: 1px solid rgba(78, 140, 62, 0.2); }
         
-        /* STANDARD SECTION TITLE (Reference Style) */
+        /* STANDARD SECTION TITLE */
         .section-title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; line-height: 1.2; color: var(--jft-navy); } 
         .section-title span { color: var(--jft-primary); position: relative; display: inline-block; z-index: 1; }
         .section-title span::after { content: ''; position: absolute; bottom: 8px; left: 0; width: 100%; height: 12px; background: var(--jft-gold); opacity: 0.3; z-index: -1; }
@@ -94,20 +94,20 @@
             .jft-hero-banner { padding-top: 130px; }
         }
         
-        /* Mobile Spacing */
+        /* Mobile Spacing & Dash Fixes */
         @media (max-width: 1024px) {
             .jft-hero-banner { 
                 padding-top: 160px !important; 
                 align-items: flex-start; 
             }
             
-            /* Tablet/Laptop Hero Dash Adjustment */
+            /* Tablet/Laptop Hero Dash */
             .hero-title-modern span::after { 
                 bottom: 4px; 
                 height: 8px; 
             }
 
-            /* Manufacturing Highlight Dash Adjustment for Smaller Screens */
+            /* Manufacturing Highlight Dash - Tablet */
             .manu-highlight::after {
                 height: 6px !important;
                 bottom: 2px !important;
@@ -1199,10 +1199,64 @@
         const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); if (entry.target.classList.contains('timeline-wrapper')) { document.getElementById('progressLine').style.width = '100%'; } } }); }, { threshold: 0.15 }); 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         
+        // --- NETWORK MAP: Show All Logic (Mobile) + Auto Close ---
         document.addEventListener("DOMContentLoaded", () => {
+            const networkSection = document.querySelector('#global-reach');
             const networkNodes = [ { region: "African Continent", icon: "fa-ship", desc: "Bulk rice supplier to 15+ African nations.", countries: [{name:"Benin",type:"Parboiled"},{name:"Togo",type:"Rice"},{name:"Senegal",type:"Broken Rice"},{name:"Ivory Coast",type:"Rice"},{name:"Djibouti",type:"Grains"},{name:"Somalia",type:"Sugar"},{name:"Madagascar",type:"Rice"},{name:"Nigeria",type:"Rice"},{name:"Ghana",type:"Rice"},{name:"South Africa",type:"Rice"},{name:"Kenya",type:"Rice"},{name:"Tanzania",type:"Rice"}] }, { region: "Europe (EU)", icon: "fa-euro-sign", desc: "Certified Organic Spices & Grains.", countries: [{name:"UK",type:"Basmati"},{name:"Germany",type:"Spices"},{name:"Netherlands",type:"Spices"},{name:"France",type:"Rice"},{name:"Italy",type:"Rice"},{name:"Spain",type:"Rice"},{name:"Poland",type:"Rice"},{name:"Belgium",type:"Rice"},{name:"Sweden",type:"Rice"}] }, { region: "Middle East", icon: "fa-mosque", desc: "Premier exporter of Basmati and Spices.", countries: [{name:"UAE",type:"1121 Rice"},{name:"Saudi",type:"Basmati"},{name:"Qatar",type:"Rice"},{name:"Oman",type:"Rice"},{name:"Kuwait",type:"Rice"},{name:"Bahrain",type:"Rice"},{name:"Iraq",type:"Rice"},{name:"Jordan",type:"Rice"},{name:"Israel",type:"Rice"},{name:"Iran",type:"Rice"}] }, { region: "Russia & CIS", icon: "fa-snowflake", desc: "Supply partner for Northern markets.", countries: [{name:"Moscow",type:"Rice"},{name:"St. Petersburg",type:"Spices"},{name:"Ukraine",type:"Rice"},{name:"Uzbekistan",type:"Rice"},{name:"Kazakhstan",type:"Rice"},{name:"Azerbaijan",type:"Rice"},{name:"Georgia",type:"Rice"}] }, { region: "Sri Lanka", icon: "fa-anchor", desc: "Direct supply route to Colombo Hub.", countries: [{name:"Colombo",type:"Rice"},{name:"Kandy",type:"Rice"},{name:"Galle",type:"Rice"},{name:"Maldives",type:"Rice"},{name:"Seychelles",type:"Rice"}] }, { region: "SE Asia", icon: "fa-map-location-dot", desc: "Expanding footprint in Asian markets.", countries: [{name:"Vietnam",type:"Grains"},{name:"Thailand",type:"Rice"},{name:"Malaysia",type:"Rice"},{name:"Indonesia",type:"Rice"},{name:"Singapore",type:"Rice"},{name:"Philippines",type:"Rice"}] } ];
             const container = document.getElementById('jft_nodes_container'); const svgLayer = document.getElementById('jft_svg_lines'); const hubX = 500; const hubY = 325; const nodeCoords = [{x:100,y:50}, {x:900,y:50}, {x:50,y:310}, {x:950,y:310}, {x:100,y:580}, {x:900,y:580}];
-            if(container && svgLayer) { networkNodes.forEach((node, index) => { const div = document.createElement('div'); div.className = `export-node node-${index} reveal`; div.onclick = function(e) { if(window.innerWidth <= 1024) { if(e.target.closest('.country-list-reveal')) return; const isActive = this.classList.contains('active-mobile'); document.querySelectorAll('.export-node').forEach(n => n.classList.remove('active-mobile')); if(!isActive) this.classList.add('active-mobile'); } }; let listHTML = ""; if(node.countries) { listHTML = `<div class="country-list-reveal">`; node.countries.forEach(c => { listHTML += `<div class="country-item">${c.name} <span>${c.type}</span></div>`; }); listHTML += `</div>`; } div.innerHTML = `<div class="node-portal"><i class="fa-solid ${node.icon}"></i></div><div class="node-info"><h3>${node.region}</h3><p>${node.desc}</p></div>${listHTML}`; container.appendChild(div); if(window.innerWidth > 1024) { const coords = nodeCoords[index]; const path = document.createElementNS("http://www.w3.org/2000/svg", "path"); path.setAttribute("d", `M${hubX},${hubY} Q${(hubX+coords.x)/2},${hubY-50} ${coords.x},${coords.y}`); path.setAttribute("class", "trade-path"); svgLayer.appendChild(path); } }); document.querySelectorAll('.export-node').forEach(el => observer.observe(el)); }
+            
+            if(container && svgLayer) { 
+                networkNodes.forEach((node, index) => { 
+                    const div = document.createElement('div'); 
+                    div.className = `export-node node-${index} reveal`; 
+                    
+                    // --- UPDATED CLICK LOGIC: OPEN ALL ---
+                    div.onclick = function(e) { 
+                        if(window.innerWidth <= 1024) { 
+                            if(e.target.closest('.country-list-reveal')) return; 
+                            
+                            // Select ALL nodes
+                            const allNodes = document.querySelectorAll('.export-node');
+                            // Add active class to ALL nodes simultaneously
+                            allNodes.forEach(n => n.classList.add('active-mobile')); 
+                        } 
+                    }; 
+                    
+                    let listHTML = ""; 
+                    if(node.countries) { 
+                        listHTML = `<div class="country-list-reveal">`; 
+                        node.countries.forEach(c => { 
+                            listHTML += `<div class="country-item">${c.name} <span>${c.type}</span></div>`; 
+                        }); 
+                        listHTML += `</div>`; 
+                    } 
+                    div.innerHTML = `<div class="node-portal"><i class="fa-solid ${node.icon}"></i></div><div class="node-info"><h3>${node.region}</h3><p>${node.desc}</p></div>${listHTML}`; 
+                    container.appendChild(div); 
+                    
+                    if(window.innerWidth > 1024) { 
+                        const coords = nodeCoords[index]; 
+                        const path = document.createElementNS("http://www.w3.org/2000/svg", "path"); 
+                        path.setAttribute("d", `M${hubX},${hubY} Q${(hubX+coords.x)/2},${hubY-50} ${coords.x},${coords.y}`); 
+                        path.setAttribute("class", "trade-path"); 
+                        svgLayer.appendChild(path); 
+                    } 
+                }); 
+                document.querySelectorAll('.export-node').forEach(el => observer.observe(el)); 
+            }
+
+            // --- AUTO CLOSE OBSERVER ---
+            const closeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        // Section has left the screen -> Close all lists
+                        document.querySelectorAll('.export-node').forEach(n => n.classList.remove('active-mobile'));
+                    }
+                });
+            }, { threshold: 0 }); // Trigger when 0% is visible (completely out)
+            
+            if(networkSection) {
+                closeObserver.observe(networkSection);
+            }
         });
 
         // --- Back to Top Logic ---
