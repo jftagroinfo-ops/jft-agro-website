@@ -86,7 +86,7 @@
     .forex-item { display: flex; align-items: center; gap: 6px; } 
     .forex-up { color: #16a34a; background: #ecfdf5; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 800; }
     
-    /* CTA Button */
+    /* Desktop Top CTA Button */
     .visit-plan { display: flex; align-items: center; gap: 10px; background: var(--jft-gold); color: var(--jft-navy); height: 100%; padding: 0 25px 0 40px; font-size: 0.72rem; clip-path: polygon(20px 0, 100% 0, 100% 100%, 0% 100%); transition: 0.3s; letter-spacing: 0.5px; font-weight: 800; white-space: nowrap; text-decoration: none; flex-shrink: 0; } 
     .visit-plan:hover { background: var(--jft-navy); color: #fff; } 
     .visit-plan i { animation: pulse 1.5s infinite; }
@@ -110,6 +110,9 @@
     .nav-btn-action { padding: 12px 24px; background: var(--jft-primary); color: #fff; border-radius: 50px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; border: 1px solid var(--jft-primary); transition: 0.3s; box-shadow: 0 4px 15px rgba(78, 140, 62, 0.2); text-decoration: none; white-space: nowrap; } 
     .nav-btn-action:hover { background: var(--jft-dark); border-color: var(--jft-dark); transform: translateY(-2px); }
     
+    /* Special Gulfood Button for Mobile Navbar */
+    .nav-mobile-gulfood { display: none; } /* Hidden by default */
+
     .mobile-toggle { display: none; font-size: 1.5rem; color: var(--jft-navy); cursor: pointer; transition: color 0.3s; padding: 10px; z-index: 2002; }
 
     /* --- FLOATING UTILITIES --- */
@@ -122,24 +125,40 @@
 
     /* --- ADVANCED RESPONSIVENESS (ALL SCREENS) --- */
 
-    /* LAPTOPS (1025px - 1440px) */
     @media (max-width: 1440px) {
         .nav-menu { gap: 20px; }
         .nav-link { letter-spacing: 1px; }
         .nav-flex { padding: 0 3%; }
     }
 
-    /* TABLETS & SMALL LAPTOPS (Max 1024px) */
+    /* TABLETS & SMALL LAPTOPS (Max 1024px - "Screens using Menu Bar") */
     @media (max-width: 1024px) {
-        /* Hide complex utilities to clear space */
+        /* Hide Desktop Elements */
         .td-utilities, .visit-plan, .desktop-only, .sticky-quote { display: none !important; }
+
+        /* CHANGE 1: Simplify Ticker Label */
+        .market-text { display: none; } /* Hides "MARKET" text */
+        .ticker-label { font-size: 0.7rem; padding: 0 15px; clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
         
-        /* Adjust Top Bar Heights */
-        .ticker-label { font-size: 0.7rem; padding: 0 15px 0 15px; clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); padding-right: 15px; } /* Removed slant for space */
+        /* CHANGE 2: Hide Forex Date */
+        #forex-date { display: none !important; } 
+
+        /* Adjust Header Heights */
         .jft-navbar { top: 80px; height: 70px; background: rgba(255,255,255,0.96); } 
         .jft-navbar.scrolled { top: 80px; height: 70px; }
         .nav-logo-img { height: 50px; } 
         .jft-navbar.scrolled .nav-logo-img { height: 45px; }
+
+        /* CHANGE 3: Enable Navbar Gulfood Box (Between Logo and Menu) */
+        .nav-mobile-gulfood { 
+            display: flex; align-items: center; gap: 6px;
+            background: var(--jft-gold); color: var(--jft-navy);
+            padding: 6px 14px; border-radius: 4px;
+            font-family: var(--font-sub); font-size: 0.7rem; font-weight: 800;
+            text-transform: uppercase; margin-left: auto; margin-right: 15px;
+            white-space: nowrap; height: 32px;
+        }
+        .nav-mobile-gulfood i { font-size: 0.8rem; }
         
         /* Mobile Menu (Slide Out) */
         .nav-menu { 
@@ -153,14 +172,13 @@
         .nav-link:hover { background: rgba(255,255,255,0.05); padding-left: 50px; }
         .nav-link::after { display: none; }
         
-        /* Show Toggle */
         .mobile-toggle { display: block; }
-        .nav-flex { justify-content: space-between; padding: 0 20px; }
+        .nav-flex { padding: 0 20px; }
     }
 
     /* LARGE PHONES (Max 768px) */
     @media (max-width: 768px) {
-        .td-social span { display: none; } /* Hide "Follow Us" text */
+        .td-social span { display: none; }
         .td-social { gap: 12px; padding: 0 15px; }
         .forex-group { gap: 15px; padding-right: 15px; }
         .t-item { margin-right: 30px; font-size: 0.8rem; }
@@ -168,35 +186,32 @@
 
     /* SMALL PHONES (Max 480px) */
     @media (max-width: 480px) {
-        /* Ticker Adjustment */
-        .ticker-label { font-size: 0.65rem; padding: 0 10px; width: auto; max-width: 100px; }
+        /* Ticker Adjust */
+        .ticker-label { font-size: 0.65rem; padding: 0 10px; width: auto; max-width: 80px; }
         .td-social { padding: 0 10px; }
         .td-social a { font-size: 0.9rem; }
         
-        /* Forex Adjustment */
+        /* Mobile Gulfood Box Optimization (Space Saver) */
+        .nav-mobile-gulfood { padding: 5px 10px; font-size: 0.65rem; margin-right: 10px; }
+        .nav-mobile-gulfood span.extra-text { display: none; } /* Hides "DUBAI" on tiny screens */
+
+        /* Forex Adjust */
         .forex-item { font-size: 0.7rem; }
         .forex-up { font-size: 0.65rem; padding: 1px 4px; }
-        #forex-date { font-size: 0.6rem !important; }
 
         /* Floating Button Adjust */
         .whatsapp-float { width: 50px; height: 50px; bottom: 20px; left: 20px; font-size: 24px; padding-bottom: env(safe-area-inset-bottom); }
         
-        /* Nav Logo */
-        .nav-logo-img { max-width: 160px; height: 45px; }
-        .mobile-toggle { font-size: 1.3rem; }
-        
-        /* Menu Width Full on Mobile */
+        .nav-logo-img { max-width: 140px; height: 40px; }
+        .mobile-toggle { font-size: 1.3rem; padding: 5px; }
         .nav-menu { width: 100%; max-width: 100%; }
     }
     
-    /* ULTRA SMALL (Max 360px - e.g. Galaxy Fold folded) */
     @media (max-width: 360px) {
-        .nav-logo-img { max-width: 130px; }
-        .ticker-label { font-size: 0.6rem; padding: 0 8px; }
-        .forex-group { gap: 10px; }
+        .nav-logo-img { max-width: 110px; }
+        .nav-mobile-gulfood { font-size: 0.6rem; padding: 4px 8px; }
     }
     
-    /* LANDSCAPE MOBILE FIX (Short Screens) */
     @media (max-height: 500px) and (orientation: landscape) {
         .nav-menu { padding-top: 10px; padding-bottom: 20px; }
         .nav-link { padding: 12px 30px; }
@@ -214,7 +229,7 @@
             <a href="https://www.facebook.com/" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
         </div>
         <div class="td-news-ticker">
-            <div class="ticker-label"><div class="live-dot"></div> MARKET FEED</div>
+            <div class="ticker-label"><div class="live-dot"></div> <span class="market-text">MARKET</span> FEED</div>
             <div class="ticker-track" id="dynamic-ticker"></div>
         </div>
         <div class="td-utilities desktop-only">
@@ -248,6 +263,11 @@
 <nav class="jft-navbar" id="navbar">
     <div class="nav-flex">
         <a href="index.html" class="nav-logo-link"><img src="images/jft logo.png" alt="JFT Agro Overseas" class="nav-logo-img"></a>
+        
+        <a href="#contact" class="nav-mobile-gulfood">
+            <i class="fa-solid fa-plane-departure"></i> MEET US @ GULFOOD <span class="extra-text">&nbsp;DUBAI</span>
+        </a>
+
         <div class="nav-menu" id="navMenu">
             <a href="index.html" class="nav-link" onclick="toggleMenu()">Home</a>
             <a href="about.html" class="nav-link" onclick="toggleMenu()">About</a>
