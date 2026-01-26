@@ -5,27 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>JFT Agro Overseas</title>
 <link rel="icon" type="image/png" href="images/jft logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:wght@300;400;700;900&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-    /* --- VISUAL IDENTITY & DESIGN SYSTEM --- */
+    /* --- DESIGN SYSTEM --- */
     :root {
-        /* Primary: Deep Forest Green (Top Bar, Mobile Menu background) - "Earthy but Corporate" */
-        --jft-navy: #1a3c34; 
+        /* Color Palette: Earthy & Corporate */
+        --jft-navy: #1a3c34;       /* Deep Forest Green (Primary Background) */
+        --jft-gold: #eebf45;       /* Luxury Gold (Accents) */
+        --jft-primary: #4e8c3e;    /* Leaf Green (Actions) */
+        --jft-dark: #142923;       /* Darker Green (Hover) */
+        --jft-cream: #f5f1e6;      /* Cream (Body Background) */
         
-        /* Accent: Luxury Gold (Icons, Hover, Scrollbar, Highlights) */
-        --jft-gold: #eebf45; 
-        
-        /* Secondary: Leaf Green (Action Buttons, Ticker Label) */
-        --jft-primary: #4e8c3e; 
-        
-        /* Hover State (Darker Green) */
-        --jft-dark: #142923; 
-
-        /* Background: Off-white/Cream (Reading Sections) */
-        --jft-cream: #f5f1e6;
-        
-        --font-sub: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        /* Typography System */
+        --font-heading: 'Merriweather', serif;   /* Trust & Tradition */
+        --font-sub: 'Montserrat', sans-serif;    /* Modern Efficiency (UI, Nav) */
+        --font-body: 'Lato', sans-serif;         /* Clean Readability */
     }
 
     /* --- GLOBAL RESET & RESPONSIVE BASE --- */
@@ -35,11 +34,13 @@
     html, body { 
         margin: 0; padding: 0; 
         font-family: var(--font-body); 
-        background-color: var(--jft-cream); /* Cream Background */
+        background-color: var(--jft-cream); 
         overflow-x: hidden; 
         width: 100%; 
         position: relative;
     }
+    
+    h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); font-weight: 700; }
     a { text-decoration: none; color: inherit; }
 
     /* --- SCROLL PROGRESS BAR (Luxury Gold) --- */
@@ -49,7 +50,8 @@
     .top-dashboard { 
         position: fixed; top: 0; left: 0; width: 100%; z-index: 2000; 
         background: var(--jft-navy); color: #fff; 
-        box-shadow: 0 4px 25px rgba(0,0,0,0.15); font-family: var(--font-sub); 
+        box-shadow: 0 4px 25px rgba(0,0,0,0.15); 
+        font-family: var(--font-sub); /* Montserrat for UI */
     }
     
     /* Row 1: Social, Ticker, Utilities */
@@ -83,6 +85,7 @@
     .live-dot { width: 8px; height: 8px; background: #fff; border-radius: 50%; animation: livePulse 1.5s infinite; }
     @keyframes livePulse { 0% { transform: scale(0.95); opacity: 0.7; } 50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 8px rgba(255,255,255,0.8); } 100% { transform: scale(0.95); opacity: 0.7; } }
     
+    /* Ticker Text uses Lato (Body) */
     .ticker-track { display: flex; animation: scrollText 60s linear infinite; white-space: nowrap; padding-left: 10px; align-items: center; height: 100%; will-change: transform; } 
     .td-news-ticker:hover .ticker-track { animation-play-state: paused; }
     .t-item { margin-right: 50px; font-family: var(--font-body); font-size: 0.85rem; display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.9); } 
@@ -133,13 +136,15 @@
     .jft-navbar.scrolled .nav-logo-img { height: 64px; } 
     
     .nav-menu { display: flex; gap: 30px; align-items: center; height: 100%; }
+    
+    /* Nav Links use Montserrat (Sub-heading font) */
     .nav-link { font-family: var(--font-sub); font-size: 0.85rem; font-weight: 700; color: var(--jft-navy); text-transform: uppercase; letter-spacing: 1.5px; position: relative; padding: 5px 0; transition: 0.3s; cursor: pointer; }
     .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0%; height: 2px; background: var(--jft-primary); transition: width 0.3s ease; } 
     .nav-link:hover { color: var(--jft-primary); } 
     .nav-link:hover::after { width: 100%; }
     
-    /* Action Buttons (Leaf Green) */
-    .nav-btn-action { padding: 12px 24px; background: var(--jft-primary); color: #fff; border-radius: 50px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; border: 1px solid var(--jft-primary); transition: 0.3s; box-shadow: 0 4px 15px rgba(78, 140, 62, 0.2); text-decoration: none; white-space: nowrap; } 
+    /* Action Buttons (Leaf Green, Montserrat) */
+    .nav-btn-action { padding: 12px 24px; background: var(--jft-primary); color: #fff; border-radius: 50px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; border: 1px solid var(--jft-primary); transition: 0.3s; box-shadow: 0 4px 15px rgba(78, 140, 62, 0.2); text-decoration: none; white-space: nowrap; font-family: var(--font-sub); } 
     .nav-btn-action:hover { background: var(--jft-dark); border-color: var(--jft-dark); transform: translateY(-2px); }
     
     /* Special Gulfood Button for Mobile Navbar (Luxury Gold) */
