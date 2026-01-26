@@ -38,7 +38,9 @@
         
         body { margin: 0; padding: 0; overflow-x: hidden; font-family: var(--font-body); color: #4a4a4a; background: #f5f1e6; -webkit-font-smoothing: antialiased; } 
         * { box-sizing: border-box; } 
-        html { scroll-behavior: smooth; }
+        
+        /* 🟢 Added scrollbar-gutter: stable here */
+        html { scroll-behavior: smooth; scrollbar-gutter: stable; }
         
         h1, h2, h3, h4 { font-family: var(--font-head); margin: 0; color: var(--jft-navy); letter-spacing: -0.5px; } 
         p { line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.1rem; color: #5c5c5c; } 
