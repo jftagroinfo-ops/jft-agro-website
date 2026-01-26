@@ -13,88 +13,66 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- GLOBAL VARIABLES --- */
+        /* --- GLOBAL VARIABLES (Preserved) --- */
         :root { 
+            /* Fonts */
+            --font-head: 'Merriweather', serif;
+            --font-sub:  'Montserrat', sans-serif;
+            --font-body: 'Lato', sans-serif;
+            
             /* Colors */
-            --jft-primary: #4e8c3e; 
-            --jft-navy: #1a3c34;    
-            --jft-gold: #eebf45;    
-            --jft-light: #f5f1e6;   
-            --jft-dark: #3e2b22;    
-            --jft-border: #dcd6cb;
+            --jft-primary: #4e8c3e;  /* Leaf Green */
+            --jft-navy: #1a3c34;     /* Deep Forest Green */
+            --jft-gold: #eebf45;     /* Luxury Gold */
+            --jft-light: #f5f1e6;    /* Cream/Off-white */
+            --jft-dark: #3e2b22;     /* Earthy dark */
+            --jft-border: #dcd6cb; 
             
-            /* Typography Configuration */
-            --font-head: 'Merriweather', serif;       
-            --font-sub: 'Montserrat', sans-serif;     
-            --font-body: 'Lato', sans-serif;          
-            
+            /* UI */
             --radius-sm: 8px; 
             --radius-md: 16px; 
-            
             --shadow-subtle: 0 4px 15px rgba(78, 140, 62, 0.08); 
             --shadow-hover: 0 20px 30px -5px rgba(26, 60, 52, 0.15); 
             --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
         }
         
-        /* --- Reset & Core --- */
-        body { margin: 0; padding: 0; overflow-x: hidden; font-family: var(--font-body); color: #4a4a4a; background: var(--jft-light); -webkit-font-smoothing: antialiased; width: 100%; } 
+        body { margin: 0; padding: 0; overflow-x: hidden; font-family: var(--font-body); color: #4a4a4a; background: #f5f1e6; -webkit-font-smoothing: antialiased; } 
         * { box-sizing: border-box; } 
+        html { scroll-behavior: smooth; }
         
-        /* FIX: scrollbar-gutter prevents page from jumping right when scrollbar toggles */
-        html { 
-            scroll-behavior: smooth; 
-            scroll-padding-top: 100px; 
-            overflow-x: hidden; 
-            scrollbar-gutter: stable; 
-        }
-        
-        h1, h2, h3, h4 { font-family: var(--font-head); margin: 0; color: var(--jft-navy); letter-spacing: -0.5px; word-wrap: break-word; } 
-        p { line-height: 1.8; margin-bottom: 1.5rem; font-size: clamp(1rem, 2vw, 1.1rem); color: #5c5c5c; } 
-        
+        h1, h2, h3, h4 { font-family: var(--font-head); margin: 0; color: var(--jft-navy); letter-spacing: -0.5px; } 
+        p { line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.1rem; color: #5c5c5c; } 
         a { text-decoration: none; color: inherit; transition: var(--transition); } 
-        ul { list-style: none; padding: 0; margin: 0; } 
+        ul { list-style: none; padding: 0; } 
         img { max-width: 100%; height: auto; display: block; border-radius: var(--radius-sm); }
         
         /* Scroll Progress */
         #page-progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--jft-gold); z-index: 9999; width: 0%; transition: width 0.1s; }
 
-        /* --- Layout & Utilities --- */
-        .jft-wide-container { max-width: 1350px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 40px); position: relative; z-index: 5; width: 100%; }
-        .section-padding { padding: clamp(60px, 8vw, 110px) 0; } 
+        /* Utility Classes */
+        .jft-wide-container { max-width: 1350px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 5; }
+        .section-padding { padding: 110px 0; } 
         .bg-light { background-color: var(--jft-light); }
-        .text-center { text-align: center; }
         
         .brand-tag { display: inline-block; font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; color: var(--jft-primary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; background: rgba(78, 140, 62, 0.1); padding: 8px 16px; border-radius: 50px; border: 1px solid rgba(78, 140, 62, 0.2); }
         
-        .section-title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; line-height: 1.2; color: var(--jft-navy); } 
+        .section-title { font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 700; line-height: 1.2; color: var(--jft-navy); } 
         .section-title span { color: var(--jft-primary); position: relative; display: inline-block; z-index: 1; } 
         .section-title span::after { content: ''; position: absolute; bottom: 8px; left: 0; width: 100%; height: 12px; background: var(--jft-gold); opacity: 0.3; z-index: -1; }
-        .section-desc { font-size: clamp(1rem, 2vw, 1.15rem); max-width: 700px; margin-top: 20px; color: #6b6b6b; font-weight: 400; }
+        .section-desc { font-size: 1.15rem; max-width: 700px; margin-top: 20px; color: #6b6b6b; font-weight: 400; }
         
-        .btn-primary { display: inline-flex; align-items: center; justify-content: center; background: var(--jft-primary); color: #fff; padding: 16px 40px; font-family: var(--font-sub); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; border-radius: 50px; transition: var(--transition); border: 2px solid var(--jft-primary); box-shadow: 0 4px 10px rgba(78, 140, 62, 0.3); text-align: center; cursor: pointer; } 
+        .btn-primary { display: inline-flex; align-items: center; justify-content: center; background: var(--jft-primary); color: #fff; padding: 16px 40px; font-family: var(--font-sub); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; border-radius: 50px; transition: var(--transition); border: 2px solid var(--jft-primary); box-shadow: 0 4px 10px rgba(78, 140, 62, 0.3); } 
         .btn-primary:hover { background: var(--jft-dark); border-color: var(--jft-dark); transform: translateY(-3px); box-shadow: var(--shadow-hover); }
 
         /* --- Page Header --- */
-        .page-header { height: 60vh; min-height: 400px; position: relative; display: flex; align-items: center; justify-content: center; margin-top: 0; background-attachment: fixed; background-position: center; background-size: cover; background-repeat: no-repeat; }
+        .page-header { height: 60vh; min-height: 400px; position: relative; display: flex; align-items: center; justify-content: center; margin-top: 80px; background-attachment: fixed; background-position: center; background-size: cover; background-repeat: no-repeat; }
         .page-header::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(26, 60, 52, 0.85), rgba(26, 60, 52, 0.5)); z-index: 1; }
         .ph-content { position: relative; z-index: 2; text-align: center; color: #fff; transform: translateY(20px); opacity: 0; animation: fadeUp 1s ease forwards; animation-delay: 0.2s; padding: 0 20px; }
         @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-        .ph-title { font-size: clamp(2.5rem, 6vw, 4.5rem); font-family: var(--font-head); font-weight: 700; margin-bottom: 10px; word-wrap: break-word; }
+        
+        .ph-title { font-size: clamp(2.5rem, 6vw, 4.5rem); font-family: var(--font-head); font-weight: 700; margin-bottom: 10px; line-height: 1.1; }
         .ph-breadcrumb { font-family: var(--font-sub); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--jft-gold); font-size: 0.85rem; }
         .ph-breadcrumb a { color: #fff; opacity: 0.8; } .ph-breadcrumb a:hover { opacity: 1; color: var(--jft-gold); }
-
-        /* --- Dynamic Nav & Footer Styles --- */
-        .custom-nav { position: absolute; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 25px 40px; z-index: 100; box-sizing: border-box; }
-        .nav-logo { font-family: var(--font-head); font-weight: 900; font-size: 1.5rem; color: #fff; }
-        .nav-logo span { color: var(--jft-gold); }
-        .nav-links { display: flex; gap: 30px; font-family: var(--font-sub); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #fff; }
-        .nav-links a { opacity: 0.8; } .nav-links a:hover { opacity: 1; color: var(--jft-gold); }
-        
-        .custom-footer { background: var(--jft-navy); color: rgba(255,255,255,0.7); padding: 80px 0 40px 0; border-top: 5px solid var(--jft-gold); }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px; }
-        .footer-col h3 { color: #fff; font-size: 1.2rem; margin-bottom: 20px; }
-        .footer-col ul li { margin-bottom: 10px; }
-        .footer-bottom { text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; font-size: 0.85rem; }
 
         /* --- Story Section --- */
         .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
@@ -102,6 +80,7 @@
         .story-img { width: 100%; border-radius: var(--radius-md); box-shadow: var(--shadow-subtle); position: relative; z-index: 2; filter: brightness(1.05); }
         .story-bg-box { position: absolute; top: 0; left: 0; width: 90%; height: 90%; background: var(--jft-light); border: 2px solid var(--jft-gold); border-radius: var(--radius-md); z-index: 1; transform: translate(-20px, -20px); }
         .highlight-text { border-left: 4px solid var(--jft-gold); padding-left: 20px; font-style: italic; color: var(--jft-navy); font-weight: 600; font-family: var(--font-head); margin: 30px 0; background: rgba(238, 191, 69, 0.1); padding: 20px 20px 20px 25px; border-radius: 0 8px 8px 0; }
+        .story-badges { margin-top: 30px; display: flex; gap: 20px; flex-wrap: wrap; }
 
         /* --- Quality Control --- */
         .qc-section { background: var(--jft-navy); color: #fff; position: relative; overflow: hidden; }
@@ -115,7 +94,7 @@
         .qc-card p { color: rgba(255,255,255,0.7); font-size: 0.95rem; margin: 0; }
 
         /* --- Growth Timeline --- */
-        .growth-section { background-color: #F0EFE9; background-image: radial-gradient(#D6D1C4 1px, transparent 1px); background-size: 20px 20px; overflow: hidden; padding-bottom: 140px; }
+        .growth-section { background-color: #f5f1e6; background-image: radial-gradient(#D6D1C4 1px, transparent 1px); background-size: 20px 20px; overflow: hidden; padding-bottom: 140px; }
         .growth-container { position: relative; max-width: 1000px; margin: 60px auto 0 auto; padding: 20px 0; }
         .growth-container::before { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 4px; background: var(--jft-primary); transform: translateX(-50%); border-radius: 4px; opacity: 0.3; }
         .growth-item { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 80px; position: relative; }
@@ -124,7 +103,7 @@
         .growth-right { width: 45%; text-align: left; padding-left: 40px; position: relative; }
         .growth-marker { position: absolute; left: 50%; width: 20px; height: 20px; background: #fff; border: 5px solid var(--jft-gold); border-radius: 50%; transform: translateX(-50%); z-index: 2; box-shadow: 0 0 0 5px rgba(238, 191, 69, 0.2); transition: 0.3s; }
         .growth-item:hover .growth-marker { background: var(--jft-primary); border-color: var(--jft-primary); transform: translateX(-50%) scale(1.2); }
-        .g-year-text { font-family: var(--font-head); font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; color: rgba(26, 60, 52, 0.1); line-height: 1; transition: 0.3s; }
+        .g-year-text { font-family: var(--font-head); font-size: 3.5rem; font-weight: 900; color: rgba(26, 60, 52, 0.1); line-height: 1; transition: 0.3s; }
         .growth-item:hover .g-year-text { color: var(--jft-navy); transform: scale(1.05); }
         .g-box { background: #fff; padding: 35px; border-radius: 16px; box-shadow: var(--shadow-subtle); position: relative; transition: 0.4s; border-top: 4px solid var(--jft-primary); }
         .g-box:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); border-top-color: var(--jft-gold); }
@@ -147,7 +126,7 @@
         .h-card:hover .h-link { color: var(--jft-gold); gap: 12px; }
 
         /* --- Sustainability --- */
-        .sustain-section { background: var(--jft-light); border-top: 1px solid var(--jft-border); }
+        .sustain-section { background: #f5f1e6; border-top: 1px solid var(--jft-border); }
         .sustain-flex { display: flex; align-items: center; gap: 60px; }
         .sustain-content { flex: 1; }
         .sustain-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; }
@@ -179,68 +158,65 @@
         .team-info h3 { color: #fff; font-size: 1.4rem; margin-bottom: 5px; font-family: var(--font-head); }
         .team-info span { color: var(--jft-gold); font-family: var(--font-sub); font-size: 0.85rem; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
 
-        /* --- Preloader --- */
-        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #112621 0%, #1a3c34 50%, #29574c 100%); z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: opacity 1s cubic-bezier(0.77, 0, 0.175, 1); }
-        .loader-logo-img { width: 220px; margin-bottom: 30px; filter: brightness(0) invert(1); animation: logoFloat 3s ease-in-out infinite; }
-        .loader-text { font-family: var(--font-head); font-size: 0.95rem; color: rgba(255,255,255,0.8); font-weight: 400; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 3px; }
-        .loader-track { width: 200px; height: 2px; background: rgba(255,255,255,0.1); position: relative; overflow: hidden; border-radius: 2px; }
-        .loader-fill { width: 100%; height: 100%; background: var(--jft-gold); transform: translateX(-100%); animation: goldLineAnim 2s cubic-bezier(0.85, 0, 0.15, 1) forwards; }
-        @keyframes goldLineAnim { 0% { transform: translateX(-100%); } 100% { transform: translateX(0); } } @keyframes logoFloat { 0%, 100% { transform: translateY(0); opacity: 0.9; } 50% { transform: translateY(-5px); opacity: 1; } }
-
-        /* --- Back to Top --- */
-        #backToTop { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: var(--jft-gold); color: var(--jft-navy); border: none; border-radius: 50%; cursor: pointer; z-index: 999; box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; opacity: 0; visibility: hidden; transition: all 0.4s ease; transform: translateY(20px); }
-        #backToTop.show { opacity: 1; visibility: visible; transform: translateY(0); }
-        #backToTop:hover { background: #fff; color: var(--jft-primary); transform: translateY(-5px); }
-
         /* --- Animations --- */
         .reveal { opacity: 0; transform: translateY(40px); transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1); } 
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- Full Responsiveness (Media Queries) --- */
+        /* --- Preloader --- */
+        .loader-fill { width: 100%; height: 100%; background: var(--jft-gold); transform: translateX(-100%); animation: goldLineAnim 2s cubic-bezier(0.85, 0, 0.15, 1) forwards; }
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #112621 0%, #1a3c34 50%, #29574c 100%); z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: opacity 1s cubic-bezier(0.77, 0, 0.175, 1); }
+        .loader-logo-img { width: 220px; max-width: 80%; margin-bottom: 30px; filter: brightness(0) invert(1); animation: logoFloat 3s ease-in-out infinite; }
+        .loader-text { font-family: var(--font-head); font-size: 0.95rem; color: rgba(255,255,255,0.8); font-weight: 400; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 3px; }
+        .loader-track { width: 200px; height: 2px; background: rgba(255,255,255,0.1); position: relative; overflow: hidden; border-radius: 2px; }
+        @keyframes goldLineAnim { 0% { transform: translateX(-100%); } 100% { transform: translateX(0); } } @keyframes logoFloat { 0%, 100% { transform: translateY(0); opacity: 0.9; } 50% { transform: translateY(-5px); opacity: 1; } }
+
+        /* --- 🟢 FULL RESPONSIVE ADJUSTMENTS --- */
+        /* Tablet & Small Laptops (Max 1024px) */
         @media (max-width: 1024px) {
-            .page-header { margin-top: 0; }
+            .page-header { margin-top: 40px; height: 50vh; }
+            .section-padding { padding: 80px 0; }
             .jft-wide-container { padding: 0 30px; }
 
-            .story-grid, .team-grid, .sustain-flex, .highlight-grid { grid-template-columns: 1fr; gap: 40px; display: grid; }
-            .sustain-flex { display: flex; flex-direction: column-reverse; }
+            /* Grid Collapsing */
+            .story-grid { grid-template-columns: 1fr; gap: 40px; }
+            .sustain-flex { flex-direction: column-reverse; gap: 40px; }
             .sustain-visual { width: 100%; height: 350px; }
-            .team-grid { grid-template-columns: repeat(2, 1fr); }
             
+            .qc-grid { grid-template-columns: repeat(2, 1fr); }
+            .team-grid, .highlight-grid { grid-template-columns: repeat(2, 1fr); }
+            
+            /* Timeline Vertical Stack */
             .growth-container::before { left: 20px; }
             .growth-item { flex-direction: column; align-items: flex-start; padding-left: 50px; margin-bottom: 50px; }
             .growth-left, .growth-right { width: 100%; text-align: left; padding: 0; margin-bottom: 10px; }
             .growth-marker { left: 20px; }
-            .g-year-text { margin-bottom: 10px; }
-            
-            .highlight-grid { grid-template-columns: repeat(2, 1fr); }
-            .qc-grid { grid-template-columns: repeat(2, 1fr); }
+            .g-year-text { font-size: 2.5rem; }
         }
 
+        /* Mobile Devices (Max 768px) */
         @media (max-width: 768px) {
             .jft-wide-container { padding: 0 20px; }
-            .story-grid { gap: 40px; }
-            .team-grid { grid-template-columns: 1fr; }
-            .highlight-grid { grid-template-columns: 1fr; }
-            .sustain-grid { grid-template-columns: 1fr; gap: 15px; }
-            .story-text div[style*="display: flex"] { flex-wrap: wrap; justify-content: center; }
-            .qc-card { padding: 25px; }
-            .qc-step { font-size: 2.5rem; top: 15px; right: 15px; }
+            .section-padding { padding: 60px 0; }
             
-            .custom-nav { padding: 20px; }
-            .nav-links { display: none; } 
-            .nav-logo { font-size: 1.2rem; }
-        }
-
-        @media (max-width: 480px) {
-            .qc-grid { grid-template-columns: 1fr; }
-            .sustain-visual { height: 250px; }
-            .cert-detail-grid { grid-template-columns: 1fr; }
-            .team-img { height: 350px; }
-            .growth-item { padding-left: 40px; }
-            .growth-marker { left: 15px; width: 15px; height: 15px; border-width: 3px; }
-            .growth-container::before { left: 15px; }
+            /* Typography Scaling */
+            .section-title { font-size: 2.2rem; }
+            p, .section-desc { font-size: 1rem; }
+            .ph-title { font-size: 2.8rem; }
+            
+            /* Single Column Layouts */
+            .qc-grid, .team-grid, .highlight-grid, .sustain-grid { grid-template-columns: 1fr; }
+            .story-badges { justify-content: center; }
+            
+            /* Visual Adjustments */
+            .story-img-wrapper { order: -1; } /* Image before text on mobile story */
+            .story-bg-box { width: 100%; height: 100%; transform: translate(-10px, -10px); }
+            
+            /* Timeline Mobile Fixes */
             .g-box { padding: 25px; }
-            .section-title { font-size: 2rem; }
+            .g-year-text { font-size: 2rem; }
+            
+            /* QC Step Font Resize */
+            .qc-step { font-size: 2.5rem; }
         }
     </style>
 </head>
@@ -272,7 +248,7 @@
                     <p class="section-desc" id="story-p1">...</p>
                     <div class="highlight-text" id="story-quote">...</div>
                     <p id="story-p2">...</p>
-                    <div style="margin-top: 30px; display: flex; gap: 20px;">
+                    <div class="story-badges">
                         <div style="display:flex; flex-direction:column; align-items:center; text-align:center;"><i class="fa-solid fa-medal" style="font-size: 2rem; color: var(--jft-gold); margin-bottom:10px;"></i><span style="font-family:var(--font-sub); font-weight:700; font-size:0.8rem;">ISO 9001</span></div>
                         <div style="display:flex; flex-direction:column; align-items:center; text-align:center;"><i class="fa-solid fa-users" style="font-size: 2rem; color: var(--jft-gold); margin-bottom:10px;"></i><span style="font-family:var(--font-sub); font-weight:700; font-size:0.8rem;">Family Run</span></div>
                         <div style="display:flex; flex-direction:column; align-items:center; text-align:center;"><i class="fa-solid fa-globe" style="font-size: 2rem; color: var(--jft-gold); margin-bottom:10px;"></i><span style="font-family:var(--font-sub); font-weight:700; font-size:0.8rem;">Global Reach</span></div>
@@ -314,7 +290,7 @@
         </div>
     </section>
 
-    <section class="section-padding products-highlight-section" id="products">
+    <section class="section-padding products-highlight-section">
         <div class="jft-wide-container">
             <div class="section-header center-header" style="text-align: center; margin: 0 auto;">
                 <span class="brand-tag">Our Portfolio</span>
@@ -377,11 +353,7 @@
         </div>
     </section>
 
-    <div id="contact">
-        <div id="footer-placeholder"></div>
-    </div>
-
-    <button id="backToTop" title="Back to Top"><i class="fa-solid fa-arrow-up"></i></button>
+    <div id="footer-placeholder"></div>
 
     <script>
         /* ========================================================================
@@ -454,56 +426,7 @@
 
         // Function to Inject Content
         function loadContent() {
-            // --- HEADER INJECTION ---
-            const HEADER_CONTENT = `
-            <nav class="custom-nav">
-                <div class="nav-logo">JFT <span>AGRO</span></div>
-                <div class="nav-links">
-                    <a href="index.html">Home</a>
-                    <a href="#" style="color:var(--jft-gold);">About</a>
-                    <a href="#products">Products</a>
-                    <a href="#contact">Contact</a>
-                </div>
-            </nav>
-            `;
-            document.getElementById('header-placeholder').innerHTML = HEADER_CONTENT;
-
-            // --- FOOTER INJECTION ---
-            const FOOTER_CONTENT = `
-            <footer class="custom-footer">
-                <div class="jft-wide-container">
-                    <div class="footer-grid">
-                        <div class="footer-col">
-                            <div class="nav-logo" style="margin-bottom:15px;">JFT <span>AGRO</span></div>
-                            <p style="color:rgba(255,255,255,0.6);">Delivering the finest Indian grains to the world since 1980.</p>
-                        </div>
-                        <div class="footer-col">
-                            <h3>Quick Links</h3>
-                            <ul style="color:rgba(255,255,255,0.6);">
-                                <li><a href="#">Our Story</a></li>
-                                <li><a href="#">Quality Policy</a></li>
-                                <li><a href="#">Export Data</a></li>
-                            </ul>
-                        </div>
-                        <div class="footer-col">
-                            <h3>Contact</h3>
-                            <ul style="color:rgba(255,255,255,0.6);">
-                                <li><i class="fa-solid fa-envelope" style="color:var(--jft-gold);"></i> info@jftagro.com</li>
-                                <li><i class="fa-solid fa-phone" style="color:var(--jft-gold);"></i> +91 98765 43210</li>
-                                <li><i class="fa-solid fa-location-dot" style="color:var(--jft-gold);"></i> Haryana, India</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="footer-bottom">
-                        &copy; 2024 JFT Agro Overseas. All Rights Reserved.
-                    </div>
-                </div>
-            </footer>
-            `;
-            document.getElementById('footer-placeholder').innerHTML = FOOTER_CONTENT;
-
-
-            // Header Background Image
+            // Header
             document.getElementById('header-bg').style.backgroundImage = `url('${CONTENT_CONFIG.images.headerBackground}')`;
             document.getElementById('loader-txt').innerText = CONTENT_CONFIG.header.loaderText;
             document.getElementById('page-title').innerText = CONTENT_CONFIG.header.pageTitle;
@@ -520,8 +443,10 @@
             const tlContainer = document.getElementById('timeline-container');
             let tlHTML = '';
             CONTENT_CONFIG.timeline.forEach((item, index) => {
-                const isEven = index % 2 !== 0; 
+                const isEven = index % 2 !== 0; // 0, 2 are odd visual index but array index starts at 0
+                // Logic: Index 0 (1980) -> Year Right. Index 1 (1995) -> Year Left.
                 if(!isEven) {
+                    // Left Content, Right Year
                     tlHTML += `
                     <div class="growth-item reveal">
                         <div class="growth-marker"></div>
@@ -529,6 +454,7 @@
                         <div class="growth-right"><div class="g-year-text">${item.year}</div></div>
                     </div>`;
                 } else {
+                    // Right Content, Left Year
                     tlHTML += `
                     <div class="growth-item reveal">
                         <div class="growth-marker"></div>
@@ -581,7 +507,6 @@
             document.getElementById("page-progress").style.width = scrolled + "%";
         };
 
-        // Preloader Logic (Kept Original)
         window.addEventListener('load', function() {
             setTimeout(() => {
                 const preloader = document.getElementById('preloader');
@@ -590,21 +515,37 @@
             }, 1500);
         });
         
-        // Back to Top Logic
-        const backToTopBtn = document.getElementById('backToTop');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) { backToTopBtn.classList.add('show'); } 
-            else { backToTopBtn.classList.remove('show'); }
-        });
-        backToTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-        
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
         }, { threshold: 0.15 });
         document.addEventListener("DOMContentLoaded", () => {
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        });
+
+        // --- 🟢 Universal File Loading (New Logic) ---
+        async function loadComponent(id, file) {
+            try {
+                const res = await fetch(file);
+                if (!res.ok) throw new Error(`Failed to load ${file}`);
+                const text = await res.text();
+                const container = document.getElementById(id);
+                container.innerHTML = text;
+                
+                // This block ensures scripts inside the loaded header/footer actually run
+                const scripts = container.querySelectorAll("script");
+                scripts.forEach(oldScript => {
+                    const newScript = document.createElement("script");
+                    Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                    newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+                    oldScript.parentNode.replaceChild(newScript, oldScript);
+                });
+            } catch (err) { console.error(err); }
+        }
+
+        // Trigger the load when the page is ready
+        document.addEventListener("DOMContentLoaded", () => {
+            loadComponent("header-placeholder", "header.html");
+            loadComponent("footer-placeholder", "footer.html");
         });
     </script>
 </body>
