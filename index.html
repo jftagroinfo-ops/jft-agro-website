@@ -17,7 +17,8 @@
         :root { 
             --jft-primary: #4e8c3e; 
             --jft-dark: #3e2b22; 
-            --jft-gold: #eebf45; 
+            /* Audit Fix: Darkened Gold slightly for better contrast on white backgrounds */
+            --jft-gold: #dfa015; 
             --jft-navy: #1a3c34; 
             --jft-light: #f5f1e6; 
             --jft-border: #dcd6cb; 
@@ -45,23 +46,36 @@
             scrollbar-gutter: stable; 
         }
         
+        /* Audit Fix: Focus States for Accessibility */
+        :focus-visible {
+            outline: 3px solid var(--jft-gold);
+            outline-offset: 2px;
+        }
+
         h1, h2, h3, h4 { font-family: var(--font-head); margin: 0; color: var(--jft-navy); letter-spacing: -0.5px; word-wrap: break-word; } 
         p { line-height: 1.8; margin-bottom: 1.5rem; font-size: clamp(1rem, 2vw, 1.1rem); color: #5c5c5c; } 
         a { text-decoration: none; color: inherit; transition: var(--transition); } 
         ul { list-style: none; padding: 0; margin: 0; } 
+        /* Audit Fix: Default max-width for images to prevent overflow */
         img { max-width: 100%; height: auto; display: block; border-radius: var(--radius-sm); }
 
         /* --- Layout & Utilities --- */
         .jft-wide-container { max-width: 1350px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 40px); position: relative; z-index: 5; width: 100%; }
         .section-padding { padding: clamp(60px, 8vw, 110px) 0; } 
-        .bg-light { background-color: var(--jft-light); } 
         .text-center { text-align: center; }
+
+        /* --- BACKGROUND THEMES --- */
+        .bg-gradient-soft { background: linear-gradient(180deg, #ffffff 0%, #fcfbf8 100%); }
+        .bg-texture-paper { background-color: #f9f7f0; background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%234e8c3e' fill-opacity='0.03' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E"); border-top: 1px solid var(--jft-border); border-bottom: 1px solid var(--jft-border); }
+        .bg-pattern-earth { background-color: #f4f1ea; background-image: radial-gradient(#bcaaa4 1px, transparent 1px); background-size: 20px 20px; }
+        .bg-grid-map { background-color: #fcfbf8; background-image: linear-gradient(rgba(78, 140, 62, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(78, 140, 62, 0.03) 1px, transparent 1px); background-size: 40px 40px; }
         .bg-pattern { background-color: #F0EFE9; background-image: radial-gradient(#D6D1C4 1px, transparent 1px); background-size: 20px 20px; }
+        .bg-light { background-color: var(--jft-light); } 
 
         /* --- Preloader --- */
         #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #112621 0%, #1a3c34 50%, #29574c 100%); z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: opacity 1s cubic-bezier(0.77, 0, 0.175, 1); }
         #preloader::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(rgba(238, 191, 69, 0.2) 1px, transparent 1px); background-size: 30px 30px; opacity: 0.2; pointer-events: none; }
-        .loader-logo-img { width: 220px; margin-bottom: 30px; filter: brightness(0) invert(1); animation: logoFloat 3s ease-in-out infinite; }
+        .loader-logo-img { width: 220px; height: auto; margin-bottom: 30px; filter: brightness(0) invert(1); animation: logoFloat 3s ease-in-out infinite; }
         .loader-text { font-family: var(--font-head); font-size: 0.95rem; color: rgba(255,255,255,0.8); font-weight: 400; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 3px; text-align: center; padding: 0 20px; }
         .loader-track { width: 200px; height: 2px; background: rgba(255,255,255,0.1); position: relative; overflow: hidden; border-radius: 2px; }
         .loader-fill { width: 100%; height: 100%; background: var(--jft-gold); transform: translateX(-100%); animation: goldLineAnim 2s cubic-bezier(0.85, 0, 0.15, 1) forwards; }
@@ -73,51 +87,29 @@
         .center-header { margin-left: auto; margin-right: auto; text-align: center; }
         .brand-tag { display: inline-block; font-family: var(--font-sub); font-size: 0.8rem; font-weight: 700; color: var(--jft-primary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; background: rgba(78, 140, 62, 0.1); padding: 8px 16px; border-radius: 50px; border: 1px solid rgba(78, 140, 62, 0.2); }
         
-        /* STANDARD SECTION TITLE */
         .section-title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; line-height: 1.2; color: var(--jft-navy); } 
         .section-title span { color: var(--jft-primary); position: relative; display: inline-block; z-index: 1; }
         .section-title span::after { content: ''; position: absolute; bottom: 8px; left: 0; width: 100%; height: 12px; background: var(--jft-gold); opacity: 0.3; z-index: -1; }
         
-        /* Highlight for Manufacturing Title */
-        .manu-highlight::after {
-            background: var(--jft-gold) !important;
-            opacity: 0.3 !important; 
-        }
+        .manu-highlight::after { background: var(--jft-gold) !important; opacity: 0.3 !important; }
 
         .section-desc { font-size: clamp(1rem, 1.5vw, 1.15rem); max-width: 700px; margin-top: 20px; color: #6b6b6b; font-weight: 400; }
         
-        .btn-primary { display: inline-flex; align-items: center; justify-content: center; background: var(--jft-primary); color: #fff; padding: 16px 40px; font-family: var(--font-sub); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; border-radius: 50px; transition: var(--transition); border: 2px solid var(--jft-primary); box-shadow: 0 4px 10px rgba(78, 140, 62, 0.3); text-align: center; cursor: pointer;} 
+        .btn-primary { display: inline-flex; align-items: center; justify-content: center; background: var(--jft-primary); color: #fff; padding: 16px 40px; font-family: var(--font-sub); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; border-radius: 50px; transition: var(--transition); border: 2px solid var(--jft-primary); box-shadow: 0 4px 10px rgba(78, 140, 62, 0.3); text-align: center; cursor: pointer; touch-action: manipulation; } 
         .btn-primary:hover { background: var(--jft-dark); border-color: var(--jft-dark); transform: translateY(-3px); box-shadow: var(--shadow-hover); }
-        .btn-outline { display: inline-flex; align-items: center; justify-content: center; background: transparent; border: 2px solid #fff; color: #fff; padding: 16px 40px; font-family: var(--font-sub); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; border-radius: 50px; transition: var(--transition); text-align: center; cursor: pointer;} 
+        .btn-outline { display: inline-flex; align-items: center; justify-content: center; background: transparent; border: 2px solid #fff; color: #fff; padding: 16px 40px; font-family: var(--font-sub); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; border-radius: 50px; transition: var(--transition); text-align: center; cursor: pointer; touch-action: manipulation; } 
         .btn-outline:hover { background: #fff; color: var(--jft-primary); border-color: #fff; }
         
-        /* --- Replaced Hero CSS --- */
+        /* --- Hero CSS --- */
         .jft-hero-banner { position: relative; min-height: 100vh; width: 100%; overflow: hidden; background: #000; font-family: 'Montserrat', sans-serif; display: flex; align-items: center; cursor: grab; }
         .jft-hero-banner:active { cursor: grabbing; }
 
-        /* --- RESPONSIVE TOP PADDING --- */
-        @media (min-width: 1025px) {
-            .jft-hero-banner { padding-top: 130px; }
-        }
+        @media (min-width: 1025px) { .jft-hero-banner { padding-top: 130px; } }
         
-        /* Mobile Spacing */
         @media (max-width: 1024px) {
-            .jft-hero-banner { 
-                padding-top: 160px !important; 
-                align-items: flex-start; 
-            }
-            
-            /* Tablet/Laptop Hero Dash Adjustment */
-            .hero-title-modern span::after { 
-                bottom: 4px; 
-                height: 8px; 
-            }
-
-            /* Manufacturing Highlight Dash Adjustment */
-            .manu-highlight::after {
-                height: 6px !important;
-                bottom: 2px !important;
-            }
+            .jft-hero-banner { padding-top: 160px !important; align-items: flex-start; }
+            .hero-title-modern span::after { bottom: 4px; height: 8px; }
+            .manu-highlight::after { height: 6px !important; bottom: 2px !important; }
         }
 
         .hero-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; visibility: hidden; transition: opacity 1.5s ease-in-out; background-size: cover; background-position: center; }
@@ -125,11 +117,9 @@
         .hero-slide::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, rgba(17, 38, 33, 0.95) 0%, rgba(26, 60, 52, 0.8) 40%, rgba(26, 60, 52, 0.2) 100%); z-index: 1; }
         .hero-grid-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: 2; pointer-events: none; }
         
-        /* Wrapper for the content slides logic */
         .hero-content-wrapper { position: relative; width: 100%; max-width: 1400px; margin: 0 auto; z-index: 10; padding: 20px 40px; pointer-events: none; }
         .hero-content-wrapper * { pointer-events: auto; }
 
-        /* Individual Content Slide */
         .hero-content-slide { display: none; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; width: 100%; }
         .hero-content-slide.active { display: flex; animation: slideContentFade 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
         
@@ -138,33 +128,9 @@
         .hero-text-box { flex: 1; min-width: 300px; max-width: 750px; }
         .hero-tag-modern { font-family: 'Montserrat', sans-serif; color: #1a3c34; background: #eebf45; font-weight: 700; letter-spacing: 2px; font-size: 13px; text-transform: uppercase; padding: 6px 14px; border-radius: 4px; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 25px; box-shadow: 0 0 20px rgba(238, 191, 69, 0.4); }
         
-        /* UPDATED HERO TITLE */
-        .hero-title-modern { 
-            font-family: var(--font-head); 
-            font-size: clamp(1.8rem, 5vw, 3.5rem); 
-            font-weight: 700; 
-            line-height: 1.2; 
-            margin: 0 0 25px 0; 
-            color: #fff; 
-            letter-spacing: -0.5px; 
-            word-wrap: break-word; 
-        }
-        
+        .hero-title-modern { font-family: var(--font-head); font-size: clamp(1.8rem, 5vw, 3.5rem); font-weight: 700; line-height: 1.2; margin: 0 0 25px 0; color: #fff; letter-spacing: -0.5px; word-wrap: break-word; }
         .hero-title-modern span { color: var(--jft-primary); position: relative; display: inline-block; z-index: 1; font-weight: 700; -webkit-text-stroke: 0; }
-        
-        /* Default Desktop Dash Style */
-        .hero-title-modern span::after { 
-            content: ''; 
-            position: absolute; 
-            bottom: 8px; 
-            left: 0; 
-            width: 100%; 
-            height: 12px; 
-            background: var(--jft-gold); 
-            opacity: 0.3; 
-            z-index: -1; 
-        }
-        
+        .hero-title-modern span::after { content: ''; position: absolute; bottom: 8px; left: 0; width: 100%; height: 12px; background: var(--jft-gold); opacity: 0.3; z-index: -1; }
         .hero-title-modern strong { color: #eebf45; font-family: 'Merriweather', serif; font-weight: 400; font-style: italic; text-transform: none; display: block; font-size: 0.8em; margin-top: 10px; }
         
         .hero-desc-modern { font-size: clamp(1rem, 1.5vw, 1.25rem); max-width: 600px; color: #dbece5; margin-bottom: 45px; font-weight: 300; line-height: 1.7; font-family: 'Lato', sans-serif; }
@@ -175,10 +141,11 @@
         .glass-card img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
         
         .slider-controls { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 15px; z-index: 20; }
-        .control-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.5); cursor: pointer; transition: 0.3s; background: transparent; }
+        /* Audit Fix: Increased touch target for accessibility */
+        .control-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.5); cursor: pointer; transition: 0.3s; background: transparent; position: relative; }
+        .control-dot::after { content: ''; position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; } /* Transparent hit area extension */
         .control-dot.active { background: #eebf45; border-color: #eebf45; transform: scale(1.2); }
 
-        /* --- Back to Top Button --- */
         #backToTop { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: var(--jft-gold); color: var(--jft-navy); border: none; border-radius: 50%; cursor: pointer; z-index: 999; box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; opacity: 0; visibility: hidden; transition: all 0.4s ease; transform: translateY(20px); }
         #backToTop.show { opacity: 1; visibility: visible; transform: translateY(0); }
         #backToTop:hover { background: #fff; color: var(--jft-primary); transform: translateY(-5px); }
@@ -348,54 +315,226 @@
         .node-0 .country-list-reveal, .node-2 .country-list-reveal, .node-4 .country-list-reveal { left: 90px; top: 100%; } 
         .node-1 .country-list-reveal, .node-3 .country-list-reveal, .node-5 .country-list-reveal { right: 90px; top: 100%; }
         
-        /* --- NEW PARTNERS GRID CSS --- */
+        /* --- UPDATED PARTNERS GRID CSS (MODERNIZED) --- */
         .partners-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
             margin-top: 50px;
         }
-        .partner-card {
+
+        .partner-card-modern {
             background: #fff;
-            padding: 30px;
-            border-radius: var(--radius-md);
+            border: 1px solid #eee;
+            border-radius: 16px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
-            box-shadow: var(--shadow-subtle);
-            border: 1px solid var(--jft-border);
-            transition: var(--transition);
         }
-        .partner-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--jft-primary);
-            box-shadow: var(--shadow-hover);
+
+        .partner-card-modern:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            border-color: var(--jft-gold);
         }
-        .partner-flag {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            display: block;
+
+        /* Status Dot */
+        .partner-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 8px;
+            height: 8px;
+            background: #2ecc71; /* Success Green */
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.1);
         }
+
+        .partner-card-modern:hover .partner-status {
+            box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.2);
+            animation: pulseStatus 1.5s infinite;
+        }
+
+        @keyframes pulseStatus {
+            0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+        }
+
+        /* Flag Wrapper */
+        .partner-flag-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 4px solid #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: 0.4s;
+            position: relative;
+            z-index: 2;
+        }
+
+        .partner-card-modern:hover .partner-flag-circle {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(238, 191, 69, 0.3);
+            border-color: var(--jft-gold);
+        }
+
+        .partner-flag-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Typography */
         .partner-country {
             font-family: var(--font-head);
-            font-size: 1.2rem;
-            color: var(--jft-navy);
-            margin-bottom: 8px;
+            font-size: 1.3rem;
             font-weight: 700;
+            color: var(--jft-navy);
+            margin-bottom: 5px;
         }
-        .partner-type {
+
+        .partner-role {
             font-family: var(--font-sub);
-            font-size: 0.85rem;
-            color: var(--jft-primary);
-            font-weight: 600;
+            font-size: 0.8rem;
+            color: #888;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        /* Background Decoration */
+        .partner-bg-icon {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            font-size: 100px;
+            color: #f7f7f7;
+            z-index: 0;
+            transform: rotate(-15deg);
+            transition: 0.4s;
+        }
+
+        .partner-card-modern:hover .partner-bg-icon {
+            color: #fcf4dd; /* Light gold tint */
+            transform: rotate(0deg) scale(1.1);
         }
         
-        .cert-container { width: 100%; overflow: hidden; position: relative; padding: 50px 0; border-bottom: 1px solid var(--jft-border); cursor: grab; } 
+        /* --- NEW CERTIFICATION DESIGN CSS (MODERNIZED) --- */
+        .cert-container { 
+            width: 100%; 
+            overflow: hidden; 
+            position: relative; 
+            padding: 20px 0; 
+            cursor: grab; 
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        } 
         .cert-container:active { cursor: grabbing; } 
-        .cert-track { display: flex; align-items: center; width: max-content; will-change: transform; } 
-        .cert-slide { flex: 0 0 25vw; display: flex; justify-content: center; align-items: center; padding: 0 20px; box-sizing: border-box; }
-        .cert-logo { height: 75px; width: auto; object-fit: contain; filter: grayscale(100%) contrast(0.8); opacity: 0.7; transition: 0.3s; pointer-events: none; max-width: 100%; } 
-        .cert-slide:hover .cert-logo { filter: grayscale(0) contrast(1); opacity: 1; transform: scale(1.05); }
+        .cert-track { display: flex; align-items: center; width: max-content; will-change: transform; gap: 30px; } 
+        
+        .cert-slide { 
+            flex: 0 0 220px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            box-sizing: border-box; 
+        }
+
+        .cert-card-modern {
+            background: #fff;
+            border: 1px solid var(--jft-border);
+            border-radius: 12px;
+            width: 100%;
+            height: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            transition: 0.4s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            overflow: hidden;
+        }
+        
+        .cert-card-modern::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; 
+            width: 100%; height: 3px;
+            background: var(--jft-gold);
+            transform: scaleX(0);
+            transition: 0.4s ease;
+            transform-origin: left;
+        }
+
+        .cert-card-modern:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(78, 140, 62, 0.1);
+            border-color: rgba(78, 140, 62, 0.3);
+        }
+
+        .cert-card-modern:hover::before {
+            transform: scaleX(1);
+        }
+
+        .cert-logo { 
+            height: 50px; 
+            width: auto; 
+            object-fit: contain; 
+            filter: grayscale(100%) contrast(0.8); 
+            opacity: 0.6; 
+            transition: 0.4s; 
+            margin-bottom: 12px;
+            max-width: 90%;
+        } 
+        
+        .cert-card-modern:hover .cert-logo { 
+            filter: grayscale(0) contrast(1); 
+            opacity: 1; 
+            transform: scale(1.1);
+        }
+
+        .cert-label {
+            font-family: var(--font-sub);
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--jft-navy);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: 0.4s ease;
+        }
+
+        .cert-card-modern:hover .cert-label {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cert-verified-icon {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 0.8rem;
+            color: var(--jft-primary);
+            opacity: 0;
+            transform: scale(0);
+            transition: 0.3s;
+        }
+
+        .cert-card-modern:hover .cert-verified-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
         
         .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 80px; }
         .testi-card { background: #fff; padding: 45px; border-radius: var(--radius-md); box-shadow: var(--shadow-subtle); position: relative; overflow: hidden; height: 100%; } 
@@ -479,7 +618,9 @@
             .export-node.active-mobile .country-list-reveal { max-height: 300px; opacity: 1; visibility: visible; margin-top: 20px; overflow-y: auto; } 
             .node-portal { margin-bottom: 15px; }
             .logistics-banner { background-attachment: scroll !important; background-position: center center !important; }
-            .cert-slide { flex: 0 0 33vw; }
+            
+            /* Revised Cert Slide Width for Tablets */
+            .cert-slide { flex: 0 0 200px; }
             
             .about-grid { grid-template-columns: 1fr; } /* Force stacked About on tablet+mobile */
             .stats-grid { grid-template-columns: repeat(2, 1fr); } /* 2x2 stats on tablet */
@@ -504,7 +645,6 @@
             .glass-card { height: 300px; }
             .steps-container { flex-direction: column; align-items: center; }
             .step-node { flex: 0 0 100%; max-width: 100%; margin-bottom: 30px; }
-            .cert-slide { flex: 0 0 50vw; }
         }
 
         @media (max-width: 600px) { 
@@ -532,14 +672,14 @@
             .section-title { font-size: 2rem; }
             .hero-title-modern { font-size: 2rem; }
             .manu-highlight::after { height: 6px !important; bottom: 2px !important; }
-            .cert-slide { flex: 0 0 80vw; }
+            .cert-slide { flex: 0 0 160px; } /* Mobile Cert Width */
             .export-node { flex: 0 0 90%; }
         }
     </style>
 </head>
 <body>
     <div id="preloader">
-        <img src="images/jft logo.png" alt="JFT Loading" class="loader-logo-img">
+        <img src="images/jft logo.png" alt="JFT Loading" class="loader-logo-img" width="220" height="80">
         <div class="loader-text" id="welcome-msg">Connecting Global Markets...</div>
         <div class="loader-track"><div class="loader-fill"></div></div>
     </div>
@@ -572,13 +712,13 @@
                         Seamlessly bridging the gap between India's fertile lands and 25+ international markets with state-of-the-art logistics and precision quality control.
                     </div>
                     <div class="hero-actions">
-                        <a href="#products" class="btn-primary">View Product Catalogue</a>
-                        <a href="#infrastructure" class="btn-outline">Our Infrastructure</a>
+                        <a href="#products" class="btn-primary" aria-label="View Product Catalogue">View Product Catalogue</a>
+                        <a href="#infrastructure" class="btn-outline" aria-label="Our Infrastructure">Our Infrastructure</a>
                     </div>
                 </div>
                 <div class="hero-visual-card">
                     <div class="glass-card tilt-card">
-                        <img src="images/about-hm.png" alt="JFT Agro Premium Logistics">
+                        <img src="images/about-hm.png" alt="JFT Agro Premium Logistics" width="450" height="500" loading="eager" fetchpriority="high">
                     </div>
                 </div>
             </div>
@@ -595,13 +735,13 @@
                         From the lush fields of Punjab to the world. We specialize in extra-long grain Basmati and premium quality Sortex-cleaned non-basmati varieties.
                     </div>
                     <div class="hero-actions">
-                        <a href="#products" class="btn-primary">Explore Rice</a>
-                        <a href="#manufacturing" class="btn-outline">Milling Unit</a>
+                        <a href="#products" class="btn-primary" aria-label="Explore Rice Products">Explore Rice</a>
+                        <a href="#manufacturing" class="btn-outline" aria-label="View Milling Unit">Milling Unit</a>
                     </div>
                 </div>
                 <div class="hero-visual-card">
                     <div class="glass-card tilt-card">
-                        <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&q=80&w=600" alt="Premium Rice Sack">
+                        <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&q=80&w=600" alt="Premium Rice Sack Export" width="600" height="800" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -618,13 +758,13 @@
                         Sourced directly from Guntur and Kerala. Our high-curcumin Turmeric and Stem-cut Chillies set the benchmark for aroma and pungency in global kitchens.
                     </div>
                     <div class="hero-actions">
-                        <a href="#products" class="btn-primary">View Spices</a>
-                        <a href="#origin" class="btn-outline">Sourcing Map</a>
+                        <a href="#products" class="btn-primary" aria-label="View Spices">View Spices</a>
+                        <a href="#origin" class="btn-outline" aria-label="Sourcing Map">Sourcing Map</a>
                     </div>
                 </div>
                 <div class="hero-visual-card">
                     <div class="glass-card tilt-card">
-                        <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&q=80&w=600" alt="Indian Spices">
+                        <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&q=80&w=600" alt="Indian Spices Export" width="600" height="800" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -641,13 +781,13 @@
                         Essential staples for a healthy world. We export machine-cleaned, polished, and graded pulses that meet the highest purity standards for canning and retail.
                     </div>
                     <div class="hero-actions">
-                        <a href="#products" class="btn-primary">See Pulses</a>
-                        <a href="#contact" class="btn-outline">Get Quote</a>
+                        <a href="#products" class="btn-primary" aria-label="See Pulses">See Pulses</a>
+                        <a href="#contact" class="btn-outline" aria-label="Get Quote">Get Quote</a>
                     </div>
                 </div>
                 <div class="hero-visual-card">
                     <div class="glass-card tilt-card">
-                        <img src="https://images.unsplash.com/photo-1515942400420-2b98fed1f515?auto=format&fit=crop&q=80&w=600" alt="Healthy Pulses">
+                        <img src="https://images.unsplash.com/photo-1515942400420-2b98fed1f515?auto=format&fit=crop&q=80&w=600" alt="Healthy Pulses Export" width="600" height="800" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -664,13 +804,13 @@
                         Quality isn't an accident; it's our habit. Every container undergoes rigorous pre-shipment inspection for moisture, foreign matter, and microbiological safety.
                     </div>
                     <div class="hero-actions">
-                        <a href="#infrastructure" class="btn-primary">Our Labs</a>
-                        <a href="#process" class="btn-outline">Process Flow</a>
+                        <a href="#infrastructure" class="btn-primary" aria-label="Our Labs">Our Labs</a>
+                        <a href="#process" class="btn-outline" aria-label="Process Flow">Process Flow</a>
                     </div>
                 </div>
                 <div class="hero-visual-card">
                     <div class="glass-card tilt-card">
-                        <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&q=80&w=600" alt="Lab Testing">
+                        <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&q=80&w=600" alt="Lab Testing Quality Control" width="600" height="800" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -687,13 +827,13 @@
                         We don't just sell commodities; we deliver contracts. With committed volume agreements, we guarantee container availability even during peak seasons.
                     </div>
                     <div class="hero-actions">
-                        <a href="#global-reach" class="btn-primary">Global Network</a>
-                        <a href="#contact" class="btn-outline">Track Shipment</a>
+                        <a href="#global-reach" class="btn-primary" aria-label="Global Network">Global Network</a>
+                        <a href="#contact" class="btn-outline" aria-label="Track Shipment">Track Shipment</a>
                     </div>
                 </div>
                 <div class="hero-visual-card">
                     <div class="glass-card tilt-card">
-                        <img src="https://images.unsplash.com/photo-1494412574643-35d324698420?auto=format&fit=crop&q=80&w=600" alt="Container Ship">
+                        <img src="https://images.unsplash.com/photo-1494412574643-35d324698420?auto=format&fit=crop&q=80&w=600" alt="Container Ship Logistics" width="600" height="800" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -701,18 +841,18 @@
         </div>
 
         <div class="slider-controls" id="hero-dots-container">
-            <div class="control-dot active" onclick="setSlide(0)"></div>
-            <div class="control-dot" onclick="setSlide(1)"></div>
-            <div class="control-dot" onclick="setSlide(2)"></div>
-            <div class="control-dot" onclick="setSlide(3)"></div>
-            <div class="control-dot" onclick="setSlide(4)"></div>
-            <div class="control-dot" onclick="setSlide(5)"></div>
+            <div class="control-dot active" onclick="setSlide(0)" aria-label="Slide 1"></div>
+            <div class="control-dot" onclick="setSlide(1)" aria-label="Slide 2"></div>
+            <div class="control-dot" onclick="setSlide(2)" aria-label="Slide 3"></div>
+            <div class="control-dot" onclick="setSlide(3)" aria-label="Slide 4"></div>
+            <div class="control-dot" onclick="setSlide(4)" aria-label="Slide 5"></div>
+            <div class="control-dot" onclick="setSlide(5)" aria-label="Slide 6"></div>
         </div>
     </section>
 
-    <button id="backToTop" title="Back to Top"><i class="fa-solid fa-arrow-up"></i></button>
+    <button id="backToTop" title="Back to Top" aria-label="Back to Top"><i class="fa-solid fa-arrow-up"></i></button>
 
-    <section class="section-padding" id="about">
+    <section class="section-padding bg-gradient-soft" id="about">
         <div class="jft-wide-container">
             <div class="stats-grid reveal" id="stats-section">
                 <div class="stat-item" data-count="42"><h3 data-val="42">0</h3><p>Years Legacy</p></div>
@@ -726,7 +866,7 @@
                         <span class="brand-tag">Corporate Profile</span>
                         <h2 class="section-title">Bridging Indian Farms <br><span>To Global Ports</span></h2>
                         <p class="section-desc">JFT Agro Overseas is not just a supplier; we are your strategic partner in the global food supply chain. As an ISO 9001:2015 and HACCP certified Star Export House, we bridge the gap between Indian fertile lands and international markets with precision logistics and uncompromised quality control.</p>
-                        <a href="#contact" class="btn-primary" style="margin-top: 20px;">Download Corporate Profile</a>
+                        <a href="#contact" class="btn-primary" style="margin-top: 20px;" aria-label="Download Corporate Profile">Download Corporate Profile</a>
                     </div>
                 </div>
                 <div class="features-grid reveal">
@@ -739,26 +879,98 @@
         </div>
     </section>
 
-    <section class="section-padding" style="padding-top: 0; padding-bottom: 60px;">
+    <section class="section-padding bg-texture-paper" id="certifications" style="padding-top: 40px; border-top: 1px solid var(--jft-border);">
         <div class="jft-wide-container">
+            <div class="section-header center-header reveal" style="margin-bottom: 40px;">
+                <span class="brand-tag">Accreditations</span>
+                <h2 class="section-title">Certified <br><span>Excellence</span></h2>
+            </div>
+            
+            <div class="mobile-swipe-hint"><i class="fa-solid fa-left-right"></i> Drag to Scroll</div>
+
             <div class="cert-container" id="certSlider">
                 <div class="cert-track" id="certTrack">
-                    <div class="cert-slide"><img src="/images/homepage/FSSAI.webp" class="cert-logo" alt="FSSAI" loading="lazy"></div>
-                    <div class="cert-slide"><img src="/images/homepage/STAR HOUSE.webp" class="cert-logo" alt="1 Star Export House" loading="lazy"></div>
-                    <div class="cert-slide"><img src="/images/homepage/APEDA.webp" class="cert-logo" alt="APEDA" loading="lazy"></div>
-                    <div class="cert-slide"><img src="/images/homepage/SPICES_BOARD.webp" class="cert-logo" alt="Spices Board" loading="lazy"></div>
-                    <div class="cert-slide"><img src="/images/homepage/COCONUT_BOARD.webp" class="cert-logo" alt="Coconut Board" loading="lazy"></div>
-                    <div class="cert-slide"><img src="/images/homepage/AEO.webp" class="cert-logo" alt="AEO" loading="lazy"></div>
-                    <div class="cert-slide"><img src="/images/homepage/IEC.webp" class="cert-logo" alt="IEC" loading="lazy"></div>
-                    <div class="cert-slide"><img src="/images/homepage/MSME.webp" class="cert-logo" alt="MSME" loading="lazy"></div>
-                    <div class="cert-slide"><img src="/images/homepage/Shellac.webp" class="cert-logo" alt="SHELLAC" loading="lazy"></div>
-                    <div class="cert-slide"><img src="/images/homepage/DGFT.webp" class="cert-logo" alt="DGFT" loading="lazy"></div>
-                    <div class="cert-slide"><img src="/images/homepage/COFFEE_BOARD.webp" class="cert-logo" alt="COFFEE Board" loading="lazy"></div>
+                    <div class="cert-slide">
+                        <div class="cert-card-modern">
+                            <i class="fa-solid fa-circle-check cert-verified-icon"></i>
+                            <img src="/images/homepage/FSSAI.webp" class="cert-logo" alt="FSSAI" width="100" height="50" loading="lazy">
+                            <span class="cert-label">Food Safety</span>
+                        </div>
+                    </div>
+                    <div class="cert-slide">
+                        <div class="cert-card-modern">
+                            <i class="fa-solid fa-circle-check cert-verified-icon"></i>
+                            <img src="/images/homepage/STAR HOUSE.webp" class="cert-logo" alt="1 Star Export House" width="100" height="50" loading="lazy">
+                            <span class="cert-label">Star Export House</span>
+                        </div>
+                    </div>
+                    <div class="cert-slide">
+                        <div class="cert-card-modern">
+                            <i class="fa-solid fa-circle-check cert-verified-icon"></i>
+                            <img src="/images/homepage/APEDA.webp" class="cert-logo" alt="APEDA" width="100" height="50" loading="lazy">
+                            <span class="cert-label">APEDA Govt.</span>
+                        </div>
+                    </div>
+                    <div class="cert-slide">
+                        <div class="cert-card-modern">
+                            <i class="fa-solid fa-circle-check cert-verified-icon"></i>
+                            <img src="/images/homepage/SPICES_BOARD.webp" class="cert-logo" alt="Spices Board" width="100" height="50" loading="lazy">
+                            <span class="cert-label">Spices Board</span>
+                        </div>
+                    </div>
+                    <div class="cert-slide">
+                        <div class="cert-card-modern">
+                            <i class="fa-solid fa-circle-check cert-verified-icon"></i>
+                            <img src="/images/homepage/COCONUT_BOARD.webp" class="cert-logo" alt="Coconut Board" width="100" height="50" loading="lazy">
+                            <span class="cert-label">Coconut Board</span>
+                        </div>
+                    </div>
+                    <div class="cert-slide">
+                        <div class="cert-card-modern">
+                            <i class="fa-solid fa-circle-check cert-verified-icon"></i>
+                            <img src="/images/homepage/AEO.webp" class="cert-logo" alt="AEO" width="100" height="50" loading="lazy">
+                            <span class="cert-label">Authorized Operator</span>
+                        </div>
+                    </div>
+                    <div class="cert-slide">
+                        <div class="cert-card-modern">
+                            <i class="fa-solid fa-circle-check cert-verified-icon"></i>
+                            <img src="/images/homepage/IEC.webp" class="cert-logo" alt="IEC" width="100" height="50" loading="lazy">
+                            <span class="cert-label">Import Export Code</span>
+                        </div>
+                    </div>
+                    <div class="cert-slide">
+                        <div class="cert-card-modern">
+                            <i class="fa-solid fa-circle-check cert-verified-icon"></i>
+                            <img src="/images/homepage/MSME.webp" class="cert-logo" alt="MSME" width="100" height="50" loading="lazy">
+                            <span class="cert-label">MSME India</span>
+                        </div>
+                    </div>
+                    <div class="cert-slide">
+                        <div class="cert-card-modern">
+                            <i class="fa-solid fa-circle-check cert-verified-icon"></i>
+                            <img src="/images/homepage/Shellac.webp" class="cert-logo" alt="SHELLAC" width="100" height="50" loading="lazy">
+                            <span class="cert-label">Shellac Export</span>
+                        </div>
+                    </div>
+                    <div class="cert-slide">
+                        <div class="cert-card-modern">
+                            <i class="fa-solid fa-circle-check cert-verified-icon"></i>
+                            <img src="/images/homepage/DGFT.webp" class="cert-logo" alt="DGFT" width="100" height="50" loading="lazy">
+                            <span class="cert-label">DGFT</span>
+                        </div>
+                    </div>
+                    <div class="cert-slide">
+                        <div class="cert-card-modern">
+                            <i class="fa-solid fa-circle-check cert-verified-icon"></i>
+                            <img src="/images/homepage/COFFEE_BOARD.webp" class="cert-logo" alt="COFFEE Board" width="100" height="50" loading="lazy">
+                            <span class="cert-label">Coffee Board</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-
     <section class="section-padding bg-light" id="identity">
         <div class="jft-wide-container">
             <div class="section-header center-header reveal">
@@ -794,16 +1006,16 @@
                     </ul>
                 </div>
                 <div class="manu-img reveal" style="flex: 1;">
-                    <img src="images/rice-factory.jpg" alt="Rice Factory Mumbai" loading="lazy" style="border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); border: 5px solid rgba(255,255,255,0.1); width: 100%;">
+                    <img src="images/rice-factory.jpg" alt="Rice Factory Mumbai" width="600" height="400" loading="lazy" style="border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); border: 5px solid rgba(255,255,255,0.1); width: 100%;">
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section-padding section-india bg-pattern" id="origin">
+    <section class="section-padding section-india bg-pattern-earth" id="origin">
         <div class="jft-wide-container">
             <div class="india-layout">
-                <div class="india-visual reveal"><img src="images/Farm.png" alt="India Map Sourcing" class="static-map"></div>
+                <div class="india-visual reveal"><img src="images/Farm.png" alt="India Map Sourcing" class="static-map" width="600" height="600" loading="lazy"></div>
                 <div class="india-text reveal">
                     <span class="brand-tag">Origin Guarantee</span>
                     <h2 class="section-title">The "Golden Bird" <br><span>Legacy</span></h2>
@@ -842,7 +1054,7 @@
                 <div class="prod-card">
                     <div class="prod-inner">
                         <div class="prod-front">
-                            <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&q=80&w=600" alt="Rice" loading="lazy">
+                            <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&q=80&w=600" alt="Premium 1121 Basmati Rice" width="600" height="800" loading="lazy">
                             <div class="prod-overlay"><span>Grain</span><h3>Rice</h3></div>
                         </div>
                         <div class="prod-back">
@@ -856,7 +1068,7 @@
                                 <li class="prod-type-item"><i class="fa-solid fa-angle-right"></i> Sona Masoori</li>
                                 <li class="prod-type-item"><i class="fa-solid fa-angle-right"></i> 100% Broken Rice</li>
                             </ul>
-                            <a href="https://jftagro.com/products.html" class="view-btn">View Details</a>
+                            <a href="https://jftagro.com/products.html" class="view-btn" aria-label="View Rice Details">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -864,7 +1076,7 @@
                 <div class="prod-card">
                     <div class="prod-inner">
                         <div class="prod-front">
-                            <img src="/images/homepage/SPICES.webp" alt="Spices" loading="lazy">
+                            <img src="/images/homepage/SPICES.webp" alt="Indian Spices Assortment" width="600" height="800" loading="lazy">
                             <div class="prod-overlay"><span>Spices</span><h3>Spices</h3></div>
                         </div>
                         <div class="prod-back">
@@ -879,7 +1091,7 @@
                                 <li class="prod-type-item"><i class="fa-solid fa-angle-right"></i> Fenugreek Seeds & Powder</li>
                                 <li class="prod-type-item"><i class="fa-solid fa-angle-right"></i> Green Cardamom</li>
                             </ul>
-                            <a href="https://jftagro.com/products.html" class="view-btn">View Details</a>
+                            <a href="https://jftagro.com/products.html" class="view-btn" aria-label="View Spices Details">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -887,7 +1099,7 @@
                 <div class="prod-card">
                     <div class="prod-inner">
                         <div class="prod-front">
-                            <img src="/images/homepage/SUGAR.webp" alt="Indian Sugar" loading="lazy">
+                            <img src="/images/homepage/SUGAR.webp" alt="Indian Sugar Export" width="600" height="800" loading="lazy">
                             <div class="prod-overlay"><span>Commodity</span><h3>Indian Sugar</h3></div>
                         </div>
                         <div class="prod-back">
@@ -899,7 +1111,7 @@
                                 <li class="prod-type-item"><i class="fa-solid fa-angle-right"></i> Brown Sugar</li>
                                 <li class="prod-type-item"><i class="fa-solid fa-angle-right"></i> Jaggery Cubes</li>
                             </ul>
-                            <a href="https://jftagro.com/products.html" class="view-btn">View Details</a>
+                            <a href="https://jftagro.com/products.html" class="view-btn" aria-label="View Sugar Details">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -907,7 +1119,7 @@
                 <div class="prod-card">
                     <div class="prod-inner">
                         <div class="prod-front">
-                            <img src="/images/homepage/Wheat-Flour.webp" alt="Wheat-Flour" loading="lazy">
+                            <img src="/images/homepage/Wheat-Flour.webp" alt="Wheat and Flour" width="600" height="800" loading="lazy">
                             <div class="prod-overlay"><span>Grains</span><h3>Wheat & Flour</h3></div>
                         </div>
                         <div class="prod-back">
@@ -919,7 +1131,7 @@
                                 <li class="prod-type-item"><i class="fa-solid fa-angle-right"></i> Semolina (Sooji)</li>
                                 <li class="prod-type-item"><i class="fa-solid fa-angle-right"></i> Whole Wheat Atta</li>
                             </ul>
-                            <a href="https://jftagro.com/products.html" class="view-btn">View Details</a>
+                            <a href="https://jftagro.com/products.html" class="view-btn" aria-label="View Wheat Details">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -927,7 +1139,7 @@
                 <div class="prod-card">
                     <div class="prod-inner">
                         <div class="prod-front">
-                            <img src="/images/homepage/OILSEEDS.webp" alt="Oilseeds" loading="lazy">
+                            <img src="/images/homepage/OILSEEDS.webp" alt="Oilseeds and Herbs" width="600" height="800" loading="lazy">
                             <div class="prod-overlay"><span>Herbs</span><h3>Oilseeds</h3></div>
                         </div>
                         <div class="prod-back">
@@ -941,7 +1153,7 @@
                                 <li class="prod-type-item"><i class="fa-solid fa-angle-right"></i> Black Cumin Seeds</li>
                                 <li class="prod-type-item"><i class="fa-solid fa-angle-right"></i> Medicinal Herbs</li>
                             </ul>
-                            <a href="https://jftagro.com/products.html" class="view-btn">View Details</a>
+                            <a href="https://jftagro.com/products.html" class="view-btn" aria-label="View Oilseeds Details">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -949,7 +1161,7 @@
                 <div class="prod-card">
                     <div class="prod-inner">
                         <div class="prod-front">
-                            <img src="/images/homepage/ANIMAL FEED.webp" alt="Cattle Feed" loading="lazy">
+                            <img src="/images/homepage/ANIMAL FEED.webp" alt="Cattle Feed and Soya Doc" width="600" height="800" loading="lazy">
                             <div class="prod-overlay"><span>Feeds</span><h3>Animal Feeds</h3></div>
                         </div>
                         <div class="prod-back">
@@ -965,7 +1177,7 @@
                                 <li class="prod-type-item"><i class="fa-solid fa-angle-right"></i> Rice Bran De-Oiled</li>
                                 <li class="prod-type-item"><i class="fa-solid fa-angle-right"></i> Cottonseed Cake</li>
                             </ul>
-                            <a href="https://jftagro.com/products.html" class="view-btn">View Details</a>
+                            <a href="https://jftagro.com/products.html" class="view-btn" aria-label="View Feed Details">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -973,7 +1185,7 @@
                 <div class="prod-card">
                     <div class="prod-inner">
                         <div class="prod-front">
-                            <img src="/images/homepage/RAISINS.webp" alt="Raisins" loading="lazy">
+                            <img src="/images/homepage/RAISINS.webp" alt="Raisins Dry Fruit" width="600" height="800" loading="lazy">
                             <div class="prod-overlay"><span>Dry Fruit</span><h3>Raisins</h3></div>
                         </div>
                         <div class="prod-back">
@@ -985,7 +1197,7 @@
                                 <li class="prod-type-item"><i class="fa-solid fa-angle-right"></i> Brown Raisins</li>
                                 <li class="prod-type-item"><i class="fa-solid fa-angle-right"></i> Green Raisins</li>
                             </ul>
-                            <a href="https://jftagro.com/products.html" class="view-btn">View Details</a>
+                            <a href="https://jftagro.com/products.html" class="view-btn" aria-label="View Raisins Details">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -993,7 +1205,7 @@
                 <div class="prod-card">
                     <div class="prod-inner">
                         <div class="prod-front">
-                            <img src="/images/homepage/PULSES.webp" alt="Pulses" loading="lazy">
+                            <img src="/images/homepage/PULSES.webp" alt="Pulses and Dal" width="600" height="800" loading="lazy">
                             <div class="prod-overlay"><span>Pulses</span><h3>Pulses</h3></div>
                         </div>
                         <div class="prod-back">
@@ -1007,7 +1219,7 @@
                                 <li class="prod-type-item"><i class="fa-solid fa-angle-right"></i> Moong (Green Gram)</li>
                                 <li class="prod-type-item"><i class="fa-solid fa-angle-right"></i> Toor Dal(Pigeon Pea)</li>
                             </ul>
-                            <a href="https://jftagro.com/products.html" class="view-btn">View Details</a>
+                            <a href="https://jftagro.com/products.html" class="view-btn" aria-label="View Pulses Details">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -1039,12 +1251,12 @@
             </div>
             <div class="infra-layout reveal">
                 <div class="infra-item">
-                    <img src="https://images.unsplash.com/photo-1605333550472-a05da82c5f13?auto=format&fit=crop&q=80" class="infra-bg-img" alt="Silos" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1605333550472-a05da82c5f13?auto=format&fit=crop&q=80" class="infra-bg-img" alt="Silos" width="600" height="400" loading="lazy">
                     <div class="infra-content"><div class="infra-cap">20MT</div><h3>Per Hour Milling</h3><p>Fully automated Miltex rice milling lines ensure zero-contact processing.</p></div>
                     <ul class="infra-list"><li><i class="fa-solid fa-check"></i> Sortex Z+ Optical Sorters</li><li><i class="fa-solid fa-check"></i> Moisture Controlled Silos</li></ul>
                 </div>
                 <div class="infra-item">
-                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80" class="infra-bg-img" alt="Lab" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80" class="infra-bg-img" alt="Lab" width="600" height="400" loading="lazy">
                     <div class="infra-content"><div class="infra-cap">NABL</div><h3>Accredited Labs</h3><p>In-house quality testing for moisture, grain length, Kett whiteness, and pesticide residue.</p></div>
                     <ul class="infra-list"><li><i class="fa-solid fa-check"></i> Pre-shipment Sample Retention</li><li><i class="fa-solid fa-check"></i> Fumigation Chambers</li></ul>
                 </div>
@@ -1079,16 +1291,16 @@
                 <p class="section-desc text-center" style="margin: 20px auto; max-width: 800px;">Centrally located in India, JFT Agro Overseas ensures rapid transit of premium agro-products to global destinations.</p>
             </div>
             <div class="network-visual reveal">
-                <div class="custom-india-map desktop-only"><img src="https://jftagro.com/wp-content/uploads/2025/12/in.png" alt="India Map Background" onerror="this.style.display='none'"></div>
+                <div class="custom-india-map desktop-only"><img src="https://jftagro.com/wp-content/uploads/2025/12/in.png" alt="India Map Background" width="900" height="800" onerror="this.style.display='none'"></div>
                 <svg class="trade-lines-svg desktop-only" viewBox="0 0 1000 650" preserveAspectRatio="none"><g id="jft_svg_lines"></g></svg>
-                <div class="central-hub"><div class="pulse-ring pr-1"></div><div class="pulse-ring pr-2"></div><div class="hub-circle-container"><img src="images/jft logo.png" alt="JFT" class="hub-logo" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-leaf\' style=\'font-size:40px; color:var(--jft-primary)\'></i>'"></div></div>
+                <div class="central-hub"><div class="pulse-ring pr-1"></div><div class="pulse-ring pr-2"></div><div class="hub-circle-container"><img src="images/jft logo.png" alt="JFT" class="hub-logo" width="80" height="80" onerror="this.parentElement.innerHTML='<i class=\'fa-solid fa-leaf\' style=\'font-size:40px; color:var(--jft-primary)\'></i>'"></div></div>
                 <div class="mobile-swipe-hint"><i class="fa-solid fa-left-right"></i> Swipe & Tap Portals</div>
                 <div class="nodes-container" id="jft_nodes_container"></div>
             </div>
         </div>
     </section>
 
-    <section class="section-padding" id="partners">
+    <section class="section-padding bg-grid-map" id="partners">
         <div class="jft-wide-container">
             <div class="section-header center-header reveal">
                 <span class="brand-tag">Our Global Footprint</span>
@@ -1097,46 +1309,79 @@
             </div>
             
             <div class="partners-grid reveal">
-                <div class="partner-card">
-                    <span class="partner-flag"><img src="/images/homepage/Flag-Russia.webp" alt="RUSSIA" loading="lazy"></span>
+                <div class="partner-card-modern">
+                    <div class="partner-status" title="Active Hub"></div>
+                    <i class="fa-solid fa-location-crosshairs partner-bg-icon"></i>
+                    <div class="partner-flag-circle">
+                        <img src="/images/homepage/Flag-Russia.webp" alt="RUSSIA" width="80" height="80" loading="lazy">
+                    </div>
                     <h4 class="partner-country">Russia</h4>
-                    <span class="partner-type">Distribution Partner</span>
+                    <span class="partner-role">Distribution Partner</span>
                 </div>
-                <div class="partner-card">
-                    <span class="partner-flag"><img src="/images/homepage/Flag-Vietnam.webp" alt="VIETNAM" loading="lazy"></span>
+
+                <div class="partner-card-modern">
+                    <div class="partner-status" title="Active Hub"></div>
+                    <i class="fa-solid fa-location-crosshairs partner-bg-icon"></i>
+                    <div class="partner-flag-circle">
+                        <img src="/images/homepage/Flag-Vietnam.webp" alt="VIETNAM" width="80" height="80" loading="lazy">
+                    </div>
                     <h4 class="partner-country">Vietnam</h4>
-                    <span class="partner-type">Distribution Partner</span>
+                    <span class="partner-role">Distribution Partner</span>
                 </div>
-                <div class="partner-card">
-                    <span class="partner-flag"><img src="/images/homepage/Flag-Srilanka.webp" alt="SRI LANKA" loading="lazy"></span>
+
+                <div class="partner-card-modern">
+                    <div class="partner-status" title="Active Hub"></div>
+                    <i class="fa-solid fa-location-crosshairs partner-bg-icon"></i>
+                    <div class="partner-flag-circle">
+                        <img src="/images/homepage/Flag-Srilanka.webp" alt="SRI LANKA" width="80" height="80" loading="lazy">
+                    </div>
                     <h4 class="partner-country">Sri Lanka</h4>
-                    <span class="partner-type">Distribution Partner</span>
+                    <span class="partner-role">Distribution Partner</span>
                 </div>
-                <div class="partner-card">
-                    <span class="partner-flag"><img src="/images/homepage/Flag-United-Arab-Emirates.webp" alt="DUBAI" loading="lazy"></span>
+
+                <div class="partner-card-modern">
+                    <div class="partner-status" title="Active Hub"></div>
+                    <i class="fa-solid fa-location-crosshairs partner-bg-icon"></i>
+                    <div class="partner-flag-circle">
+                        <img src="/images/homepage/Flag-United-Arab-Emirates.webp" alt="DUBAI" width="80" height="80" loading="lazy">
+                    </div>
                     <h4 class="partner-country">Dubai (UAE)</h4>
-                    <span class="partner-type">Distribution Partner</span>
+                    <span class="partner-role">Distribution Partner</span>
                 </div>
-                <div class="partner-card">
-                    <span class="partner-flag"><img src="/images/homepage/Flag-Benin.webp" alt="BENIN" loading="lazy"></span>
+
+                <div class="partner-card-modern">
+                    <div class="partner-status" title="Active Hub"></div>
+                    <i class="fa-solid fa-location-crosshairs partner-bg-icon"></i>
+                    <div class="partner-flag-circle">
+                        <img src="/images/homepage/Flag-Benin.webp" alt="BENIN" width="80" height="80" loading="lazy">
+                    </div>
                     <h4 class="partner-country">Benin</h4>
-                    <span class="partner-type">Distribution Partner</span>
+                    <span class="partner-role">Distribution Partner</span>
                 </div>
-                <div class="partner-card">
-                    <span class="partner-flag"><img src="/images/homepage/Flag-Zambia.webp" alt="ZAMBIA" loading="lazy"></span>
+
+                <div class="partner-card-modern">
+                    <div class="partner-status" title="Active Hub"></div>
+                    <i class="fa-solid fa-location-crosshairs partner-bg-icon"></i>
+                    <div class="partner-flag-circle">
+                        <img src="/images/homepage/Flag-Zambia.webp" alt="ZAMBIA" width="80" height="80" loading="lazy">
+                    </div>
                     <h4 class="partner-country">Zambia</h4>
-                    <span class="partner-type">Distribution Partner</span>
+                    <span class="partner-role">Distribution Partner</span>
                 </div>
-                <div class="partner-card">
-                    <span class="partner-flag"><img src="/images/homepage/Flag-Indonesia.webp" alt="INDONESIA" loading="lazy"></span>
+
+                <div class="partner-card-modern">
+                    <div class="partner-status" title="Active Hub"></div>
+                    <i class="fa-solid fa-location-crosshairs partner-bg-icon"></i>
+                    <div class="partner-flag-circle">
+                        <img src="/images/homepage/Flag-Indonesia.webp" alt="INDONESIA" width="80" height="80" loading="lazy">
+                    </div>
                     <h4 class="partner-country">Indonesia</h4>
-                    <span class="partner-type">Distribution Partner</span>
+                    <span class="partner-role">Distribution Partner</span>
                 </div>
             </div>
         </div>
     </section>
-
-    <section class="section-padding" style="margin-bottom: 60px;">
+    <section class="section-padding bg-gradient-soft" style="margin-bottom: 60px;">
         <div class="jft-wide-container">
             <div class="section-header center-header reveal">
                 <span class="brand-tag">Testimonials</span>
@@ -1196,7 +1441,7 @@
     <div id="footer-placeholder"></div>
 
     <script>
-        // --- Universal File Loading (Exactly as provided) ---
+        // --- Universal File Loading ---
         async function loadComponent(id, file) {
             try {
                 const res = await fetch(file);
@@ -1217,7 +1462,7 @@
             loadComponent("footer-placeholder", "footer.html");
         });
 
-        // --- Certification Slider (Exactly as provided) ---
+        // --- Certification Slider ---
         document.addEventListener("DOMContentLoaded", () => {
             const track = document.getElementById('certTrack'); const container = document.getElementById('certSlider');
             if(!track || !container) return;
@@ -1245,7 +1490,7 @@
             }
         });
 
-        // --- Stats Counter (Exactly as provided) ---
+        // --- Stats Counter ---
         const statsObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => { 
                 if(entry.isIntersecting) { 
@@ -1260,15 +1505,35 @@
         }, { threshold: 0.5 });
         setTimeout(() => { document.querySelectorAll('.stat-item').forEach(el => statsObserver.observe(el)); }, 500);
 
-        // --- Preloader & IpAPI (Exactly as provided) ---
+        // --- Audit Fix: Optimized Preloader Logic ---
         window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
             const welcomeText = document.getElementById('welcome-msg');
-            fetch('https://ipapi.co/json/').then(response => response.json()).then(data => { if (data.city) { welcomeText.innerHTML = `Connecting with <span style="color:#eebf45;">${data.city}</span>...`; } else { welcomeText.innerText = "Establishing Global Trade Links..."; } }).catch(() => {}).finally(() => { setTimeout(() => { const preloader = document.getElementById('preloader'); preloader.style.opacity = '0'; setTimeout(() => { preloader.style.display = 'none'; }, 1000); }, 2500); });
+            
+            // Fallback timeout in case fetch hangs
+            const fallbackTimeout = setTimeout(() => {
+                if (preloader.style.display !== 'none') {
+                    preloader.style.opacity = '0';
+                    setTimeout(() => { preloader.style.display = 'none'; }, 1000);
+                }
+            }, 5000);
+
+            fetch('https://ipapi.co/json/')
+                .then(response => response.json())
+                .then(data => { if (data.city) { welcomeText.innerHTML = `Connecting with <span style="color:#eebf45;">${data.city}</span>...`; } })
+                .catch(() => { welcomeText.innerText = "Establishing Global Trade Links..."; })
+                .finally(() => { 
+                    clearTimeout(fallbackTimeout);
+                    setTimeout(() => { 
+                        preloader.style.opacity = '0'; 
+                        setTimeout(() => { preloader.style.display = 'none'; }, 1000); 
+                    }, 1500); 
+                });
         });
 
-        // --- UPDATED: Hero Logic for 6 Content Slides ---
+        // --- Hero Logic ---
         let slideIndex = 0; 
-        let sliderInterval; // Variable to store the interval ID
+        let sliderInterval; 
 
         function setSlide(n) { 
             slideIndex = n; 
@@ -1284,15 +1549,13 @@
             } 
         } 
 
-        // Function to start/restart the automatic slideshow
         function startSlider() {
-            // Clear any existing interval to prevent multiple intervals running
             if (sliderInterval) clearInterval(sliderInterval);
             sliderInterval = setInterval(nextSlide, 5000); 
         }
 
         function resetTimer() { 
-            startSlider(); // This clears the old interval and starts a new one
+            startSlider(); 
         }
 
         function updateSlider() { 
@@ -1313,93 +1576,47 @@
         let slideTimer = setInterval(nextSlide, 5000); 
         function resetTimer() { clearInterval(slideTimer); slideTimer = setInterval(nextSlide, 5000); }
 
-        // --- Drag/Swipe Logic for Hero Banner ---
+        // --- Drag/Swipe Logic ---
         const heroBanner = document.querySelector('.jft-hero-banner');
         let touchStartX = 0;
         let touchEndX = 0;
         let isDragging = false;
 
         if(heroBanner) {
-            // Touch Events
-            heroBanner.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-            }, {passive: true});
-
-            heroBanner.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                handleSwipe();
-            }, {passive: true});
-
-            // Mouse Events
-            heroBanner.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                touchStartX = e.screenX;
-                heroBanner.style.cursor = 'grabbing';
-            });
-
-            heroBanner.addEventListener('mouseup', (e) => {
-                if(!isDragging) return;
-                isDragging = false;
-                touchEndX = e.screenX;
-                heroBanner.style.cursor = 'grab';
-                handleSwipe();
-            });
-
-            heroBanner.addEventListener('mouseleave', () => {
-                isDragging = false;
-                heroBanner.style.cursor = 'grab';
-            });
+            heroBanner.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, {passive: true});
+            heroBanner.addEventListener('touchend', (e) => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); }, {passive: true});
+            heroBanner.addEventListener('mousedown', (e) => { isDragging = true; touchStartX = e.screenX; heroBanner.style.cursor = 'grabbing'; });
+            heroBanner.addEventListener('mouseup', (e) => { if(!isDragging) return; isDragging = false; touchEndX = e.screenX; heroBanner.style.cursor = 'grab'; handleSwipe(); });
+            heroBanner.addEventListener('mouseleave', () => { isDragging = false; heroBanner.style.cursor = 'grab'; });
         }
 
         function handleSwipe() {
-            const threshold = 50; // Minimum distance for a swipe
-            if (touchEndX < touchStartX - threshold) {
-                // Swiped Left -> Next Slide
-                nextSlide();
-                resetTimer();
-            }
+            const threshold = 50; 
+            if (touchEndX < touchStartX - threshold) { nextSlide(); resetTimer(); }
             if (touchEndX > touchStartX + threshold) {
-                // Swiped Right -> Previous Slide
-                // Calculate previous index correctly handling negative modulo
                 const slides = document.querySelectorAll('.hero-slide');
-                if(slides.length > 0) {
-                    slideIndex = (slideIndex - 1 + slides.length) % slides.length;
-                    updateSlider();
-                    resetTimer();
-                }
+                if(slides.length > 0) { slideIndex = (slideIndex - 1 + slides.length) % slides.length; updateSlider(); resetTimer(); }
             }
         }
-
 
         // --- Tilt Card Logic ---
         document.addEventListener('mousemove', (e) => {
             if (window.innerWidth <= 1024) return;
             const activeSlide = document.querySelector('.hero-content-slide.active');
             if(!activeSlide) return;
-            
-            // Limit tilt logic to hovering the visual card wrapper
             const visualCard = activeSlide.querySelector('.hero-visual-card');
             const card = activeSlide.querySelector('.tilt-card');
-            
             if(visualCard && card) {
                 const rect = visualCard.getBoundingClientRect();
-                
-                // Check if mouse is inside the visual card area
-                if (e.clientX >= rect.left && e.clientX <= rect.right && 
-                    e.clientY >= rect.top && e.clientY <= rect.bottom) {
-                        
+                if (e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom) {
                     const cardRect = card.getBoundingClientRect();
                     const cardX = cardRect.left + cardRect.width / 2;
                     const cardY = cardRect.top + cardRect.height / 2;
-                    
-                    // Reduced sensitivity for smoother effect
                     const angleX = (cardY - e.clientY) / 25; 
                     const angleY = (e.clientX - cardX) / 25; 
-                    
                     card.style.transition = "none";
                     card.style.transform = `rotateX(${angleX}deg) rotateY(${angleY}deg)`;
                 } else {
-                    // Reset if mouse moves out while still on document
                     card.style.transition = "transform 0.5s ease-out";
                     card.style.transform = `rotateX(0deg) rotateY(0deg)`;
                 }
@@ -1418,9 +1635,31 @@
         
         document.addEventListener("DOMContentLoaded", () => {
             const networkNodes = [ { region: "African Continent", icon: "fa-ship", desc: "Bulk rice supplier to 15+ African nations.", countries: [{name:"Benin",type:"Parboiled"},{name:"Togo",type:"Rice"},{name:"Senegal",type:"Broken Rice"},{name:"Ivory Coast",type:"Rice"},{name:"Djibouti",type:"Grains"},{name:"Somalia",type:"Sugar"},{name:"Madagascar",type:"Rice"},{name:"Nigeria",type:"Rice"},{name:"Ghana",type:"Rice"},{name:"South Africa",type:"Rice"},{name:"Kenya",type:"Rice"},{name:"Tanzania",type:"Rice"}] }, { region: "Europe (EU)", icon: "fa-euro-sign", desc: "Certified Organic Spices & Grains.", countries: [{name:"UK",type:"Basmati"},{name:"Germany",type:"Spices"},{name:"Netherlands",type:"Spices"},{name:"France",type:"Rice"},{name:"Italy",type:"Rice"},{name:"Spain",type:"Rice"},{name:"Poland",type:"Rice"},{name:"Belgium",type:"Rice"},{name:"Sweden",type:"Rice"}] }, { region: "Middle East", icon: "fa-mosque", desc: "Premier exporter of Basmati and Spices.", countries: [{name:"UAE",type:"1121 Rice"},{name:"Saudi",type:"Basmati"},{name:"Qatar",type:"Rice"},{name:"Oman",type:"Rice"},{name:"Kuwait",type:"Rice"},{name:"Bahrain",type:"Rice"},{name:"Iraq",type:"Rice"},{name:"Jordan",type:"Rice"},{name:"Israel",type:"Rice"},{name:"Iran",type:"Rice"}] }, { region: "Russia & CIS", icon: "fa-snowflake", desc: "Supply partner for Northern markets.", countries: [{name:"Moscow",type:"Rice"},{name:"St. Petersburg",type:"Spices"},{name:"Ukraine",type:"Rice"},{name:"Uzbekistan",type:"Rice"},{name:"Kazakhstan",type:"Rice"},{name:"Azerbaijan",type:"Rice"},{name:"Georgia",type:"Rice"}] }, { region: "Sri Lanka", icon: "fa-anchor", desc: "Direct supply route to Colombo Hub.", countries: [{name:"Colombo",type:"Rice"},{name:"Kandy",type:"Rice"},{name:"Galle",type:"Rice"},{name:"Maldives",type:"Rice"},{name:"Seychelles",type:"Rice"}] }, { region: "SE Asia", icon: "fa-map-location-dot", desc: "Expanding footprint in Asian markets.", countries: [{name:"Vietnam",type:"Grains"},{name:"Thailand",type:"Rice"},{name:"Malaysia",type:"Rice"},{name:"Indonesia",type:"Rice"},{name:"Singapore",type:"Rice"},{name:"Philippines",type:"Rice"}] } ];
-            const container = document.getElementById('jft_nodes_container'); const svgLayer = document.getElementById('jft_svg_lines'); const hubX = 500; const hubY = 325; const nodeCoords = [{x:100,y:50}, {x:900,y:50}, {x:50,y:310}, {x:950,y:310}, {x:100,y:580}, {x:900,y:580}];
+            const container = document.getElementById('jft_nodes_container'); 
+            const svgLayer = document.getElementById('jft_svg_lines'); 
+            const hubX = 500; const hubY = 325; 
+            const nodeCoords = [{x:100,y:50}, {x:900,y:50}, {x:50,y:310}, {x:950,y:310}, {x:100,y:580}, {x:900,y:580}];
             
-            if(container && svgLayer) { 
+            // Audit Fix: Refactored Line Drawing for Resize Stability
+            function drawNetworkLines() {
+                if (!svgLayer) return;
+                // Clear existing lines
+                while (svgLayer.firstChild) {
+                    svgLayer.removeChild(svgLayer.firstChild);
+                }
+                
+                if (window.innerWidth > 1024) {
+                    networkNodes.forEach((node, index) => {
+                        const coords = nodeCoords[index];
+                        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                        path.setAttribute("d", `M${hubX},${hubY} Q${(hubX+coords.x)/2},${hubY-50} ${coords.x},${coords.y}`);
+                        path.setAttribute("class", "trade-path");
+                        svgLayer.appendChild(path);
+                    });
+                }
+            }
+
+            if(container) { 
                 const networkSection = document.querySelector('#global-reach');
                 
                 networkNodes.forEach((node, index) => { 
@@ -1443,15 +1682,18 @@
                     } 
                     div.innerHTML = `<div class="node-portal"><i class="fa-solid ${node.icon}"></i></div><div class="node-info"><h3>${node.region}</h3><p>${node.desc}</p></div>${listHTML}`; 
                     container.appendChild(div); 
-                    
-                    if(window.innerWidth > 1024) { 
-                        const coords = nodeCoords[index]; 
-                        const path = document.createElementNS("http://www.w3.org/2000/svg", "path"); 
-                        path.setAttribute("d", `M${hubX},${hubY} Q${(hubX+coords.x)/2},${hubY-50} ${coords.x},${coords.y}`); 
-                        path.setAttribute("class", "trade-path"); 
-                        svgLayer.appendChild(path); 
-                    } 
                 }); 
+                
+                // Initial Draw
+                drawNetworkLines();
+
+                // Audit Fix: Debounced Resize Listener for SVG Lines
+                let resizeTimer;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(drawNetworkLines, 100);
+                });
+
                 document.querySelectorAll('.export-node').forEach(el => observer.observe(el)); 
                 
                 const closeObserver = new IntersectionObserver((entries) => {
@@ -1483,17 +1725,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
