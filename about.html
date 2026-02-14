@@ -86,6 +86,13 @@
             border-top: 1px solid #eaeaea; 
         }
 
+        /* Global Footprint: Fresh/Global */
+        .bg-global {
+            background-color: #f8fcf8; /* Subtle Mint White */
+            background-image: radial-gradient(circle at 10% 20%, rgba(78, 140, 62, 0.03) 0%, transparent 20%);
+            border-top: 1px solid rgba(0,0,0,0.03);
+        }
+
         .brand-tag { 
             display: inline-block; 
             font-family: var(--font-sub); 
@@ -250,6 +257,10 @@
         .cert-box:hover .cert-corner { opacity: 1; }
         .cert-corner::after { content: '\f00c'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; top: -52px; right: 8px; color: #fff; font-size: 1rem; }
 
+        /* --- GLOBAL FOOTPRINT STYLES --- */
+        .country-pill { display: inline-block; padding: 10px 25px; background: #fff; color: var(--jft-navy); font-family: var(--font-sub); font-weight: 600; font-size: 0.9rem; border-radius: 50px; border: 1px solid #eee; transition: var(--transition); box-shadow: 0 4px 6px rgba(0,0,0,0.03); }
+        .country-pill:hover { background: var(--jft-primary); color: #fff; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(78, 140, 62, 0.3); border-color: transparent; }
+
         /* --- Leadership --- */
         .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 60px; }
         .team-card { position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1); group: relative; border-bottom: 6px solid var(--jft-gold); background: #000; }
@@ -265,6 +276,11 @@
         
         .team-info::before { content: ''; position: absolute; bottom: 30px; left: 30px; width: 40px; height: 3px; background: var(--jft-gold); transition: 0.4s; }
         .team-card:hover .team-info::before { width: 80px; }
+
+        /* --- Back to Top Button --- */
+        #backToTop { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: var(--jft-gold); color: var(--jft-navy); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; z-index: 999; opacity: 0; visibility: hidden; transition: 0.4s; box-shadow: 0 4px 15px rgba(238, 191, 69, 0.4); border: none; }
+        #backToTop.show { opacity: 1; visibility: visible; }
+        #backToTop:hover { transform: translateY(-5px); background: var(--jft-primary); color: #fff; }
 
         /* --- Animations --- */
         .reveal { opacity: 0; transform: translateY(50px); transition: 1.2s cubic-bezier(0.2, 0.8, 0.2, 1); } 
@@ -313,12 +329,16 @@
             .qc-step { font-size: 3rem; }
             .qc-card { padding: 30px 20px; }
             .h-img-box { height: 200px; }
+            /* NEW SECTION MOBILE FIXES */
+            #stats-grid-container { grid-template-columns: 1fr 1fr !important; }
+            .stat-box { margin-bottom: 20px; }
         }
     </style>
 </head>
 <body>
 
     <div id="page-progress"></div>
+    <button id="backToTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
 
     <div id="preloader">
         <img src="/images/jft logo.png" alt="JFT Loading" class="loader-logo-img">
@@ -439,6 +459,28 @@
         </div>
     </section>
 
+    <section class="section-padding bg-global" style="position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; opacity: 0.05; pointer-events: none;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg" alt="World Map Background" style="width: 100%;">
+        </div>
+        <div class="jft-wide-container">
+            <div class="section-header center-header" style="text-align: center; margin: 0 auto 60px auto;">
+                <span class="brand-tag">Our Reach</span>
+                <h2 class="section-title">Serving the <br><span>Globe</span></h2>
+                <p class="section-desc" style="margin: 20px auto;">From the ports of India to kitchens worldwide. We have established a robust supply chain network across 4 continents.</p>
+            </div>
+
+            <div class="reveal" id="stats-grid-container" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; text-align: center; margin-bottom: 60px;">
+                </div>
+
+            <div class="reveal" style="background: #fff; padding: 40px; border-radius: var(--radius-md); box-shadow: var(--shadow-card); border: 1px solid rgba(0,0,0,0.05);">
+                <h4 style="text-align: center; font-family: var(--font-sub); text-transform: uppercase; letter-spacing: 2px; color: var(--jft-navy); margin-bottom: 30px;">Key Export Destinations</h4>
+                <div id="countries-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
+                    </div>
+            </div>
+        </div>
+    </section>
+
     <section class="section-padding bg-light">
         <div class="jft-wide-container">
             <div class="section-header center-header" style="text-align: center; margin: 0 auto;">
@@ -482,6 +524,16 @@
                 { year: "2025", title: "Branch Office/ Partners", desc: "Having our Branch Office and Distribution Parterns in Russia, Vietnam, Srilanka, Indonesia, Benin, Dubai, Zambia." },
                 { year: "2026", title: "Expansion", desc: "Planning to Expand our Hold in African Countries." }
             ],
+            // NEW SECTION DATA: Global Reach
+            globalReach: {
+                stats: [
+                    { number: "20+", label: "Countries Served" },
+                    { number: "500+", label: "Containers / Year" },
+                    { number: "45", label: "Years Experience" },
+                    { number: "2", label: "Strategic Ports" }
+                ],
+                countries: ["Benin", "Togo", "Senegal", "UAE (Dubai)", "Saudi Arabia", "Vietnam", "Indonesia", "Sri Lanka", "Russia", "Zambia"]
+            },
             products: [
                 { 
                     title: "Rice", 
@@ -522,6 +574,7 @@
             document.getElementById('story-image').src = CONTENT_CONFIG.images.storyImage;
             document.getElementById('sus-img').src = CONTENT_CONFIG.images.sustainabilityImage;
 
+            // Timeline
             const tlContainer = document.getElementById('timeline-container');
             let tlHTML = '';
             CONTENT_CONFIG.timeline.forEach((item, index) => {
@@ -544,6 +597,27 @@
             });
             tlContainer.innerHTML = tlHTML;
 
+            // New Section: Global Stats
+            const statsContainer = document.getElementById('stats-grid-container');
+            let statsHTML = '';
+            CONTENT_CONFIG.globalReach.stats.forEach(stat => {
+                statsHTML += `
+                <div class="stat-box">
+                    <div class="stat-num" style="font-family: var(--font-head); font-size: 3.5rem; color: var(--jft-primary); font-weight: 700;">${stat.number}</div>
+                    <div style="font-family: var(--font-sub); font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem;">${stat.label}</div>
+                </div>`;
+            });
+            statsContainer.innerHTML = statsHTML;
+
+            // New Section: Countries
+            const countryContainer = document.getElementById('countries-list');
+            let countryHTML = '';
+            CONTENT_CONFIG.globalReach.countries.forEach(c => {
+                countryHTML += `<span class="country-pill">${c}</span>`;
+            });
+            countryContainer.innerHTML = countryHTML;
+
+            // Products
             const prodContainer = document.getElementById('products-container');
             let prodHTML = '';
             CONTENT_CONFIG.products.forEach(prod => {
@@ -561,10 +635,10 @@
             });
             prodContainer.innerHTML = prodHTML;
 
+            // Team
             const teamContainer = document.getElementById('team-container');
             let teamHTML = '';
             CONTENT_CONFIG.team.forEach(member => {
-                // ACCESSIBILITY: Improved Alt Text
                 teamHTML += `
                 <div class="team-card">
                     <img src="${member.img}" alt="Portrait of ${member.name}, ${member.role}" class="team-img" loading="lazy">
@@ -576,19 +650,33 @@
 
         loadContent();
 
+        // Scroll Logic: Progress Bar & Back To Top
         window.onscroll = function() {
             let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             let scrolled = (winScroll / height) * 100;
             document.getElementById("page-progress").style.width = scrolled + "%";
+
+            // Back to Top Visibility
+            const backToTopBtn = document.getElementById("backToTop");
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backToTopBtn.classList.add("show");
+            } else {
+                backToTopBtn.classList.remove("show");
+            }
         };
+
+        // Back to Top Click Action
+        document.getElementById("backToTop").addEventListener("click", function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
 
         // PRELOADER FIX: Wait for window load but include a safety timeout
         window.addEventListener('load', () => {
             finishLoading();
         });
         
-        // Fallback safety: If window.load hangs (e.g. ad blocker blocks a script), force remove preloader after 5 sec
+        // Fallback safety
         setTimeout(() => { finishLoading(); }, 5000);
 
         function finishLoading() {
@@ -597,7 +685,7 @@
                 setTimeout(() => {
                     preloader.style.opacity = '0';
                     setTimeout(() => { preloader.style.display = 'none'; }, 1000);
-                }, 1500); // Keep original small delay for branding effect
+                }, 1500); 
             }
         }
         
