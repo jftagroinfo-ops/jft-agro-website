@@ -7,13 +7,17 @@
     <meta name="description" content="Government Recognized Star Export House. Premier manufacturer of Indian Rice, Spices, and Sugar.">
     <meta name="theme-color" content="#1a3c34">
     
+    <link rel="canonical" href="https://jftagro.com/about-us.html">
+
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&q=80&w=1920">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- GLOBAL VARIABLES (Preserved but Refined) --- */
+        /* --- GLOBAL VARIABLES --- */
         :root { 
             /* Fonts */
             --font-head: 'Merriweather', serif;
@@ -31,7 +35,6 @@
             /* UI & Theming Enhancements */
             --radius-sm: 8px; 
             --radius-md: 16px; 
-            /* Enhanced Shadows for "Eye Catching" depth */
             --shadow-subtle: 0 10px 30px -10px rgba(26, 60, 52, 0.1); 
             --shadow-card: 0 15px 35px rgba(0,0,0,0.08);
             --shadow-hover: 0 25px 50px -12px rgba(26, 60, 52, 0.25); 
@@ -40,26 +43,49 @@
             --glass-border: rgba(255, 255, 255, 0.1);
         }
         
-        body { margin: 0; padding: 0; overflow-x: hidden; font-family: var(--font-body); color: #4a4a4a; background: #fdfcf8; -webkit-font-smoothing: antialiased; } 
+        body { margin: 0; padding: 0; overflow-x: hidden; font-family: var(--font-body); color: #333; background: #fdfcf8; -webkit-font-smoothing: antialiased; } 
         * { box-sizing: border-box; } 
         
-        /* 🟢 Added scrollbar-gutter: stable here */
         html { scroll-behavior: smooth; scrollbar-gutter: stable; }
         
         h1, h2, h3, h4 { font-family: var(--font-head); margin: 0; color: var(--jft-navy); letter-spacing: -0.5px; } 
-        p { line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.1rem; color: #5c5c5c; } 
+        
+        /* ACCESSIBILITY: Darkened text color for better contrast ratio */
+        p { line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.1rem; color: #333333; } 
+        
         a { text-decoration: none; color: inherit; transition: var(--transition); } 
+        
+        /* ACCESSIBILITY: Visible Focus State for Keyboard Navigation */
+        a:focus-visible, button:focus-visible { outline: 3px solid var(--jft-gold); outline-offset: 2px; }
+
         ul { list-style: none; padding: 0; } 
         img { max-width: 100%; height: auto; display: block; border-radius: var(--radius-sm); }
         
         /* Scroll Progress */
         #page-progress { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, var(--jft-gold), var(--jft-primary)); z-index: 9999; width: 0%; transition: width 0.1s; box-shadow: 0 2px 10px rgba(238, 191, 69, 0.5); }
 
+        /* CLS FIX: Min-height for placeholders to prevent layout shifts */
+        #header-placeholder { min-height: 80px; display: block; }
+        #footer-placeholder { min-height: 300px; display: block; background: #1a1a1a; }
+
         /* Utility Classes */
         .jft-wide-container { max-width: 1350px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 5; }
         .section-padding { padding: 120px 0; } 
+        
+        /* --- BACKGROUND THEME CLASSES --- */
         .bg-light { background: linear-gradient(to bottom, var(--jft-light), #fff); }
         
+        /* Story: Warm/Organic Legacy */
+        .bg-story { background: linear-gradient(180deg, #ffffff 0%, #f9f7f2 100%); }
+        
+        /* Compliance: Structured/Grid Standards */
+        .bg-compliance { 
+            background-color: #fdfdfd; 
+            background-image: linear-gradient(#f5f5f5 1px, transparent 1px), linear-gradient(90deg, #f5f5f5 1px, transparent 1px); 
+            background-size: 50px 50px; 
+            border-top: 1px solid #eaeaea; 
+        }
+
         .brand-tag { 
             display: inline-block; 
             font-family: var(--font-sub); 
@@ -79,15 +105,15 @@
         .section-title { font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 800; line-height: 1.15; color: var(--jft-navy); } 
         .section-title span { color: var(--jft-primary); position: relative; display: inline-block; z-index: 1; } 
         .section-title span::after { content: ''; position: absolute; bottom: 8px; left: 0; width: 100%; height: 15px; background: var(--jft-gold); opacity: 0.25; z-index: -1; transform: skewX(-10deg); border-radius: 4px; }
-        .section-desc { font-size: 1.2rem; max-width: 700px; margin-top: 25px; color: #666; font-weight: 400; }
+        .section-desc { font-size: 1.2rem; max-width: 700px; margin-top: 25px; color: #555; font-weight: 400; }
         
-        .btn-primary { display: inline-flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--jft-primary), #3d752f); color: #fff; padding: 18px 45px; font-family: var(--font-sub); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; border-radius: 50px; transition: var(--transition); border: none; box-shadow: 0 10px 20px rgba(78, 140, 62, 0.25); } 
+        .btn-primary { display: inline-flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--jft-primary), #3d752f); color: #fff; padding: 18px 45px; font-family: var(--font-sub); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; border-radius: 50px; transition: var(--transition); border: none; box-shadow: 0 10px 20px rgba(78, 140, 62, 0.25); cursor: pointer; } 
         .btn-primary:hover { background: linear-gradient(135deg, var(--jft-dark), #2a1d17); transform: translateY(-4px); box-shadow: 0 15px 30px rgba(26, 60, 52, 0.3); }
 
         /* --- Page Header --- */
         .page-header { height: 65vh; min-height: 500px; position: relative; display: flex; align-items: center; justify-content: center; margin-top: 80px; background-attachment: fixed; background-position: center; background-size: cover; background-repeat: no-repeat; }
         .page-header::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(26, 60, 52, 0.9), rgba(26, 60, 52, 0.4)); z-index: 1; }
-        .page-header::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 100px; background: linear-gradient(to top, #fdfcf8, transparent); z-index: 1; }
+        .page-header::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 100px; background: linear-gradient(to top, #ffffff, transparent); z-index: 1; }
         
         .ph-content { position: relative; z-index: 2; text-align: center; color: #fff; transform: translateY(20px); opacity: 0; animation: fadeUp 1s ease forwards; animation-delay: 0.2s; padding: 0 20px; text-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
@@ -110,15 +136,13 @@
         .story-badges i { transition: var(--transition); filter: drop-shadow(0 4px 6px rgba(238, 191, 69, 0.3)); }
         .story-badges div:hover i { transform: scale(1.2); color: var(--jft-primary); }
 
-        /* --- Quality Control (Redesigned with Glassmorphism) --- */
+        /* --- Quality Control --- */
         .qc-section { background: linear-gradient(135deg, #112621 0%, #1a3c34 100%); color: #fff; position: relative; overflow: hidden; }
         .qc-pattern { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 30px 30px; pointer-events: none; opacity: 0.6; }
-        /* Add a glow spot */
         .qc-section::before { content: ''; position: absolute; top: -20%; right: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(78, 140, 62, 0.3), transparent 70%); z-index: 0; }
         
         .qc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-top: 60px; position: relative; z-index: 2; }
         
-        /* Glass Cards */
         .qc-card { 
             background: var(--glass-bg); 
             backdrop-filter: blur(12px); 
@@ -133,7 +157,6 @@
         }
         
         .qc-card::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent); opacity: 0; transition: 0.4s; }
-        
         .qc-card:hover { transform: translateY(-10px); border-color: var(--jft-gold); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
         .qc-card:hover::after { opacity: 1; }
         
@@ -144,7 +167,7 @@
         .qc-card h4 { color: #fff; font-size: 1.2rem; margin-bottom: 15px; font-family: var(--font-sub); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
         .qc-card p { color: rgba(255,255,255,0.75); font-size: 0.95rem; margin: 0; line-height: 1.6; }
 
-        /* --- Growth Timeline (More Structured) --- */
+        /* --- Growth Timeline --- */
         .growth-section { background-color: #fdfcf8; background-image: radial-gradient(#e0e0e0 1px, transparent 1px); background-size: 24px 24px; overflow: hidden; padding-bottom: 140px; }
         .growth-container { position: relative; max-width: 1000px; margin: 80px auto 0 auto; padding: 20px 0; }
         .growth-container::before { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: linear-gradient(to bottom, transparent, var(--jft-primary), transparent); transform: translateX(-50%); opacity: 0.5; }
@@ -164,9 +187,9 @@
         .g-box:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); border-bottom-color: var(--jft-gold); }
         .g-box:hover::before { width: 100%; opacity: 0.05; }
         .g-box h4 { font-size: 1.4rem; margin-bottom: 12px; color: var(--jft-navy); font-weight: 800; }
-        .g-box p { font-size: 1rem; margin: 0; color: #666; }
+        .g-box p { font-size: 1rem; margin: 0; color: #555; }
 
-        /* --- Popular Products (Clean & Sharp) --- */
+        /* --- Popular Products --- */
         .products-highlight-section { background: #fff; position: relative; z-index: 10; margin-top: -60px; padding-bottom: 120px; border-top: 1px solid #eee; }
         .highlight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 60px; }
         
@@ -182,12 +205,12 @@
         .h-card:hover .h-overlay h3 { transform: translateY(-5px); color: var(--jft-gold); }
         
         .h-body { padding: 35px; background: #fff; position: relative; z-index: 2; }
-        .h-body p { font-size: 0.95rem; color: #666; margin-bottom: 25px; line-height: 1.7; }
+        .h-body p { font-size: 0.95rem; color: #555; margin-bottom: 25px; line-height: 1.7; }
         
         .h-link { font-family: var(--font-sub); font-weight: 700; font-size: 0.85rem; color: var(--jft-navy); text-transform: uppercase; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; padding-bottom: 2px; border-bottom: 2px solid var(--jft-primary); }
         .h-card:hover .h-link { color: var(--jft-primary); gap: 15px; border-bottom-color: var(--jft-gold); }
 
-        /* --- Sustainability (Nature Theme) --- */
+        /* --- Sustainability --- */
         .sustain-section { background: linear-gradient(to bottom right, #f5f1e6, #ebf3e8); border-top: 1px solid var(--jft-border); position: relative; overflow: hidden; }
         .sustain-section::after { content: '\f4d8'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; bottom: -50px; right: -50px; font-size: 300px; color: rgba(78, 140, 62, 0.03); transform: rotate(-20deg); pointer-events: none; }
         
@@ -207,7 +230,7 @@
         .sustain-visual:hover img { transform: scale(1.1); }
         .sustain-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 50px; background: linear-gradient(to top, rgba(26, 60, 52, 0.95), transparent); color: #fff; }
 
-        /* --- Certified Excellence (Metallic/Premium) --- */
+        /* --- Compliance --- */
         .cert-detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 35px; margin-top: 60px; }
         
         .cert-box { background: linear-gradient(135deg, #fff, #fcfcfc); border: 1px solid #e0e0e0; padding: 45px 25px; border-radius: var(--radius-md); text-align: center; transition: var(--transition); position: relative; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
@@ -240,7 +263,6 @@
         .team-info h3 { color: #fff; font-size: 1.6rem; margin-bottom: 8px; font-family: var(--font-head); text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
         .team-info span { color: var(--jft-gold); font-family: var(--font-sub); font-size: 0.9rem; text-transform: uppercase; font-weight: 700; letter-spacing: 2px; display: block; margin-bottom: 5px; }
         
-        /* Decorative line for team */
         .team-info::before { content: ''; position: absolute; bottom: 30px; left: 30px; width: 40px; height: 3px; background: var(--jft-gold); transition: 0.4s; }
         .team-card:hover .team-info::before { width: 80px; }
 
@@ -257,56 +279,39 @@
         @keyframes goldLineAnim { 0% { transform: translateX(-100%); } 100% { transform: translateX(0); } } @keyframes logoFloat { 0%, 100% { transform: translateY(0); opacity: 0.9; } 50% { transform: translateY(-8px); opacity: 1; } }
 
         /* --- 🟢 FULL RESPONSIVE ADJUSTMENTS --- */
-        /* Tablet & Small Laptops (Max 1024px) */
         @media (max-width: 1024px) {
             .page-header { margin-top: 40px; height: 50vh; }
             .section-padding { padding: 90px 0; }
             .jft-wide-container { padding: 0 30px; }
-
-            /* Grid Collapsing */
             .story-grid { grid-template-columns: 1fr; gap: 50px; }
             .sustain-flex { flex-direction: column-reverse; gap: 50px; }
             .sustain-visual { width: 100%; height: 400px; }
-            
             .qc-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
             .team-grid, .highlight-grid { grid-template-columns: repeat(2, 1fr); }
-            
-            /* Timeline Vertical Stack */
             .growth-container::before { left: 25px; background: var(--jft-border); }
             .growth-item { flex-direction: column; align-items: flex-start; padding-left: 60px; margin-bottom: 60px; }
             .growth-left, .growth-right { width: 100%; text-align: left; padding: 0; margin-bottom: 15px; }
             .growth-marker { left: 25px; width: 20px; height: 20px; border-width: 4px; }
             .g-year-text { font-size: 3rem; -webkit-text-stroke: 1px rgba(26, 60, 52, 0.2); color: rgba(26, 60, 52, 0.1); }
             .g-box { padding: 30px; }
-            .g-box::before { height: 100%; width: 4px; opacity: 1; } /* Keep side strip visible on mobile */
+            .g-box::before { height: 100%; width: 4px; opacity: 1; } 
         }
 
-        /* Mobile Devices (Max 768px) */
         @media (max-width: 768px) {
             .jft-wide-container { padding: 0 20px; }
             .section-padding { padding: 70px 0; }
-            
-            /* Typography Scaling */
             .section-title { font-size: 2.4rem; }
             p, .section-desc { font-size: 1rem; }
             .ph-title { font-size: 3rem; }
-            
-            /* Single Column Layouts */
             .qc-grid, .team-grid, .highlight-grid, .sustain-grid { grid-template-columns: 1fr; }
             .story-badges { justify-content: center; gap: 30px; }
-            
-            /* Visual Adjustments */
             .story-img-wrapper { order: -1; } 
             .story-bg-box { width: 100%; height: 100%; transform: translate(-10px, -10px); }
-            
-            /* Timeline Mobile Fixes */
             .g-year-text { font-size: 2.5rem; }
-            
-            /* QC Step Font Resize */
+            /* MOBILE FIX: Reduce Timeline Vertical Gap */
+            .growth-item { margin-bottom: 40px; }
             .qc-step { font-size: 3rem; }
             .qc-card { padding: 30px 20px; }
-            
-            /* Products */
             .h-img-box { height: 200px; }
         }
     </style>
@@ -321,16 +326,16 @@
         <div class="loader-track"><div class="loader-fill"></div></div>
     </div>
 
-    <div id="header-placeholder"></div>
+    <div id="header-placeholder">Loading Navigation...</div>
 
     <header class="page-header" id="header-bg">
         <div class="ph-content reveal active">
             <h1 class="ph-title" id="page-title">...</h1>
-            <div class="ph-breadcrumb"><a href="index.html">Home</a> &nbsp;/&nbsp; <span style="color:var(--jft-gold);">About Us</span></div>
+            <div class="ph-breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a> &nbsp;/&nbsp; <span style="color:var(--jft-gold);">About Us</span></div>
         </div>
     </header>
 
-    <section class="section-padding">
+    <section class="section-padding bg-story">
         <div class="jft-wide-container">
             <div class="story-grid">
                 <div class="story-text reveal">
@@ -348,7 +353,7 @@
                 </div>
                 <div class="story-img-wrapper reveal">
                     <div class="story-bg-box"></div>
-                    <img src="" alt="Team" class="story-img" id="story-image" loading="lazy">
+                    <img src="" alt="JFT Agro Team & Facility" class="story-img" id="story-image" loading="lazy">
                 </div>
             </div>
         </div>
@@ -398,7 +403,7 @@
         <div class="jft-wide-container">
             <div class="sustain-flex reveal">
                 <div class="sustain-visual">
-                    <img src="" alt="Sustainable Farming" id="sus-img" loading="lazy">
+                    <img src="" alt="Sustainable Farming Practices" id="sus-img" loading="lazy">
                     <div class="sustain-overlay"><h3 style="color:#fff; font-size:1.8rem; margin:0;">Cultivating The Future</h3></div>
                 </div>
                 <div class="sustain-content">
@@ -416,7 +421,7 @@
         </div>
     </section>
 
-    <section class="section-padding">
+    <section class="section-padding bg-compliance">
         <div class="jft-wide-container">
             <div class="section-header">
                 <span class="brand-tag">Compliance</span>
@@ -424,10 +429,10 @@
                 <p class="section-desc">We adhere to the strictest international food safety standards. Our document handling ensures zero demurrage and rapid customs clearance.</p>
             </div>
             <div class="cert-detail-grid reveal">
-                <div class="cert-box"><div class="cert-corner"></div><img src="/images/homepage/STAR HOUSE.webp" alt="Star Export House" loading="lazy"><h4>Star Export House</h4><p>Recognized by DGFT, Govt of India</p></div>
-                <div class="cert-box"><div class="cert-corner"></div><img src="/images/homepage/APEDA.webp" alt="APEDA" loading="lazy"><h4>APEDA Registered</h4><p>RCMC for Agricultural Products</p></div>
-                <div class="cert-box"><div class="cert-corner"></div><img src="/images/homepage/SPICES_BOARD.webp" alt="Spices Board" loading="lazy"><h4>Spices Board</h4><p>Authorized Spice Exporter</p></div>
-                <div class="cert-box"><div class="cert-corner"></div><img src="/images/homepage/FSSAI.webp" alt="FSSAI" loading="lazy"><h4>FSSAI License</h4><p>Food Safety & Standards Authority</p></div>
+                <div class="cert-box"><div class="cert-corner"></div><img src="/images/homepage/STAR HOUSE.webp" alt="Star Export House Certification" loading="lazy"><h4>Star Export House</h4><p>Recognized by DGFT, Govt of India</p></div>
+                <div class="cert-box"><div class="cert-corner"></div><img src="/images/homepage/APEDA.webp" alt="APEDA Registration" loading="lazy"><h4>APEDA Registered</h4><p>RCMC for Agricultural Products</p></div>
+                <div class="cert-box"><div class="cert-corner"></div><img src="/images/homepage/SPICES_BOARD.webp" alt="Spices Board India" loading="lazy"><h4>Spices Board</h4><p>Authorized Spice Exporter</p></div>
+                <div class="cert-box"><div class="cert-corner"></div><img src="/images/homepage/FSSAI.webp" alt="FSSAI License" loading="lazy"><h4>FSSAI License</h4><p>Food Safety & Standards Authority</p></div>
                 <div class="cert-box"><div class="cert-corner"></div><div style="height:80px; display:flex; align-items:center; justify-content:center; font-size:3rem; color:var(--jft-primary); margin-bottom:25px;"><i class="fa-solid fa-award"></i></div><h4>ISO 9001:2015</h4><p>Quality Management System</p></div>
                 <div class="cert-box"><div class="cert-corner"></div><div style="height:80px; display:flex; align-items:center; justify-content:center; font-size:3rem; color:var(--jft-primary); margin-bottom:25px;"><i class="fa-solid fa-leaf"></i></div><h4>HACCP Certified</h4><p>Hazard Analysis Critical Control</p></div>
             </div>
@@ -445,37 +450,29 @@
         </div>
     </section>
 
-    <div id="footer-placeholder"></div>
+    <div id="footer-placeholder" style="color:#fff; display:flex; align-items:center; justify-content:center;">Loading Footer...</div>
 
     <script>
         /* ========================================================================
             🟢 EDITABLE CONTENT STARTS HERE
-            Change the text inside the quotes "..." to update your website.
         ========================================================================
         */
         const CONTENT_CONFIG = {
-            // --- GLOBAL IMAGES ---
             images: {
                 headerBackground: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&q=80&w=1920",
                 storyImage: "/images/aboutus/WORLD-RICE.webp",
                 sustainabilityImage: "/images/aboutus/GRAINS.webp"
             },
-
-            // --- HEADER TEXT ---
             header: {
                 loaderText: "Loading History...",
                 pageTitle: "Our Legacy"
             },
-
-            // --- STORY SECTION ---
             story: {
                 heading: "Rooted in India, <br><span>Reaching the World.</span>",
                 paragraph1: "Established in 1980, JFT Agro Overseas began as a humble domestic trading house in the grain markets of Mumbai. Today, we stand as a <strong>Government Recognized Star Export House</strong>, bridging the gap between India's fertile fields and the global food supply chain.",
                 highlightQuote: "\"We don't just export commodities; we export trust. Every grain that leaves our factory carries the reputation of Indian Agriculture.\"",
                 paragraph2: "Unlike simple traders, we are <strong>Processors & Manufacturers</strong>. With our own milling units and strategic warehousing in Mumbai and Kandla, we control the entire supply chain—from procurement at the Mandi (farm market) to the final loading onto the vessel."
             },
-
-            // --- GROWTH TIMELINE ---
             timeline: [
                 { year: "1980", title: "Inception", desc: "Founded as a domestic grain trading firm in Mumbai, serving local Mandis." },
                 { year: "2010", title: "First Milling Unit", desc: "Transitioned from trading to manufacturing by establishing an automated Rice Mill & Flour Mill for quality control." },
@@ -485,8 +482,6 @@
                 { year: "2025", title: "Branch Office/ Partners", desc: "Having our Branch Office and Distribution Parterns in Russia, Vietnam, Srilanka, Indonesia, Benin, Dubai, Zambia." },
                 { year: "2026", title: "Expansion", desc: "Planning to Expand our Hold in African Countries." }
             ],
-
-            // --- POPULAR PRODUCTS ---
             products: [
                 { 
                     title: "Rice", 
@@ -504,28 +499,22 @@
                     desc: "We offer maize that is pure, nutrient-dense, and long-lasting. The quality and nutritional value are upheld in accordance with international standards." 
                 }
             ],
-
-            // --- LEADERSHIP TEAM ---
             team: [
                 { name: "Mr. Ganpatlal Jain", role: "Managing Director", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800" },
                 { name: "Mr. Vicky Jain", role: "Director of Exports", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=800" },
                 { name: "Mr. Mithun Jain", role: "Director of Imports", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=800" }
             ]
         };
-
         /* ========================================================================
-            🔴 END OF EDITABLE CONTENT (DO NOT EDIT BELOW THIS LINE)
+            🔴 END OF EDITABLE CONTENT 
         ========================================================================
         */
 
-        // Function to Inject Content
         function loadContent() {
-            // Header
             document.getElementById('header-bg').style.backgroundImage = `url('${CONTENT_CONFIG.images.headerBackground}')`;
             document.getElementById('loader-txt').innerText = CONTENT_CONFIG.header.loaderText;
             document.getElementById('page-title').innerText = CONTENT_CONFIG.header.pageTitle;
 
-            // Story
             document.getElementById('story-heading').innerHTML = CONTENT_CONFIG.story.heading;
             document.getElementById('story-p1').innerHTML = CONTENT_CONFIG.story.paragraph1;
             document.getElementById('story-quote').innerHTML = CONTENT_CONFIG.story.highlightQuote;
@@ -533,14 +522,11 @@
             document.getElementById('story-image').src = CONTENT_CONFIG.images.storyImage;
             document.getElementById('sus-img').src = CONTENT_CONFIG.images.sustainabilityImage;
 
-            // Timeline Injection
             const tlContainer = document.getElementById('timeline-container');
             let tlHTML = '';
             CONTENT_CONFIG.timeline.forEach((item, index) => {
-                const isEven = index % 2 !== 0; // 0, 2 are odd visual index but array index starts at 0
-                // Logic: Index 0 (1980) -> Year Right. Index 1 (1995) -> Year Left.
+                const isEven = index % 2 !== 0;
                 if(!isEven) {
-                    // Left Content, Right Year
                     tlHTML += `
                     <div class="growth-item reveal">
                         <div class="growth-marker"></div>
@@ -548,7 +534,6 @@
                         <div class="growth-right"><div class="g-year-text">${item.year}</div></div>
                     </div>`;
                 } else {
-                    // Right Content, Left Year
                     tlHTML += `
                     <div class="growth-item reveal">
                         <div class="growth-marker"></div>
@@ -559,7 +544,6 @@
             });
             tlContainer.innerHTML = tlHTML;
 
-            // Products Injection
             const prodContainer = document.getElementById('products-container');
             let prodHTML = '';
             CONTENT_CONFIG.products.forEach(prod => {
@@ -571,29 +555,27 @@
                     </div>
                     <div class="h-body">
                         <p>${prod.desc}</p>
-                        <a href="index.html#products" class="h-link">View Varieties <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="index.html#products" class="h-link" aria-label="View varieties of ${prod.title}">View Varieties <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
                 </div>`;
             });
             prodContainer.innerHTML = prodHTML;
 
-            // Team Injection
             const teamContainer = document.getElementById('team-container');
             let teamHTML = '';
             CONTENT_CONFIG.team.forEach(member => {
+                // ACCESSIBILITY: Improved Alt Text
                 teamHTML += `
                 <div class="team-card">
-                    <img src="${member.img}" alt="${member.name}" class="team-img" loading="lazy">
+                    <img src="${member.img}" alt="Portrait of ${member.name}, ${member.role}" class="team-img" loading="lazy">
                     <div class="team-info"><h3>${member.name}</h3><span>${member.role}</span></div>
                 </div>`;
             });
             teamContainer.innerHTML = teamHTML;
         }
 
-        // Run Content Loader Immediately
         loadContent();
 
-        // Scroll Progress Bar
         window.onscroll = function() {
             let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -601,13 +583,23 @@
             document.getElementById("page-progress").style.width = scrolled + "%";
         };
 
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                const preloader = document.getElementById('preloader');
-                preloader.style.opacity = '0';
-                setTimeout(() => { preloader.style.display = 'none'; }, 1000);
-            }, 1500);
+        // PRELOADER FIX: Wait for window load but include a safety timeout
+        window.addEventListener('load', () => {
+            finishLoading();
         });
+        
+        // Fallback safety: If window.load hangs (e.g. ad blocker blocks a script), force remove preloader after 5 sec
+        setTimeout(() => { finishLoading(); }, 5000);
+
+        function finishLoading() {
+            const preloader = document.getElementById('preloader');
+            if(preloader && preloader.style.display !== 'none') {
+                setTimeout(() => {
+                    preloader.style.opacity = '0';
+                    setTimeout(() => { preloader.style.display = 'none'; }, 1000);
+                }, 1500); // Keep original small delay for branding effect
+            }
+        }
         
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
@@ -616,7 +608,6 @@
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         });
 
-        // --- 🟢 Universal File Loading (New Logic) ---
         async function loadComponent(id, file) {
             try {
                 const res = await fetch(file);
@@ -624,8 +615,6 @@
                 const text = await res.text();
                 const container = document.getElementById(id);
                 container.innerHTML = text;
-                
-                // This block ensures scripts inside the loaded header/footer actually run
                 const scripts = container.querySelectorAll("script");
                 scripts.forEach(oldScript => {
                     const newScript = document.createElement("script");
@@ -636,7 +625,6 @@
             } catch (err) { console.error(err); }
         }
 
-        // Trigger the load when the page is ready
         document.addEventListener("DOMContentLoaded", () => {
             loadComponent("header-placeholder", "header.html");
             loadComponent("footer-placeholder", "footer.html");
